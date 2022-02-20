@@ -7,7 +7,6 @@
     ./boot.nix
     ./haveged.nix
     ./network.nix
-    ./nix.nix
     ./openssh.nix
     ./shells.nix
     ./timesyncd.nix
@@ -26,10 +25,6 @@
       };
 
       network = {
-        enable = lib.mkDefault true;
-      };
-
-      nix = {
         enable = lib.mkDefault true;
       };
 
