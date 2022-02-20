@@ -25,7 +25,7 @@ chmod u=rw,g=,o= $HOME/.ssh/id_*
 sudo nix-shell --packages nixUnstable
 
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/asgard-partitions)"
-nixos-install --root /mnt --flake github:tboerger/nixos-config\#asgard
+nixos-install --root /mnt --flake github:tboerger/nixos-config#asgard
 ```
 
 ### Updates
@@ -35,7 +35,7 @@ otherwise there is still this long option to update the deployment:
 
 ```console
 nixos-rebuild switch \
-    --flake github:tboerger/nixos-config\#asgard
+    --flake github:tboerger/nixos-config#asgard
 ```
 
 ## Utgard
@@ -46,7 +46,7 @@ nixos-rebuild switch \
 sudo nix-shell --packages nixUnstable
 
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/utgard-partitions)"
-nixos-install --root /mnt --flake github:tboerger/nixos-config\#utgard
+nixos-install --root /mnt --flake github:tboerger/nixos-config#utgard
 ```
 
 ### Updates
@@ -56,7 +56,7 @@ otherwise there is still this long option to update the deployment:
 
 ```console
 nixos-rebuild switch \
-    --flake github:tboerger/nixos-config\#utgard
+    --flake github:tboerger/nixos-config#utgard
 ```
 
 ## Security
