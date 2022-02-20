@@ -22,6 +22,8 @@ chmod u=rw,g=,o= $HOME/.ssh/id_*
 ### Bootstrap
 
 ```console
+sudo nix-shell --packages nixUnstable
+
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/asgard-partitions)"
 nixos-install --root /mnt --flake github:tboerger/nixos-config\#asgard
 ```
@@ -41,6 +43,8 @@ nixos-rebuild switch \
 ### Bootstrap
 
 ```console
+sudo nix-shell --packages nixUnstable
+
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/utgard-partitions)"
 nixos-install --root /mnt --flake github:tboerger/nixos-config\#utgard
 ```
