@@ -17,50 +17,12 @@ chmod u=rw,g=,o= $HOME/.ssh/id_*
 
 ## Prepare
 
-## Midgard
-
-### Bootstrap
-
-```console
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/partitions)" midgard
-nixos-install --root /mnt --flake github:tboerger/nixos-config\#midgard
-```
-
-### Updates
-
-If the repository had been cloned you could just execute `make switch`,
-otherwise there is still this long option to update the deployment:
-
-```console
-nixos-rebuild switch \
-    --flake github:tboerger/nixos-config\#midgard
-```
-
-## Utgard
-
-### Bootstrap
-
-```console
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/partitions)" utgard
-nixos-install --root /mnt --flake github:tboerger/nixos-config\#utgard
-```
-
-### Updates
-
-If the repository had been cloned you could just execute `make switch`,
-otherwise there is still this long option to update the deployment:
-
-```console
-nixos-rebuild switch \
-    --flake github:tboerger/nixos-config\#utgard
-```
-
 ## Asgard
 
 ### Bootstrap
 
 ```console
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/partitions)" asgard
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/asgard-partitions)"
 nixos-install --root /mnt --flake github:tboerger/nixos-config\#asgard
 ```
 
@@ -72,6 +34,25 @@ otherwise there is still this long option to update the deployment:
 ```console
 nixos-rebuild switch \
     --flake github:tboerger/nixos-config\#asgard
+```
+
+## Utgard
+
+### Bootstrap
+
+```console
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/utgard-partitions)"
+nixos-install --root /mnt --flake github:tboerger/nixos-config\#utgard
+```
+
+### Updates
+
+If the repository had been cloned you could just execute `make switch`,
+otherwise there is still this long option to update the deployment:
+
+```console
+nixos-rebuild switch \
+    --flake github:tboerger/nixos-config\#utgard
 ```
 
 ## Security

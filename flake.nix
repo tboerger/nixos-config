@@ -69,18 +69,6 @@
       overlay = import ./overlays;
 
       nixosConfigurations = {
-        midgard = {
-          system = "x86_64-linux";
-          inherit inputs;
-
-          modules = [
-            inputs.homemanager.nixosModules.home-manager
-            inputs.agenix.nixosModules.age
-            sharedNixosConfiguration
-            ./machines/midgard
-            ./profiles/thomas
-          ];
-        };
         utgard = {
           system = "x86_64-linux";
           inherit inputs;
@@ -102,6 +90,18 @@
             inputs.agenix.nixosModules.age
             sharedNixosConfiguration
             ./machines/asgard
+            ./profiles/thomas
+          ];
+        };
+        midgard = {
+          system = "aarch64-linux";
+          inherit inputs;
+
+          modules = [
+            inputs.homemanager.nixosModules.home-manager
+            inputs.agenix.nixosModules.age
+            sharedNixosConfiguration
+            ./machines/midgard
             ./profiles/thomas
           ];
         };
