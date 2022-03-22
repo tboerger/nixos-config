@@ -10,6 +10,14 @@
     ./networking.nix
   ];
 
+  my = {
+    modules = {
+      acme = {
+        enable = true;
+      };
+    };
+  };
+
   system = {
     stateVersion = "21.11";
   };

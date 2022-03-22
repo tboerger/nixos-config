@@ -4,6 +4,7 @@
   imports = [
     ./settings.nix
 
+    ./acme.nix
     ./boot.nix
     ./haveged.nix
     ./network.nix
@@ -16,6 +17,10 @@
 
   my = {
     modules = {
+      acme = {
+        enable = lib.mkDefault false;
+      };
+
       boot = {
         enable = lib.mkDefault true;
       };
