@@ -5,17 +5,34 @@ let
   fullname = "Thomas Boerger";
 
 in
-
 {
   imports = [
     ../modules
+    ../programs
+    ../services
   ];
 
-  my = {
+  profile = {
     username = "${username}";
 
-    modules = { };
+    programs = {
+      starship = {
+        enable = true;
+      };
+      zsh = {
+        enable = true;
+      };
+    };
+
+    services = { };
   };
+
+
+
+
+
+
+
 
   users = {
     users = {

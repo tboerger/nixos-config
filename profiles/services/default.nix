@@ -5,11 +5,9 @@
 
   ];
 
-  options = with lib; {
+  options = {
     profile = {
-      username = mkOption {
-        type = types.str;
-      };
+      services = { };
     };
   };
 }
