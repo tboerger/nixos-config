@@ -6,4 +6,4 @@ update:
 
 .PHONY: switch
 switch:
-	nixos-rebuild switch --flake .
+	sudo nixos-rebuild switch --flake .
