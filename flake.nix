@@ -75,6 +75,16 @@
           system = "x86_64-linux";
 
           modules = [
+            ({ pkgs, ... }:
+              let
+                nur-no-pkgs = import nur {
+                  nurpkgs = import inputs.nixpkgs { system = "x86_64-linux"; };
+                };
+              in {
+                imports = [
+                  nur-no-pkgs.repos.tboerger.modules
+                ];
+            })
             inputs.homemanager.nixosModules.home-manager
             inputs.agenix.nixosModules.age
             sharedNixosConfiguration
@@ -91,6 +101,16 @@
           inherit inputs;
 
           modules = [
+            ({ pkgs, ... }:
+              let
+                nur-no-pkgs = import nur {
+                  nurpkgs = import inputs.nixpkgs { system = "x86_64-linux"; };
+                };
+              in {
+                imports = [
+                  nur-no-pkgs.repos.tboerger.modules
+                ];
+            })
             inputs.homemanager.nixosModules.home-manager
             inputs.agenix.nixosModules.age
             sharedNixosConfiguration
@@ -107,6 +127,16 @@
           inherit inputs;
 
           modules = [
+            ({ pkgs, ... }:
+              let
+                nur-no-pkgs = import nur {
+                  nurpkgs = import inputs.nixpkgs { system = "x86_64-linux"; };
+                };
+              in {
+                imports = [
+                  nur-no-pkgs.repos.tboerger.modules
+                ];
+            })
             inputs.homemanager.nixosModules.home-manager
             inputs.agenix.nixosModules.age
             sharedNixosConfiguration
