@@ -84,3 +84,59 @@ pvcreate /dev/disk/by-partlabel/tank
 
 echo "-----> Create tank vg"
 vgcreate tank /dev/disk/by-partlabel/tank
+
+echo "-----> Create downloads volume"
+lvcreate --size 50G --name downloads tank
+
+echo "-----> Create downloads filesystem"
+mkfs.ext4 -L downloads /dev/tank/downloads
+
+echo "-----> Mount downloads filesystem"
+mkdir -p /var/lib/media/downloads
+mount -t ext4 /dev/tank/downloads /var/lib/media/downloads
+chown 20000:20000 /var/lib/media/downloads
+
+echo "-----> Create movies volume"
+lvcreate --size 200G --name movies tank
+
+echo "-----> Create movies filesystem"
+mkfs.ext4 -L movies /dev/tank/movies
+
+echo "-----> Mount movies filesystem"
+mkdir -p /var/lib/media/movies
+mount -t ext4 /dev/tank/movies /var/lib/media/movies
+chown 20000:20000 /var/lib/media/movies
+
+echo "-----> Create series volume"
+lvcreate --size 300G --name series tank
+
+echo "-----> Create series filesystem"
+mkfs.ext4 -L series /dev/tank/series
+
+echo "-----> Mount series filesystem"
+mkdir -p /var/lib/media/series
+mount -t ext4 /dev/tank/series /var/lib/media/series
+chown 20000:20000 /var/lib/media/series
+
+echo "-----> Create books volume"
+lvcreate --size 50G --name books tank
+
+echo "-----> Create books filesystem"
+mkfs.ext4 -L books /dev/tank/books
+
+echo "-----> Mount books filesystem"
+mkdir -p /var/lib/media/books
+mount -t ext4 /dev/tank/books /var/lib/media/books
+chown 20000:20000 /var/lib/media/books
+
+for PARTITION in acme nzbget jellyfin bazarr lidarr prowlarr radarr readarr sonarr; do
+    echo "-----> Create ${PARTITION} volume"
+    lvcreate --size 5G --name ${PARTITION} system
+
+    echo "-----> Create ${PARTITION} filesystem"
+    mkfs.ext4 -L ${PARTITION} /dev/system/${PARTITION}
+
+    echo "-----> Mount ${PARTITION} filesystem"
+    mkdir /var/lib/${PARTITION}
+    mount -t ext4 /dev/system/${PARTITION} /var/lib/${PARTITION}
+done
