@@ -144,4 +144,13 @@
       "discard"
     ];
   };
+
+  fileSystems."/var/lib/unifi" = {
+    device = "/dev/disk/by-label/unifi";
+    fsType = "ext4";
+    options = [
+      "noatime"
+      "discard"
+    ];
+  };
 }

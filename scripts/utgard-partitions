@@ -129,7 +129,7 @@ mkdir -p /var/lib/media/books
 mount -t ext4 /dev/tank/books /var/lib/media/books
 chown 20000:20000 /var/lib/media/books
 
-for PARTITION in acme nzbget jellyfin bazarr lidarr prowlarr radarr readarr sonarr; do
+for PARTITION in acme nzbget jellyfin bazarr lidarr prowlarr radarr readarr sonarr unifi; do
     echo "-----> Create ${PARTITION} volume"
     lvcreate --size 5G --name ${PARTITION} system
 
