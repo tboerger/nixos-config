@@ -6,6 +6,10 @@
       url = "github:nixos/nixpkgs/nixos-21.11";
     };
 
+    master = {
+      url = "github:nixos/nixpkgs/master";
+    };
+
     unstable = {
       url = "github:nixos/nixpkgs/nixos-unstable";
     };
@@ -27,6 +31,10 @@
 
   outputs = { self, nur, ... }@inputs:
     let
+      overlay-master = final: prev: {
+        master = inputs.master.legacyPackages.${prev.system};
+      };
+
       overlay-unstable = final: prev: {
         unstable = inputs.unstable.legacyPackages.${prev.system};
       };
@@ -69,6 +77,7 @@
           overlays = [
             self.overlay
             nur.overlay
+            overlay-master
             overlay-unstable
           ];
         };

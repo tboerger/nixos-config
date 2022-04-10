@@ -19,7 +19,7 @@ in
     services = {
       godns = {
         enable = true;
-        package = pkgs.unstable.godns;
+        package = pkgs.master.godns;
 
         settings = {
           provider = "Cloudflare";
