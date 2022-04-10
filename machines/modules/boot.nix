@@ -3,7 +3,7 @@
 {
   config = {
     boot = {
-      kernelPackages = pkgs.linuxPackages_latest;
+      kernelPackages = pkgs.linuxPackages;
       cleanTmpDir = true;
 
       loader = {
