@@ -27,13 +27,6 @@ in
     services = { };
   };
 
-
-
-
-
-
-
-
   users = {
     users = {
       "${username}" = {
