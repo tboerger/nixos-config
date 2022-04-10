@@ -1,25 +1,23 @@
 { pkgs, lib, config, options, ... }:
 
 let
-  cfg = config.my.modules.haveged;
+  cfg = config.personal.services.haveged;
 
 in
-
 {
   options = with lib; {
-    my = {
-      modules = {
+    personal = {
+      services = {
         haveged = {
-          enable = mkEnableOption ''
-            Whether to enable haveged module
-          '';
+          enable = mkEnableOption "Haveged" // {
+            default = true;
+          };
         };
       };
     };
   };
 
-  config = with lib;
-    mkIf cfg.enable {
+  config = with lib; mkIf cfg.enable {
       services = {
         haveged = {
           enable = true;

@@ -1,25 +1,23 @@
 { pkgs, lib, config, options, ... }:
 
 let
-  cfg = config.my.modules.openssh;
+  cfg = config.personal.services.openssh;
 
 in
-
 {
   options = with lib; {
-    my = {
-      modules = {
+    personal = {
+      services = {
         openssh = {
-          enable = mkEnableOption ''
-            Whether to enable openssh module
-          '';
+          enable = mkEnableOption "Openssh" // {
+            default = true;
+          };
         };
       };
     };
   };
 
-  config = with lib;
-    mkIf cfg.enable {
+  config = with lib; mkIf cfg.enable {
       services = {
         openssh = {
           enable = true;

@@ -2,56 +2,38 @@
 
 {
   imports = [
-    ./settings.nix
-
-    ./acme.nix
     ./boot.nix
-    ./haveged.nix
+    ./heimdall.nix
     ./network.nix
-    ./openssh.nix
     ./shells.nix
-    ./timesyncd.nix
     ./tools.nix
     ./users.nix
   ];
 
-  my = {
-    modules = {
-      acme = {
-        enable = lib.mkDefault false;
-      };
+  config = {
+    home-manager = {
+      useGlobalPkgs = true;
+      useUserPackages = true;
+    };
 
-      boot = {
-        enable = lib.mkDefault true;
-      };
+    time = {
+      timeZone = "Europe/Berlin";
+    };
 
-      haveged = {
-        enable = lib.mkDefault true;
-      };
+    i18n = {
+      defaultLocale = "en_US.UTF-8";
+    };
 
-      network = {
-        enable = lib.mkDefault true;
-      };
+    hardware = {
+      enableAllFirmware = true;
+      enableRedistributableFirmware = true;
+    };
 
-      openssh = {
-        enable = lib.mkDefault true;
-      };
-
-      shells = {
-        enable = lib.mkDefault true;
-      };
-
-      timesyncd = {
-        enable = lib.mkDefault true;
-      };
-
-      tools = {
-        enable = lib.mkDefault true;
-      };
-
-      users = {
-        enable = lib.mkDefault true;
+    security = {
+      sudo = {
+        wheelNeedsPassword = false;
       };
     };
   };
+
 }

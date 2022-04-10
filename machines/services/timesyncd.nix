@@ -1,25 +1,23 @@
 { pkgs, lib, config, options, ... }:
 
 let
-  cfg = config.my.modules.timesyncd;
+  cfg = config.personal.services.timesyncd;
 
 in
-
 {
   options = with lib; {
-    my = {
-      modules = {
+    personal = {
+      services = {
         timesyncd = {
-          enable = mkEnableOption ''
-            Whether to enable timesyncd module
-          '';
+          enable = mkEnableOption "Timesyncd" // {
+            default = true;
+          };
         };
       };
     };
   };
 
-  config = with lib;
-    mkIf cfg.enable {
+  config = with lib; mkIf cfg.enable {
       services = {
         timesyncd = {
           enable = true;
