@@ -8,7 +8,6 @@
     ./shells.nix
     ./tools.nix
     ./users.nix
-    ./godns.nix
   ];
 
   config = {
