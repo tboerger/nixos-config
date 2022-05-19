@@ -83,48 +83,53 @@ in
           group = "media";
         };
 
+        unpackerr = {
+          enable = true;
+          user = "media";
+          group = "media";
+          package = pkgs.unstable.unpackerr;
+        };
+
         radarr = {
           enable = true;
           user = "media";
           group = "media";
+          package = pkgs.unstable.radarr;
         };
 
         sonarr = {
           enable = true;
           user = "media";
           group = "media";
+          package = pkgs.unstable.sonarr;
         };
 
         lidarr = {
           enable = true;
           user = "media";
           group = "media";
-        };
-
-        readarr = {
-          enable = true;
-          user = "media";
-          group = "media";
-
-          package = pkgs.nur.repos.tboerger.readarr;
+          package = pkgs.unstable.lidarr;
         };
 
         bazarr = {
           enable = true;
           user = "media";
           group = "media";
+          package = pkgs.unstable.bazarr;
         };
 
         prowlarr = {
           enable = true;
           user = "media";
           group = "media";
+          package = pkgs.unstable.prowlarr;
         };
 
-        unpackerr = {
+        readarr = {
           enable = true;
           user = "media";
           group = "media";
+          package = pkgs.nur.repos.tboerger.readarr;
         };
       };
 

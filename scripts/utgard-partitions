@@ -129,6 +129,17 @@ mkdir -p /var/lib/media/books
 mount -t ext4 /dev/tank/books /var/lib/media/books
 chown 20000:20000 /var/lib/media/books
 
+echo "-----> Create music volume"
+lvcreate --size 50G --name music tank
+
+echo "-----> Create music filesystem"
+mkfs.ext4 -L music /dev/tank/music
+
+echo "-----> Mount music filesystem"
+mkdir -p /var/lib/media/music
+mount -t ext4 /dev/tank/music /var/lib/media/music
+chown 20000:20000 /var/lib/media/music
+
 for PARTITION in acme nzbget jellyfin bazarr lidarr prowlarr radarr readarr sonarr unifi; do
     echo "-----> Create ${PARTITION} volume"
     lvcreate --size 5G --name ${PARTITION} system

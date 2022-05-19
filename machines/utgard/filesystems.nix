@@ -64,6 +64,15 @@
     ];
   };
 
+  fileSystems."/var/lib/media/music" = {
+    device = "/dev/disk/by-label/music";
+    fsType = "ext4";
+    options = [
+      "noatime"
+      "discard"
+    ];
+  };
+
   fileSystems."/var/lib/acme" = {
     device = "/dev/disk/by-label/acme";
     fsType = "ext4";
