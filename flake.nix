@@ -14,6 +14,10 @@
       url = "github:nixos/nixpkgs/nixos-unstable";
     };
 
+    hardware = {
+      url = "github:NixOS/nixos-hardware/master";
+    };
+
     nur = {
       url = "github:nix-community/NUR";
     };
@@ -146,13 +150,14 @@
             ({ pkgs, ... }:
               let
                 nur-no-pkgs = import nur {
-                  nurpkgs = import inputs.nixpkgs { system = "x86_64-linux"; };
+                  nurpkgs = import inputs.nixpkgs { system = "aarch64-linux"; };
                 };
               in {
                 imports = [
                   nur-no-pkgs.repos.tboerger.modules
                 ];
             })
+            inputs.hardware.nixosModules.raspberry-pi-4
             inputs.homemanager.nixosModules.home-manager
             inputs.agenix.nixosModules.age
             sharedNixosConfiguration
@@ -166,8 +171,8 @@
         };
       };
 
-      midgard = self.nixosConfigurations.midgard.config.system.build.toplevel;
       utgard = self.nixosConfigurations.utgard.config.system.build.toplevel;
       asgard = self.nixosConfigurations.asgard.config.system.build.toplevel;
+      midgard = self.nixosConfigurations.midgard.config.system.build.toplevel;
     };
 }

@@ -1,9 +1,13 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 {
-  imports = [
-    (modulesPath + "/installer/scan/not-detected.nix")
-  ];
-
-  hardware = { };
+  hardware = {
+    raspberry-pi = {
+      "4" = {
+        fkms-3d = {
+          enable = true;
+        };
+      };
+    };
+  };
 }

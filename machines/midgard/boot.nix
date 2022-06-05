@@ -1,5 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  boot = { };
+  boot = {
+    cleanTmpDir = true;
+  };
 }

@@ -3,12 +3,19 @@
 {
   imports = [
     ../modules
+    ../services
 
     ./filesystems.nix
     ./boot.nix
-    ./hardware.nix
     ./networking.nix
+    ./hardware.nix
   ];
+
+  personal = {
+    services = {
+
+    };
+  };
 
   system = {
     stateVersion = "21.11";

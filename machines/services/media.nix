@@ -87,7 +87,7 @@ in
           enable = true;
           user = "media";
           group = "media";
-          package = pkgs.unstable.unpackerr;
+          # package = pkgs.unstable.unpackerr;
         };
 
         radarr = {

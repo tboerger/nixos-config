@@ -2,12 +2,12 @@
 
 {
   imports = [
-    ./boot.nix
     ./heimdall.nix
     ./network.nix
     ./shells.nix
     ./tools.nix
     ./users.nix
+    ./prowlarr.nix
   ];
 
   config = {
