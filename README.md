@@ -59,6 +59,69 @@ nixos-rebuild switch \
     --flake github:tboerger/nixos-config#utgard
 ```
 
+## Midgard
+
+### Bootstrap
+
+```console
+sudo nix-shell --packages nixUnstable
+
+mount /dev/disk/by-label/NIXOS_SD /mnt
+nixos-install --root /mnt --flake github:tboerger/nixos-config#midgard
+```
+
+### Updates
+
+If the repository had been cloned you could just execute `make switch`,
+otherwise there is still this long option to update the deployment:
+
+```console
+nixos-rebuild switch \
+    --flake github:tboerger/nixos-config#midgard
+```
+
+## Vanaheim
+
+### Bootstrap
+
+```console
+sudo nix-shell --packages nixUnstable
+
+mount /dev/disk/by-label/NIXOS_SD /mnt
+nixos-install --root /mnt --flake github:tboerger/nixos-config#vanaheim
+```
+
+### Updates
+
+If the repository had been cloned you could just execute `make switch`,
+otherwise there is still this long option to update the deployment:
+
+```console
+nixos-rebuild switch \
+    --flake github:tboerger/nixos-config#vanaheim
+```
+
+## Niflheim
+
+### Bootstrap
+
+```console
+sudo nix-shell --packages nixUnstable
+
+mount /dev/disk/by-label/NIXOS_SD /mnt
+nixos-install --root /mnt --flake github:tboerger/nixos-config#niflheim
+```
+
+### Updates
+
+If the repository had been cloned you could just execute `make switch`,
+otherwise there is still this long option to update the deployment:
+
+```console
+nixos-rebuild switch \
+    --flake github:tboerger/nixos-config#niflheim
+```
+
 ## Security
 
 If you find a security issue please contact thomas@webhippie.de first.

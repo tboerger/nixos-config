@@ -86,11 +86,87 @@
           ];
         };
       };
+
+      sharedRaspberryConfiguration = { config, pkgs, lib, ... }: {
+        nix = {
+          package = pkgs.nixFlakes;
+
+          extraOptions = ''
+            experimental-features = nix-command flakes
+          '';
+
+          binaryCaches = lib.mkForce [
+            "https://cache.armv7l.xyz"
+          ];
+
+          binaryCachePublicKeys = [
+            "cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk="
+          ];
+
+          gc = {
+            automatic = true;
+            persistent = true;
+            dates = "weekly";
+            options = "--delete-older-than 2w";
+          };
+        };
+
+        nixpkgs = {
+          config = {
+            allowUnfree = true;
+          };
+
+          overlays = [
+            self.overlay
+            nur.overlay
+            overlay-master
+            overlay-unstable
+          ];
+        };
+      };
     in
     {
       overlay = import ./overlays;
 
       nixosConfigurations = {
+        rpi1 = inputs.nixpkgs.lib.nixosSystem {
+          system = "armv7l-linux";
+
+          modules = [
+            "${inputs.nixpkgs}/nixos/modules/installer/sd-card/sd-image-raspberrypi.nix"
+            {
+              nixpkgs = {
+                config = {
+                  allowUnsupportedSystem = true;
+                };
+
+                crossSystem = {
+                  system = "armv7l-linux";
+                };
+              };
+            }
+          ];
+        };
+
+        rpi4 = inputs.nixpkgs.lib.nixosSystem {
+          system = "aarch64-linux";
+
+          modules = [
+            "${inputs.nixpkgs}/nixos/modules/installer/sd-card/sd-image-raspberrypi.nix"
+            {
+              nixpkgs = {
+                config = {
+                  allowUnsupportedSystem = true;
+                };
+
+                crossSystem = {
+                  system = "aarch64-linux";
+                };
+              };
+            }
+          ];
+        };
+
         utgard = inputs.nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
 
@@ -116,6 +192,7 @@
             inherit inputs;
           };
         };
+
         asgard = inputs.nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
 
@@ -141,6 +218,7 @@
             inherit inputs;
           };
         };
+
         midgard = inputs.nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
 
@@ -167,10 +245,69 @@
             inherit inputs;
           };
         };
+
+        vanaheim = inputs.nixpkgs.lib.nixosSystem {
+          system = "armv7l-linux";
+
+          modules = [
+            ({ pkgs, ... }:
+              let
+                nur-no-pkgs = import nur {
+                  nurpkgs = import inputs.nixpkgs { system = "armv7l-linux"; };
+                };
+              in {
+                imports = [
+                  nur-no-pkgs.repos.tboerger.modules
+                ];
+            })
+            inputs.homemanager.nixosModules.home-manager
+            inputs.agenix.nixosModules.age
+            sharedRaspberryConfiguration
+            ./machines/vanaheim
+            ./profiles/thomas
+          ];
+
+          specialArgs = {
+            inherit inputs;
+          };
+        };
+
+        niflheim = inputs.nixpkgs.lib.nixosSystem {
+          system = "armv7l-linux";
+
+          modules = [
+            ({ pkgs, ... }:
+              let
+                nur-no-pkgs = import nur {
+                  nurpkgs = import inputs.nixpkgs { system = "armv7l-linux"; };
+                };
+              in {
+                imports = [
+                  nur-no-pkgs.repos.tboerger.modules
+                ];
+            })
+            inputs.homemanager.nixosModules.home-manager
+            inputs.agenix.nixosModules.age
+            sharedRaspberryConfiguration
+            ./machines/niflheim
+            ./profiles/thomas
+          ];
+
+          specialArgs = {
+            inherit inputs;
+          };
+        };
+      };
+
+      images = {
+        rpi1 = self.nixosConfigurations.rpi1.config.system.build.sdImage;
+        rpi4 = self.nixosConfigurations.rpi4.config.system.build.sdImage;
       };
 
       utgard = self.nixosConfigurations.utgard.config.system.build.toplevel;
       asgard = self.nixosConfigurations.asgard.config.system.build.toplevel;
       midgard = self.nixosConfigurations.midgard.config.system.build.toplevel;
+      vanaheim = self.nixosConfigurations.vanaheim.config.system.build.toplevel;
+      niflheim = self.nixosConfigurations.niflheim.config.system.build.toplevel;
     };
 }
