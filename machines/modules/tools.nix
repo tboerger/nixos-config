@@ -16,7 +16,7 @@
         wget
         yq
 
-        inputs.agenix.defaultPackage.x86_64-linux
+        inputs.agenix.defaultPackage.${system}
       ];
     };
   };

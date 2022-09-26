@@ -15,7 +15,7 @@
     };
 
     hardware = {
-      url = "github:NixOS/nixos-hardware/master";
+      url = "github:nixos/nixos-hardware/master";
     };
 
     nur = {
@@ -118,7 +118,6 @@
         };
         asgard = inputs.nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          inherit inputs;
 
           modules = [
             ({ pkgs, ... }:
@@ -144,7 +143,6 @@
         };
         midgard = inputs.nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
-          inherit inputs;
 
           modules = [
             ({ pkgs, ... }:

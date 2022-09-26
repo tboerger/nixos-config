@@ -81,6 +81,7 @@ in
           enable = true;
           user = "media";
           group = "media";
+          package = pkgs.unstable.jellyfin;
         };
 
         unpackerr = {
@@ -178,6 +179,7 @@ in
 
       networking = {
         firewall = {
+          allowedTCPPorts = [ 8096 ];
           allowedUDPPorts = [ 1900 7359 ];
         };
       };
