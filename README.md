@@ -15,7 +15,26 @@ cp /mnt/secrets/ssh/id_* $HOME/.ssh/
 chmod u=rw,g=,o= $HOME/.ssh/id_*
 ```
 
-## Prepare
+## Chnum
+
+### Bootstrap
+
+```console
+sudo nix-shell --packages nixUnstable
+
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/chnum-partitions)"
+nixos-install --root /mnt --flake github:tboerger/nixos-config#chnum
+```
+
+### Updates
+
+If the repository had been cloned you could just execute `make switch`,
+otherwise there is still this long option to update the deployment:
+
+```console
+nixos-rebuild switch \
+    --flake github:tboerger/nixos-config#chnum
+```
 
 ## Asgard
 
