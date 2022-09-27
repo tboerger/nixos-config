@@ -20,7 +20,10 @@ in
     security = {
       acme = {
         acceptTerms = true;
-        email = "hostmaster@boerger.ws";
+
+        defaults = {
+          email = "hostmaster@boerger.ws";
+        };
 
         certs = {
           "boerger.ws" = {
