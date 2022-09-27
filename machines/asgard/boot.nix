@@ -16,5 +16,23 @@
         editor = false;
       };
     };
+
+    kernelModules = [
+
+    ];
+
+    extraModulePackages = [
+
+    ];
+
+    initrd = {
+      availableKernelModules = [
+
+      ];
+
+      kernelModules = [
+        "dm-snapshot"
+      ];
+    };
   };
 }

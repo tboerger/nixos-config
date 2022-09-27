@@ -1,5 +1,6 @@
 { config, pkgs, lib, ... }:
 with lib;
+
 let
   cfg = config.services.unpackerr;
   mkStarrOptions = { name, url }: {
@@ -57,6 +58,7 @@ let
       '';
     };
   };
+
 in
 {
   options.services.unpackerr = {

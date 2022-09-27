@@ -6,9 +6,12 @@
   ];
 
   hardware = {
+    enableAllFirmware = true;
+    enableRedistributableFirmware = true;
+
     cpu = {
       intel = {
-        updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+        updateMicrocode = lib.mkDefault true;
       };
     };
   };

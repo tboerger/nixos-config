@@ -140,7 +140,7 @@ mkdir -p /var/lib/media/music
 mount -t ext4 /dev/tank/music /var/lib/media/music
 chown 20000:20000 /var/lib/media/music
 
-for PARTITION in acme nzbget jellyfin bazarr lidarr prowlarr radarr readarr sonarr unifi; do
+for PARTITION in acme nzbget jellyfin bazarr lidarr prowlarr radarr readarr sonarr; do
     echo "-----> Create ${PARTITION} volume"
     lvcreate --size 5G --name ${PARTITION} system
 

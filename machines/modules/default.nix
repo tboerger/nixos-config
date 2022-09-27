@@ -1,13 +1,15 @@
 { pkgs, lib, config, options, ... }:
+with lib;
 
 {
   imports = [
-    ./heimdall.nix
+    ./frpc.nix
     ./network.nix
+    ./prowlarr.nix
     ./shells.nix
+    ./sudo.nix
     ./tools.nix
     ./users.nix
-    ./prowlarr.nix
   ];
 
   config = {
@@ -22,17 +24,6 @@
 
     i18n = {
       defaultLocale = "en_US.UTF-8";
-    };
-
-    hardware = {
-      enableAllFirmware = true;
-      enableRedistributableFirmware = true;
-    };
-
-    security = {
-      sudo = {
-        wheelNeedsPassword = false;
-      };
     };
   };
 }

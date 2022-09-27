@@ -1,11 +1,12 @@
 { pkgs, lib, config, options, ... }:
+with lib;
 
 let
   cfg = config.personal.services.timesyncd;
 
 in
 {
-  options = with lib; {
+  options = {
     personal = {
       services = {
         timesyncd = {
@@ -17,11 +18,11 @@ in
     };
   };
 
-  config = with lib; mkIf cfg.enable {
-      services = {
-        timesyncd = {
-          enable = true;
-        };
+  config = mkIf cfg.enable {
+    services = {
+      timesyncd = {
+        enable = true;
       };
     };
+  };
 }

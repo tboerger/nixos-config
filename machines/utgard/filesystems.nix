@@ -28,51 +28,6 @@
     fsType = "vfat";
   };
 
-  fileSystems."/var/lib/media/downloads" = {
-    device = "/dev/disk/by-label/downloads";
-    fsType = "ext4";
-    options = [
-      "noatime"
-      "discard"
-    ];
-  };
-
-  fileSystems."/var/lib/media/movies" = {
-    device = "/dev/disk/by-label/movies";
-    fsType = "ext4";
-    options = [
-      "noatime"
-      "discard"
-    ];
-  };
-
-  fileSystems."/var/lib/media/series" = {
-    device = "/dev/disk/by-label/series";
-    fsType = "ext4";
-    options = [
-      "noatime"
-      "discard"
-    ];
-  };
-
-  fileSystems."/var/lib/media/books" = {
-    device = "/dev/disk/by-label/books";
-    fsType = "ext4";
-    options = [
-      "noatime"
-      "discard"
-    ];
-  };
-
-  fileSystems."/var/lib/media/music" = {
-    device = "/dev/disk/by-label/music";
-    fsType = "ext4";
-    options = [
-      "noatime"
-      "discard"
-    ];
-  };
-
   fileSystems."/var/lib/acme" = {
     device = "/dev/disk/by-label/acme";
     fsType = "ext4";
@@ -154,12 +109,73 @@
     ];
   };
 
-  fileSystems."/var/lib/unifi" = {
-    device = "/dev/disk/by-label/unifi";
+  fileSystems."/var/lib/media/downloads" = {
+    device = "/dev/disk/by-label/downloads";
     fsType = "ext4";
     options = [
       "noatime"
       "discard"
     ];
   };
+
+  # fileSystems."/var/lib/media/downloads" = {
+  #   device = "192.168.1.10:/downloads";
+  #   fsType = "nfs";
+  # };
+
+  fileSystems."/var/lib/media/movies" = {
+    device = "/dev/disk/by-label/movies";
+    fsType = "ext4";
+    options = [
+      "noatime"
+      "discard"
+    ];
+  };
+
+  # fileSystems."/var/lib/media/movies" = {
+  #   device = "192.168.1.10:/movies";
+  #   fsType = "nfs";
+  # };
+
+  fileSystems."/var/lib/media/series" = {
+    device = "/dev/disk/by-label/series";
+    fsType = "ext4";
+    options = [
+      "noatime"
+      "discard"
+    ];
+  };
+
+  # fileSystems."/var/lib/media/series" = {
+  #   device = "192.168.1.10:/series";
+  #   fsType = "nfs";
+  # };
+
+  fileSystems."/var/lib/media/books" = {
+    device = "/dev/disk/by-label/books";
+    fsType = "ext4";
+    options = [
+      "noatime"
+      "discard"
+    ];
+  };
+
+  # fileSystems."/var/lib/media/books" = {
+  #   device = "192.168.1.10:/books";
+  #   fsType = "nfs";
+  # };
+
+  fileSystems."/var/lib/media/music" = {
+    device = "/dev/disk/by-label/music";
+    fsType = "ext4";
+    options = [
+      "noatime"
+      "discard"
+    ];
+  };
+
+  # fileSystems."/var/lib/media/music" = {
+  #   device = "192.168.1.10:/music";
+  #   fsType = "nfs";
+  # };
 }

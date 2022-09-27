@@ -1,7 +1,8 @@
 { pkgs, lib, config, options, ... }:
+with lib;
 
 {
-  config = with lib; {
+  config = {
     programs = {
       iftop = {
         enable = true;

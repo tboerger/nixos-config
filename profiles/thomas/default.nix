@@ -1,8 +1,10 @@
-{ pkgs, inputs, system, lib, ... }:
+{ pkgs, lib, config, options, ... }:
+with lib;
 
 let
   username = "thomas";
   fullname = "Thomas Boerger";
+  desktop = config.personal.services.desktop.enable;
 
 in
 {
@@ -16,11 +18,20 @@ in
     username = "${username}";
 
     programs = {
-      starship = {
-        enable = true;
+      develop = {
+        enable = desktop;
       };
-      zsh = {
-        enable = true;
+      gnupg = {
+        enable = desktop;
+      };
+      golang = {
+        enable = desktop;
+      };
+      kube = {
+        enable = desktop;
+      };
+      minecraft = {
+        enable = desktop;
       };
     };
 
@@ -43,6 +54,11 @@ in
         };
         extraGroups = [
           "wheel"
+          "networkmanager"
+          "docker"
+          "libvirtd"
+          "audio"
+          "video"
         ];
       };
     };
@@ -52,9 +68,61 @@ in
     home = {
       homeDirectory = "/home/${username}";
 
-      sessionPath = [
-        "$HOME/.local/bin"
-      ];
+      sessionPath = ["$HOME/.local/bin"]
+        ++ (optional desktop ["$HOME/.krew/bin" "$HOME/Golang/bin"]);
+
+      file = {
+        ".local/bin/git-gh-pages" = {
+          executable = true;
+          source = ./scripts/git-gh-pages.sh;
+        };
+        ".local/bin/git-promote" = {
+          executable = true;
+          source = ./scripts/git-promote.sh;
+        };
+        ".local/bin/search-and-replace" = {
+          executable = true;
+          source = ./scripts/search-and-replace.sh;
+        };
+
+        ".local/bin/each-dir" = {
+          executable = true;
+          source = ./scripts/each-dir.sh;
+        };
+      } // (mkIf desktop {
+        ".local/bin/sort-requirements" = {
+          executable = true;
+          source = ./scripts/sort-requirements.rb;
+        };
+
+        ".wallpapers/dark.jpg" = {
+          source = ./wallpapers/dark.jpg;
+        };
+        ".wallpapers/light.jpg" = {
+          source = ./wallpapers/light.jpg;
+        };
+        ".wallpapers/tower.jpg" = {
+          source = ./wallpapers/tower.jpg;
+        };
+      });
+
+      stateVersion = "18.09";
+    };
+
+    programs = {
+      alacritty = import ./programs/alacritty.nix { inherit pkgs config; } // {
+        enable = mkForce desktop;
+      };
+      dircolors = import ./programs/dircolors.nix { inherit pkgs config; };
+      git = import ./programs/git.nix { inherit pkgs config; };
+      ssh = import ./programs/ssh.nix { inherit pkgs config; } // {
+        enable = mkForce desktop;
+      };
+      starship = import ./programs/starship.nix { inherit pkgs config; };
+      vscode = import ./programs/vscode.nix { inherit pkgs config; } // {
+        enable = mkForce desktop;
+      };
+      zsh = import ./programs/zsh.nix { inherit pkgs config; };
     };
   };
 }

@@ -3,12 +3,15 @@
 {
   imports = [
     ./acme.nix
-    ./dyndns.nix
+    ./desktop.nix
+    ./docker.nix
     ./haveged.nix
+    ./libvirt.nix
     ./media.nix
+    ./nixbuild.nix
     ./openssh.nix
+    ./proxy.nix
     ./timesyncd.nix
-    ./unifi.nix
     ./webserver.nix
   ];
 

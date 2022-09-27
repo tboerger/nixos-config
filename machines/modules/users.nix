@@ -1,7 +1,8 @@
 { pkgs, lib, config, options, ... }:
+with lib;
 
 {
-  config = with lib; {
+  config = {
     users = {
       defaultUserShell = pkgs.zsh;
       mutableUsers = false;

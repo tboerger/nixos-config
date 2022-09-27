@@ -7,5 +7,5 @@ let
 in
 {
   "services/acme/credentials.age".publicKeys = users ++ systems;
-  "services/dyndns/password.age".publicKeys = users ++ systems;
+  "services/nixbuild/sshkey.age".publicKeys = users ++ systems;
 }

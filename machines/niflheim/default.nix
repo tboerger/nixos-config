@@ -8,11 +8,8 @@
     ./filesystems.nix
     ./boot.nix
     ./networking.nix
+    ./hardware.nix
   ];
-
-  powerManagement = {
-    enable = lib.mkDefault false;
-  };
 
   personal = {
     services = {

@@ -5,15 +5,6 @@
     kernelPackages = pkgs.linuxPackages;
     cleanTmpDir = true;
 
-    kernelModules = [
-      "kvm-intel"
-      "wl"
-    ];
-
-    extraModulePackages = [
-      config.boot.kernelPackages.broadcom_sta
-    ];
-
     loader = {
       efi = {
         canTouchEfiVariables = true;
@@ -25,6 +16,15 @@
         editor = false;
       };
     };
+
+    kernelModules = [
+      "kvm-intel"
+      "wl"
+    ];
+
+    extraModulePackages = [
+      config.boot.kernelPackages.broadcom_sta
+    ];
 
     initrd = {
       availableKernelModules = [
@@ -40,13 +40,6 @@
 
       kernelModules = [
         "dm-snapshot"
-      ];
-    };
-
-    binfmt = {
-      emulatedSystems = [
-        "armv7l-linux"
-        "aarch64-linux"
       ];
     };
   };

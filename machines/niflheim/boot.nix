@@ -2,16 +2,8 @@
 
 {
   boot = {
-    cleanTmpDir = true;
-    consoleLogLevel = lib.mkDefault 7;
     kernelPackages = lib.mkDefault pkgs.linuxPackages_rpi1;
-
-    kernelParams = [
-      "dwc_otg.lpm_enable=0"
-      "console=ttyAMA0,115200"
-      "rootwait"
-      "elevator=deadline"
-    ];
+    cleanTmpDir = true;
 
     loader = {
       grub = {
@@ -31,5 +23,12 @@
         version = lib.mkDefault 1;
       };
     };
+
+    kernelParams = [
+      "dwc_otg.lpm_enable=0"
+      "console=ttyAMA0,115200"
+      "rootwait"
+      "elevator=deadline"
+    ];
   };
 }

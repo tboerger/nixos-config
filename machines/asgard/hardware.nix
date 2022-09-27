@@ -5,5 +5,8 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  hardware = { };
+  hardware = {
+    enableAllFirmware = true;
+    enableRedistributableFirmware = true;
+  };
 }

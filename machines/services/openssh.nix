@@ -1,11 +1,12 @@
 { pkgs, lib, config, options, ... }:
+with lib;
 
 let
   cfg = config.personal.services.openssh;
 
 in
 {
-  options = with lib; {
+  options = {
     personal = {
       services = {
         openssh = {
@@ -17,12 +18,12 @@ in
     };
   };
 
-  config = with lib; mkIf cfg.enable {
-      services = {
-        openssh = {
-          enable = true;
-          permitRootLogin = "yes";
-        };
+  config = mkIf cfg.enable {
+    services = {
+      openssh = {
+        enable = true;
+        permitRootLogin = "yes";
       };
     };
+  };
 }

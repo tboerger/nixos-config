@@ -1,11 +1,12 @@
 { pkgs, lib, config, options, ... }:
+with lib;
 
 let
   cfg = config.personal.services.webserver;
 
 in
 {
-  options = with lib; {
+  options = {
     personal = {
       services = {
         webserver = {
@@ -38,7 +39,7 @@ in
             }; });
             default = [];
             example = [{
-              domain = "dummy.home.boerger.ws";
+              domain = "dummy.boerger.ws";
               proxy = "http://localhost:8080";
               options = {
                 locations = {
@@ -55,7 +56,7 @@ in
               Use this acme certificate chain
             '';
             type = types.str;
-            default = "home.boerger.ws";
+            default = "boerger.ws";
           };
 
           defaultDomain = mkOption {
@@ -63,7 +64,7 @@ in
               Domain used by default vhost
             '';
             type = types.str;
-            default = "home.boerger.ws";
+            default = "boerger.ws";
           };
 
           redirectDomain = mkOption {
@@ -71,14 +72,14 @@ in
               Domain to redirect the default
             '';
             type = types.str;
-            default = "jellyfin.home.boerger.ws";
+            default = "jellyfin.boerger.ws";
           };
         };
       };
     };
   };
 
-  config = with lib; mkIf cfg.enable {
+  config = mkIf cfg.enable {
     services = {
       nginx = {
         enable = true;

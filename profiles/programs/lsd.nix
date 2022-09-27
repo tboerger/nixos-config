@@ -1,11 +1,12 @@
 { pkgs, lib, config, options, ... }:
+with lib;
 
 let
   cfg = config.profile.programs.lsd;
 
 in
 {
-  options = with lib; {
+  options = {
     profile = {
       programs = {
         lsd = {
@@ -17,7 +18,7 @@ in
     };
   };
 
-  config = with lib; mkIf cfg.enable {
+  config = mkIf cfg.enable {
     home-manager.users."${config.profile.username}" = { config, ... }: {
       programs = {
         lsd = {

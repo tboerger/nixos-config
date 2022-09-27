@@ -11,25 +11,15 @@
     ./hardware.nix
   ];
 
-  nix = {
-    extraOptions = ''
-      experimental-features = nix-command flakes
-      extra-platforms = armv7l-linux aarch64-linux
-    '';
-  };
-
   personal = {
     services = {
       acme = {
         enable = true;
       };
-      dyndns = {
-        enable = true;
-      };
       media = {
         enable = true;
       };
-      unifi = {
+      proxy = {
         enable = true;
       };
     };

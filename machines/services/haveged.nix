@@ -1,11 +1,12 @@
 { pkgs, lib, config, options, ... }:
+with lib;
 
 let
   cfg = config.personal.services.haveged;
 
 in
 {
-  options = with lib; {
+  options = {
     personal = {
       services = {
         haveged = {
@@ -17,11 +18,11 @@ in
     };
   };
 
-  config = with lib; mkIf cfg.enable {
-      services = {
-        haveged = {
-          enable = true;
-        };
+  config = mkIf cfg.enable {
+    services = {
+      haveged = {
+        enable = true;
       };
     };
+  };
 }
