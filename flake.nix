@@ -105,9 +105,17 @@
                   allowUnfree = true;
                 };
 
+                overlays = [
+                  self.overlay
+                ];
+
                 crossSystem = {
                   system = "armv7l-linux";
                 };
+              };
+
+              system = {
+                stateVersion = "22.05";
               };
             }
           ];
@@ -125,9 +133,17 @@
                   allowUnfree = true;
                 };
 
+                overlays = [
+                  self.overlay
+                ];
+
                 crossSystem = {
                   system = "aarch64-linux";
                 };
+              };
+
+              system = {
+                stateVersion = "22.05";
               };
             }
           ];
