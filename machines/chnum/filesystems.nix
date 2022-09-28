@@ -4,12 +4,14 @@
   boot = {
     initrd = {
       luks = {
-        devices = [{
-          name = "luks";
-          device = "/dev/disk/by-label/data";
-          preLVM = true;
-          allowDiscards = true;
-        }];
+        devices = {
+          luks = {
+            name = "luks";
+            device = "/dev/disk/by-label/data";
+            preLVM = true;
+            allowDiscards = true;
+          };
+        };
       };
     };
   };

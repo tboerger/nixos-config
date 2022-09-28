@@ -2,7 +2,14 @@
 
 {
   boot = {
-    kernelPackages = pkgs.linuxPackages;
+    binfmt = {
+      emulatedSystems = [
+        "aarch64-linux"
+        "armv6l-linux"
+      ];
+    };
+
+    kernelPackages = lib.mkDefault pkgs.linuxPackages;
     cleanTmpDir = true;
 
     loader = {

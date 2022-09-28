@@ -27,7 +27,7 @@ in
 
         certs = {
           "boerger.ws" = {
-            extraDomainNames = ["*.boerger.ws"];
+            extraDomainNames = [ "*.boerger.ws" ];
             dnsProvider = "cloudflare";
             credentialsFile = config.age.secrets."services/acme/credentials".path;
           };

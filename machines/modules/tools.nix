@@ -23,8 +23,6 @@ with lib;
         vim
         wget
         yq
-
-        inputs.agenix.defaultPackage.${system}
       ];
     };
   };

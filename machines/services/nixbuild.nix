@@ -10,9 +10,7 @@ in
     personal = {
       services = {
         nixbuild = {
-          enable = mkEnableOption "Nixbuild" // {
-            default = true;
-          };
+          enable = mkEnableOption "Nixbuild";
         };
       };
     };

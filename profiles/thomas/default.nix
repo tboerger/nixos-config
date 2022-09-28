@@ -68,8 +68,9 @@ in
     home = {
       homeDirectory = "/home/${username}";
 
-      sessionPath = ["$HOME/.local/bin"]
-        ++ (optional desktop ["$HOME/.krew/bin" "$HOME/Golang/bin"]);
+      sessionPath = [ "$HOME/.local/bin" ]
+        ++ (optional desktop "$HOME/.krew/bin")
+        ++ (optional desktop "$HOME/Golang/bin");
 
       file = {
         ".local/bin/git-gh-pages" = {
@@ -89,7 +90,7 @@ in
           executable = true;
           source = ./scripts/each-dir.sh;
         };
-      } // (mkIf desktop {
+      } // (if desktop then {
         ".local/bin/sort-requirements" = {
           executable = true;
           source = ./scripts/sort-requirements.rb;
@@ -104,7 +105,7 @@ in
         ".wallpapers/tower.jpg" = {
           source = ./wallpapers/tower.jpg;
         };
-      });
+      } else { });
 
       stateVersion = "18.09";
     };

@@ -12,9 +12,7 @@
   ];
 
   personal = {
-    services = {
-
-    };
+    services = { };
   };
 
   system = {

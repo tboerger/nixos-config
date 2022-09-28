@@ -16,28 +16,30 @@ in
             description = ''
               List of hosts to configure
             '';
-            type = types.listOf (types.submodule { options = {
-              domain = mkOption {
-                type = types.str;
-                description = "Name of the domain";
+            type = types.listOf (types.submodule {
+              options = {
+                domain = mkOption {
+                  type = types.str;
+                  description = "Name of the domain";
+                };
+                domainOptions = mkOption {
+                  type = types.attrs;
+                  default = { };
+                  description = "Custom options for domain";
+                };
+                proxy = mkOption {
+                  type = types.nullOr types.str;
+                  default = null;
+                  description = "Optional proxy target";
+                };
+                proxyOptions = mkOption {
+                  type = types.str;
+                  default = "";
+                  description = "Custom options for proxy";
+                };
               };
-              domainOptions = mkOption {
-                type = types.attrs;
-                default = {};
-                description = "Custom options for domain";
-              };
-              proxy = mkOption {
-                type = types.nullOr types.str;
-                default = null;
-                description = "Optional proxy target";
-              };
-              proxyOptions = mkOption {
-                type = types.str;
-                default = "";
-                description = "Custom options for proxy";
-              };
-            }; });
-            default = [];
+            });
+            default = [ ];
             example = [{
               domain = "dummy.boerger.ws";
               proxy = "http://localhost:8080";
@@ -107,14 +109,14 @@ in
               } // (elem.domainOptions or { });
             })
             config.personal.services.webserver.hosts) // {
-              "${cfg.defaultDomain}" = {
-                useACMEHost = cfg.acmeHost;
-                addSSL = true;
-                forceSSL = false;
-                default = true;
-                globalRedirect = cfg.redirectDomain;
-              };
-            };
+          "${cfg.defaultDomain}" = {
+            useACMEHost = cfg.acmeHost;
+            addSSL = true;
+            forceSSL = false;
+            default = true;
+            globalRedirect = cfg.redirectDomain;
+          };
+        };
       };
     };
 

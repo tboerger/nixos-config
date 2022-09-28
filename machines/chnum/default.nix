@@ -16,19 +16,10 @@
       desktop = {
         enable = true;
       };
-      develop = {
-        enable = true;
-      };
       docker = {
         enable = true;
       };
-      kube = {
-        enable = true;
-      };
       libvirt = {
-        enable = true;
-      };
-      minecraft = {
         enable = true;
       };
     };
