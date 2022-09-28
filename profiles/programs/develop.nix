@@ -53,8 +53,8 @@ in
         reflex
         shellcheck
         sops
-        unstable.terraform
-        unstable.terragrunt
+        terraform
+        terragrunt
         upx
       ];
     };

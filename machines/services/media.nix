@@ -78,49 +78,49 @@ in
         enable = true;
         user = "media";
         group = "media";
-        package = pkgs.unstable.jellyfin;
+        package = pkgs.jellyfin;
       };
 
       unpackerr = {
         enable = true;
         user = "media";
         group = "media";
-        # package = pkgs.unstable.unpackerr;
+        # package = pkgs.unpackerr;
       };
 
       radarr = {
         enable = true;
         user = "media";
         group = "media";
-        package = pkgs.unstable.radarr;
+        package = pkgs.radarr;
       };
 
       sonarr = {
         enable = true;
         user = "media";
         group = "media";
-        package = pkgs.unstable.sonarr;
+        package = pkgs.sonarr;
       };
 
       lidarr = {
         enable = true;
         user = "media";
         group = "media";
-        package = pkgs.unstable.lidarr;
+        package = pkgs.lidarr;
       };
 
       bazarr = {
         enable = true;
         user = "media";
         group = "media";
-        package = pkgs.unstable.bazarr;
+        package = pkgs.bazarr;
       };
 
       prowlarr = {
         enable = true;
         user = "media";
         group = "media";
-        package = pkgs.unstable.prowlarr;
+        package = pkgs.prowlarr;
       };
 
       readarr = {

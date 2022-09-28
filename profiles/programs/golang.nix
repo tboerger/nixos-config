@@ -21,7 +21,7 @@ in
       programs = {
         go = {
           enable = true;
-          package = pkgs.unstable.go_1_19;
+          package = pkgs.go_1_19;
           goPath = "Golang";
           goBin = "Golang/bin";
 
