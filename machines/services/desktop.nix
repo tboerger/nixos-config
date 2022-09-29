@@ -80,12 +80,12 @@ in
     hardware = {
       bluetooth = {
         enable = true;
-        package = pkgs.bluezFull;
+        package = pkgs.bluez;
       };
 
       pulseaudio = {
         enable = true;
-        package = pkgs.pulseaudioFull;
+        package = pkgs.pulseaudio;
       };
     };
 
