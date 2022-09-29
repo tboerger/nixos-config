@@ -20,6 +20,7 @@ chmod u=rw,g=,o= $HOME/.ssh/id_*
 ### Bootstrap
 
 ```console
+sudo loadkeys de
 sudo nix-shell --packages nixUnstable
 
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/chnum-partitions)"
@@ -41,6 +42,7 @@ nixos-rebuild switch \
 ### Bootstrap
 
 ```console
+sudo loadkeys de
 sudo nix-shell --packages nixUnstable
 
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/asgard-partitions)"
@@ -62,6 +64,7 @@ nixos-rebuild switch \
 ### Bootstrap
 
 ```console
+sudo loadkeys de
 sudo nix-shell --packages nixUnstable
 
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/utgard-partitions)"
@@ -83,6 +86,7 @@ nixos-rebuild switch \
 ### Bootstrap
 
 ```console
+sudo loadkeys de
 sudo nix-shell --packages nixUnstable
 
 mount /dev/disk/by-label/NIXOS_SD /mnt
@@ -97,48 +101,6 @@ otherwise there is still this long option to update the deployment:
 ```console
 nixos-rebuild switch \
     --flake github:tboerger/nixos-config#midgard
-```
-
-## Vanaheim
-
-### Bootstrap
-
-```console
-sudo nix-shell --packages nixUnstable
-
-mount /dev/disk/by-label/NIXOS_SD /mnt
-nixos-install --root /mnt --flake github:tboerger/nixos-config#vanaheim
-```
-
-### Updates
-
-If the repository had been cloned you could just execute `make switch`,
-otherwise there is still this long option to update the deployment:
-
-```console
-nixos-rebuild switch \
-    --flake github:tboerger/nixos-config#vanaheim
-```
-
-## Niflheim
-
-### Bootstrap
-
-```console
-sudo nix-shell --packages nixUnstable
-
-mount /dev/disk/by-label/NIXOS_SD /mnt
-nixos-install --root /mnt --flake github:tboerger/nixos-config#niflheim
-```
-
-### Updates
-
-If the repository had been cloned you could just execute `make switch`,
-otherwise there is still this long option to update the deployment:
-
-```console
-nixos-rebuild switch \
-    --flake github:tboerger/nixos-config#niflheim
 ```
 
 ## Security
