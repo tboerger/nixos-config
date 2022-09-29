@@ -15,12 +15,14 @@
     loader = {
       efi = {
         canTouchEfiVariables = true;
+        efiSysMountPoint = "/boot/efi";
       };
 
-      systemd-boot = {
+      grub = {
         enable = true;
-        consoleMode = "2";
-        editor = false;
+        version = 2;
+        device = "nodev";
+        efiSupport = true;
       };
     };
 
@@ -34,10 +36,11 @@
 
     initrd = {
       availableKernelModules = [
-        "xhci_pci"
         "ahci"
-        "sd_mod"
+        "atkbd"
         "rtsx_pci_sdmmc"
+        "sd_mod"
+        "xhci_pci"
       ];
 
       kernelModules = [
