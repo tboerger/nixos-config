@@ -29,7 +29,7 @@ with lib;
 
     console = {
       font = "Lat2-Terminus16";
-      keymap ="de";
+      keyMap ="de";
     };
   };
 }
