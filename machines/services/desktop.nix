@@ -122,7 +122,7 @@ in
         noto-fonts-extra
         roboto
         siji
-        source-code-pr
+        source-code-pro
       ];
     };
 
