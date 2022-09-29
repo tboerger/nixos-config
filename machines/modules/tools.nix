@@ -11,10 +11,13 @@ with lib;
         gomplate
         htop
         hub
+        hwinfo
         jq
+        lsof
         minio-client
         nmap
         p7zip
+        pciutils
         rsync
         s3cmd
         silver-searcher
