@@ -21,7 +21,7 @@ in
       systemPackages = with pkgs; [
         adoptopenjdk-hotspot-bin-8
         mcrcon
-        multimc
+        polymc
       ];
     };
   };
