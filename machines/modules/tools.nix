@@ -6,6 +6,7 @@ with lib;
     environment = {
       systemPackages = with pkgs; [
         coreutils
+        file
         git
         gnumake
         gomplate
