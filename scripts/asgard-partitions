@@ -34,11 +34,17 @@ sgdisk -og /dev/sdd
 sgdisk --zap-all /dev/sde
 sgdisk -og /dev/sde
 
+echo "-----> Wait for cleanup"
+sleep 3
+
 echo "-----> Create boot partition"
 sgdisk -n 0:0:+1G -t 0:ef00 -c 0:boot /dev/sda
 
 echo "-----> Create root partition"
 sgdisk -n 0:0:0 -t 0:8300 -c 0:data /dev/sda
+
+echo "-----> Wait for data"
+sleep 3
 
 echo "-----> Create data pv"
 pvcreate /dev/disk/by-partlabel/data

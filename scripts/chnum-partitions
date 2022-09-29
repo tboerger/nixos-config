@@ -26,6 +26,9 @@ echo "----> Drop existing partitions"
 sgdisk --zap-all /dev/sda
 sgdisk -og /dev/sda
 
+echo "-----> Wait for cleanup"
+sleep 3
+
 echo "-----> Create boot partition"
 sgdisk -n 0:0:+1G -t 0:ef00 -c 0:boot /dev/sda
 
