@@ -32,6 +32,9 @@ sgdisk -n 0:0:+1G -t 0:ef00 -c 0:boot /dev/sda
 echo "-----> Create root partition"
 sgdisk -n 0:0:0 -t 0:8300 -c 0:data /dev/sda
 
+echo "-----> Wait for data"
+sleep 3
+
 echo "-----> Format luks partition"
 cryptsetup --verify-passphrase luksFormat /dev/disk/by-partlabel/data
 
