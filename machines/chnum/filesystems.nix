@@ -7,7 +7,7 @@
         devices = {
           luks = {
             name = "luks";
-            device = "/dev/disk/by-label/data";
+            device = "/dev/disk/by-partlabel/data";
             preLVM = true;
             allowDiscards = true;
           };
