@@ -13,6 +13,9 @@
 
   personal = {
     services = {
+      citrix = {
+        enable = true;
+      };
       desktop = {
         enable = true;
       };

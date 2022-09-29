@@ -3,6 +3,7 @@
 {
   imports = [
     ./acme.nix
+    ./citrix.nix
     ./desktop.nix
     ./docker.nix
     ./haveged.nix
