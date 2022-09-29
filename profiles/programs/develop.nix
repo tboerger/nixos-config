@@ -7,7 +7,7 @@ let
   python = pkgs.python39.withPackages (p: with p; [
     ansible-core
     ansible-doctor
-    ansible-later
+    # ansible-later
     ansible-lint
     boto3
     botocore
@@ -34,7 +34,7 @@ in
       systemPackages = with pkgs; [
         python
 
-        php
+        php80
         php80Packages.composer
 
         nodejs-16_x

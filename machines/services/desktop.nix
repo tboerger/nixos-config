@@ -36,19 +36,21 @@ in
         alacritty
         authy
         discord
+        discord
+        element-desktop
         element-desktop
         google-chrome
         lastpass-cli
-        lens
         mattermost
         owncloud-client
         rambox
         rocketchat-desktop
+        signal-desktop
         skypeforlinux
         slack
         steam
-        tilda
-        vscode
+        teams
+        whatsapp-for-linux
       ];
 
       pathsToLink = [
@@ -68,11 +70,19 @@ in
     };
 
     programs = {
-      light = {
+      _1password = {
+        enable = true;
+      };
+
+      _1password-gui = {
         enable = true;
       };
 
       dconf = {
+        enable = true;
+      };
+
+      light = {
         enable = true;
       };
     };
@@ -186,6 +196,7 @@ in
               i3lock
               polybar
               feh
+              caffeine-ng
             ];
           };
         };

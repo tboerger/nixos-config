@@ -18,7 +18,13 @@ in
     username = "${username}";
 
     programs = {
+      clockify = {
+        enable = desktop;
+      };
       develop = {
+        enable = desktop;
+      };
+      feh = {
         enable = desktop;
       };
       gnupg = {
@@ -30,7 +36,13 @@ in
       kube = {
         enable = desktop;
       };
+      lens = {
+        enable = desktop;
+      };
       minecraft = {
+        enable = desktop;
+      };
+      zathura = {
         enable = desktop;
       };
     };
