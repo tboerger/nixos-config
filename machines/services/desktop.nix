@@ -58,11 +58,6 @@ in
       ];
     };
 
-    console = {
-      font = "Lat2-Terminus16";
-      keyMap = "de";
-    };
-
     boot = {
       plymouth = {
         enable = false;

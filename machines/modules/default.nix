@@ -25,7 +25,11 @@ with lib;
 
     i18n = {
       defaultLocale = "en_US.UTF-8";
-      consoleKeyMap = "de";
+    };
+
+    console = {
+      font = "Lat2-Terminus16";
+      keymap ="de";
     };
   };
 }
