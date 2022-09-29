@@ -39,6 +39,10 @@ with lib;
     nixpkgs = {
       config = {
         allowUnfree = true;
+
+        permittedInsecurePackages = [
+          "electron-11.5.0"
+        ];
       };
     };
   };
