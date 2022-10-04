@@ -2,15 +2,15 @@
 with lib;
 
 let
-  cfg = config.profile.programs.minecraft;
+  cfg = config.profile.programs.lutris;
 
 in
 {
   options = {
     profile = {
       programs = {
-        minecraft = {
-          enable = mkEnableOption "Minecraft";
+        lutris = {
+          enable = mkEnableOption "Lutris";
         };
       };
     };
@@ -19,11 +19,14 @@ in
   config = mkIf cfg.enable {
     environment = {
       systemPackages = with pkgs; [
-        adoptopenjdk-hotspot-bin-8
-        mcrcon
-        packwiz
-        polymc
+        lutris
       ];
+    };
+
+    hardware = {
+      opengl = {
+        driSupport32Bit = true;
+      };
     };
   };
 }

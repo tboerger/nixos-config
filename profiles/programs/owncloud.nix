@@ -2,15 +2,15 @@
 with lib;
 
 let
-  cfg = config.profile.programs.minecraft;
+  cfg = config.profile.programs.owncloud;
 
 in
 {
   options = {
     profile = {
       programs = {
-        minecraft = {
-          enable = mkEnableOption "Minecraft";
+        owncloud = {
+          enable = mkEnableOption "ownCloud";
         };
       };
     };
@@ -19,10 +19,7 @@ in
   config = mkIf cfg.enable {
     environment = {
       systemPackages = with pkgs; [
-        adoptopenjdk-hotspot-bin-8
-        mcrcon
-        packwiz
-        polymc
+        owncloud-client
       ];
     };
   };

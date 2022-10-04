@@ -10,21 +10,41 @@ in
 {
   imports = [
     ../modules
+    ./desktop
+
     ../programs
+    ./programs
+
     ../services
+    ./services
   ];
 
   profile = {
     username = "${username}";
 
+    desktop = {
+      i3 = {
+        enable = desktop;
+      };
+    };
+
     programs = {
+      authy = {
+        enable = desktop;
+      };
+      browser = {
+        enable = desktop;
+      };
       clockify = {
         enable = desktop;
       };
       develop = {
         enable = desktop;
       };
-      feh = {
+      discord = {
+        enable = desktop;
+      };
+      element = {
         enable = desktop;
       };
       gnupg = {
@@ -36,18 +56,108 @@ in
       kube = {
         enable = desktop;
       };
+      lastpass = {
+        enable = desktop;
+      };
+      latex = {
+        enable = desktop;
+      };
       lens = {
+        enable = desktop;
+      };
+      lutris = {
+        enable = desktop;
+      };
+      mattermost = {
         enable = desktop;
       };
       minecraft = {
         enable = desktop;
       };
+      onepassword = {
+        enable = desktop;
+      };
+      owncloud = {
+        enable = desktop;
+      };
+      playonlinux = {
+        enable = desktop;
+      };
+      rocketchat = {
+        enable = desktop;
+      };
+      signal = {
+        enable = desktop;
+      };
+      skype = {
+        enable = desktop;
+      };
+      slack = {
+        enable = desktop;
+      };
+      steam = {
+        enable = desktop;
+      };
+      teams = {
+        enable = desktop;
+      };
+      whatsapp = {
+        enable = desktop;
+      };
+      wine = {
+        enable = desktop;
+      };
+      yed = {
+        enable = desktop;
+      };
       zathura = {
+        enable = desktop;
+      };
+
+      alacritty = {
+        enable = desktop;
+      };
+      autorandr = {
+        enable = desktop;
+      };
+      rofi = {
+        enable = desktop;
+      };
+      ssh = {
+        enable = desktop;
+      };
+      vscode = {
         enable = desktop;
       };
     };
 
-    services = { };
+    services = {
+      blueman = {
+        enable = desktop;
+      };
+      caffeine = {
+        enable = desktop;
+      };
+      flameshot = {
+        enable = desktop;
+      };
+      nmapplet = {
+        enable = desktop;
+      };
+      owncloud = {
+        enable = desktop;
+      };
+      udiskie = {
+        enable = desktop;
+      };
+
+      dunst = {
+        enable = desktop;
+      };
+      polybar = {
+        enable = desktop;
+      };
+    };
   };
 
   users = {
@@ -66,11 +176,11 @@ in
         };
         extraGroups = [
           "wheel"
-          "networkmanager"
           "docker"
           "libvirtd"
           "audio"
           "video"
+          "networkmanager"
         ];
       };
     };
@@ -79,10 +189,7 @@ in
   home-manager.users."${username}" = { config, ... }: {
     home = {
       homeDirectory = "/home/${username}";
-
-      sessionPath = [ "$HOME/.local/bin" ]
-        ++ (optional desktop "$HOME/.krew/bin")
-        ++ (optional desktop "$HOME/Golang/bin");
+      sessionPath = [ "$HOME/.local/bin" ];
 
       file = {
         ".local/bin/git-gh-pages" = {
@@ -120,22 +227,6 @@ in
       } else { });
 
       stateVersion = "18.09";
-    };
-
-    programs = {
-      alacritty = import ./programs/alacritty.nix { inherit pkgs config; } // {
-        enable = mkForce desktop;
-      };
-      dircolors = import ./programs/dircolors.nix { inherit pkgs config; };
-      git = import ./programs/git.nix { inherit pkgs config; };
-      ssh = import ./programs/ssh.nix { inherit pkgs config; } // {
-        enable = mkForce desktop;
-      };
-      starship = import ./programs/starship.nix { inherit pkgs config; };
-      vscode = import ./programs/vscode.nix { inherit pkgs config; } // {
-        enable = mkForce desktop;
-      };
-      zsh = import ./programs/zsh.nix { inherit pkgs config; };
     };
   };
 }

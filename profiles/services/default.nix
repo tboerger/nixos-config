@@ -2,7 +2,12 @@
 
 {
   imports = [
-
+    ./blueman.nix
+    ./caffeine.nix
+    ./flameshot.nix
+    ./nmapplet.nix
+    ./owncloud.nix
+    ./udiskie.nix
   ];
 
   options = {

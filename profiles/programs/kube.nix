@@ -17,6 +17,12 @@ in
   };
 
   config = mkIf cfg.enable {
+    home-manager.users."${config.profile.username}" = { config, ... }: {
+      home = {
+        sessionPath = [ "$HOME/.krew/bin" ];
+      };
+    };
+
     environment = {
       systemPackages = with pkgs; [
         argocd

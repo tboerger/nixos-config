@@ -2,17 +2,15 @@
 with lib;
 
 let
-  cfg = config.profile.programs.feh;
+  cfg = config.profile.services.caffeine;
 
 in
 {
   options = {
     profile = {
-      programs = {
-        feh = {
-          enable = mkEnableOption "Feh" // {
-            default = true;
-          };
+      services = {
+        caffeine = {
+          enable = mkEnableOption "Caffeine";
         };
       };
     };
@@ -20,8 +18,8 @@ in
 
   config = mkIf cfg.enable {
     home-manager.users."${config.profile.username}" = { config, ... }: {
-      programs = {
-        feh = {
+      services = {
+        caffeine = {
           enable = true;
         };
       };

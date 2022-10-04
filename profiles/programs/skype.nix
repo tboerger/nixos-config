@@ -2,15 +2,15 @@
 with lib;
 
 let
-  cfg = config.profile.programs.minecraft;
+  cfg = config.profile.programs.skype;
 
 in
 {
   options = {
     profile = {
       programs = {
-        minecraft = {
-          enable = mkEnableOption "Minecraft";
+        skype = {
+          enable = mkEnableOption "Skype";
         };
       };
     };
@@ -19,10 +19,7 @@ in
   config = mkIf cfg.enable {
     environment = {
       systemPackages = with pkgs; [
-        adoptopenjdk-hotspot-bin-8
-        mcrcon
-        packwiz
-        polymc
+        skypeforlinux
       ];
     };
   };

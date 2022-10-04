@@ -17,42 +17,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    nixpkgs = {
-      config = {
-        packageOverrides = pkgs: {
-          polybar = pkgs.polybar.override {
-            i3Support = true;
-            mpdSupport = true;
-            iwSupport = true;
-            pulseSupport = true;
-            githubSupport = true;
-          };
-        };
-      };
-    };
-
     environment = {
-      systemPackages = with pkgs; [
-        alacritty
-        authy
-        discord
-        discord
-        element-desktop
-        element-desktop
-        google-chrome
-        lastpass-cli
-        mattermost
-        owncloud-client
-        rambox
-        rocketchat-desktop
-        signal-desktop
-        skypeforlinux
-        slack
-        steam
-        teams
-        whatsapp-for-linux
-      ];
-
       pathsToLink = [
         "/libexec"
       ];
@@ -60,19 +25,11 @@ in
 
     boot = {
       plymouth = {
-        enable = false;
+        enable = true;
       };
     };
 
     programs = {
-      _1password = {
-        enable = true;
-      };
-
-      _1password-gui = {
-        enable = true;
-      };
-
       dconf = {
         enable = true;
       };
@@ -83,6 +40,10 @@ in
     };
 
     hardware = {
+      opengl = {
+        enable = true;
+      };
+
       bluetooth = {
         enable = true;
         package = pkgs.bluez;
@@ -132,11 +93,16 @@ in
     };
 
     services = {
-      fstrim = {
+      avahi = {
+        enable = true;
+        nssmdns = true;
+      };
+
+      blueman = {
         enable = true;
       };
 
-      tlp = {
+      fstrim = {
         enable = true;
       };
 
@@ -145,6 +111,10 @@ in
       };
 
       thermald = {
+        enable = true;
+      };
+
+      tlp = {
         enable = true;
       };
 
@@ -165,6 +135,15 @@ in
 
         libinput = {
           enable = true;
+
+          touchpad = {
+            disableWhileTyping = true;
+            tapping = true;
+            tappingDragLock = false;
+            middleEmulation = true;
+            naturalScrolling = true;
+            scrollMethod = "twofinger";
+          };
         };
 
         desktopManager = {
@@ -184,15 +163,7 @@ in
         windowManager = {
           i3 = {
             enable = true;
-            extraPackages = with pkgs; [
-              lxappearance
-              dmenu
-              rofi
-              i3lock
-              polybar
-              feh
-              caffeine-ng
-            ];
+            package = pkgs.i3-gaps;
           };
         };
       };

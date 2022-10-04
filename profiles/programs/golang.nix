@@ -18,6 +18,10 @@ in
 
   config = mkIf cfg.enable {
     home-manager.users."${config.profile.username}" = { config, ... }: {
+      home = {
+        sessionPath = [ "$HOME/Golang/bin" ];
+      };
+
       programs = {
         go = {
           enable = true;

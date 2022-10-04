@@ -2,23 +2,23 @@
 with lib;
 
 let
-  cfg = config.personal.services.proxy;
+  cfg = config.profile.programs.steam;
 
 in
 {
   options = {
-    personal = {
-      services = {
-        proxy = {
-          enable = mkEnableOption "Proxy";
+    profile = {
+      programs = {
+        steam = {
+          enable = mkEnableOption "Steam";
         };
       };
     };
   };
 
   config = mkIf cfg.enable {
-    services = {
-      frpc = {
+    programs = {
+      steam = {
         enable = true;
       };
     };

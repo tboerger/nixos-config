@@ -16,10 +16,10 @@
       acme = {
         enable = true;
       };
-      media = {
+      frpc = {
         enable = true;
       };
-      proxy = {
+      media = {
         enable = true;
       };
     };

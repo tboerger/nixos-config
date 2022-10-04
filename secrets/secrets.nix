@@ -7,5 +7,6 @@ let
 in
 {
   "services/acme/credentials.age".publicKeys = users ++ systems;
+  "services/frpc/token.age".publicKeys = users ++ systems;
   "services/nixbuild/sshkey.age".publicKeys = users ++ systems;
 }
