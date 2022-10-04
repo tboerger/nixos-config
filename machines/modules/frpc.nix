@@ -5,7 +5,7 @@ let
   cfg = config.services.frpc;
 
   configFile =
-    pkgs.writeText "frpc.conf" (generators.toINI {} cfg.settings);
+    pkgs.writeText "frpc.conf" (generators.toINI { } cfg.settings);
 
 in
 {
@@ -50,7 +50,7 @@ in
         Full settings for the client.
       '';
       type = types.attrsOf types.attrs;
-      default = {};
+      default = { };
       example = literalExpression ''
         common = {
           server_addr = "example.com";
