@@ -56,13 +56,25 @@ in
 
         extraConfig = ''
           workgroup = WORKGROUP
-          server string = Sharing
-          netbios name = Sharing
+          server string = Server
+          netbios name = Server
           guest account = nobody
           map to guest = bad user
         '';
 
         shares = {
+          shares = {
+            comment = "General shares";
+            path = "/var/lib/media/shares";
+
+            "browseable" = "yes";
+            "read only" = "no";
+            "writeable" = "yes";
+            "guest ok" = "yes";
+            "force user" = "media";
+            "force group" = "media";
+          };
+
           photos = {
             comment = "Shared photos";
             path = "/var/lib/media/photos";

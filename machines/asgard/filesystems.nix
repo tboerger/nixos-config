@@ -28,8 +28,8 @@
     fsType = "vfat";
   };
 
-  fileSystems."/var/lib/media/cloud" = {
-    device = "/dev/disk/by-label/cloud";
+  fileSystems."/var/lib/media/shares" = {
+    device = "/dev/disk/by-label/shares";
     fsType = "ext4";
     options = [
       "noatime"
@@ -37,8 +37,17 @@
     ];
   };
 
-  fileSystems."/var/lib/media/downloads" = {
-    device = "/dev/disk/by-label/downloads";
+  fileSystems."/var/lib/media/photos" = {
+    device = "/dev/disk/by-label/photos";
+    fsType = "ext4";
+    options = [
+      "noatime"
+      "discard"
+    ];
+  };
+
+  fileSystems."/var/lib/media/videos" = {
+    device = "/dev/disk/by-label/videos";
     fsType = "ext4";
     options = [
       "noatime"
@@ -55,8 +64,8 @@
     ];
   };
 
-  fileSystems."/var/lib/media/series" = {
-    device = "/dev/disk/by-label/series";
+  fileSystems."/var/lib/media/shows" = {
+    device = "/dev/disk/by-label/shows";
     fsType = "ext4";
     options = [
       "noatime"
@@ -82,8 +91,26 @@
     ];
   };
 
-  fileSystems."/var/lib/media/shares" = {
-    device = "/dev/disk/by-label/shares";
+  fileSystems."/var/lib/media/downloads" = {
+    device = "/dev/disk/by-label/downloads";
+    fsType = "ext4";
+    options = [
+      "noatime"
+      "discard"
+    ];
+  };
+
+  fileSystems."/var/lib/printer" = {
+    device = "/dev/disk/by-label/printer";
+    fsType = "ext4";
+    options = [
+      "noatime"
+      "discard"
+    ];
+  };
+
+  fileSystems."/var/lib/backup" = {
+    device = "/dev/disk/by-label/backup";
     fsType = "ext4";
     options = [
       "noatime"

@@ -38,10 +38,10 @@ echo "-----> Wait for cleanup"
 sleep 3
 
 echo "-----> Create boot partition"
-sgdisk -n 0:0:+1G -t 0:ef00 -c 0:boot /dev/sda
+sgdisk -n 0:0:+1G -t 0:ef00 -c 0:boot /dev/sde
 
 echo "-----> Create root partition"
-sgdisk -n 0:0:0 -t 0:8300 -c 0:data /dev/sda
+sgdisk -n 0:0:0 -t 0:8300 -c 0:data /dev/sde
 
 echo "-----> Wait for data"
 sleep 3
@@ -89,14 +89,14 @@ mkdir /mnt/boot
 mount /dev/disk/by-label/boot /mnt/boot
 
 echo "-----> Create tank partition"
+sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/sda
 sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/sdb
 sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/sdc
 sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/sdd
-sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/sde
 
 echo "-----> Create raid volume"
-mdadm --create /dev/md0 --level=1 --raid-devices=4 /dev/sdb1 /dev/sdc1
-mdadm --create /dev/md1 --level=1 --raid-devices=4 /dev/sdd1 /dev/sde1
+mdadm --create /dev/md0 --level=1 --raid-devices=4 /dev/sda1 /dev/sdb1
+mdadm --create /dev/md1 --level=1 --raid-devices=4 /dev/sdc1 /dev/sdd1
 
 echo "-----> Create tank pv"
 pvcreate /dev/md0 /dev/md1
@@ -104,16 +104,38 @@ pvcreate /dev/md0 /dev/md1
 echo "-----> Create tank vg"
 vgcreate tank /dev/md0 /dev/md1
 
-echo "-----> Create downloads volume"
-lvcreate --size 50G --name downloads tank
+echo "-----> Create shares volume"
+lvcreate --size 10G --name shares tank
 
-echo "-----> Create downloads filesystem"
-mkfs.ext4 -L downloads /dev/tank/downloads
+echo "-----> Create shares filesystem"
+mkfs.ext4 -L shares /dev/tank/shares
 
-echo "-----> Mount downloads filesystem"
-mkdir -p /var/lib/media/downloads
-mount -t ext4 /dev/tank/downloads /var/lib/media/downloads
-chown 20000:20000 /var/lib/media/downloads
+echo "-----> Mount shares filesystem"
+mkdir -p /var/lib/media/shares
+mount -t ext4 /dev/tank/shares /var/lib/media/shares
+chown 20000:20000 /var/lib/media/shares
+
+echo "-----> Create photos volume"
+lvcreate --size 100G --name photos tank
+
+echo "-----> Create photos filesystem"
+mkfs.ext4 -L photos /dev/tank/photos
+
+echo "-----> Mount photos filesystem"
+mkdir -p /var/lib/media/photos
+mount -t ext4 /dev/tank/photos /var/lib/media/photos
+chown 20000:20000 /var/lib/media/photos
+
+echo "-----> Create videos volume"
+lvcreate --size 100G --name videos tank
+
+echo "-----> Create videos filesystem"
+mkfs.ext4 -L videos /dev/tank/videos
+
+echo "-----> Mount videos filesystem"
+mkdir -p /var/lib/media/videos
+mount -t ext4 /dev/tank/videos /var/lib/media/videos
+chown 20000:20000 /var/lib/media/videos
 
 echo "-----> Create movies volume"
 lvcreate --size 500G --name movies tank
@@ -126,16 +148,16 @@ mkdir -p /var/lib/media/movies
 mount -t ext4 /dev/tank/movies /var/lib/media/movies
 chown 20000:20000 /var/lib/media/movies
 
-echo "-----> Create series volume"
-lvcreate --size 500G --name series tank
+echo "-----> Create shows volume"
+lvcreate --size 500G --name shows tank
 
-echo "-----> Create series filesystem"
-mkfs.ext4 -L series /dev/tank/series
+echo "-----> Create shows filesystem"
+mkfs.ext4 -L shows /dev/tank/shows
 
-echo "-----> Mount series filesystem"
-mkdir -p /var/lib/media/series
-mount -t ext4 /dev/tank/series /var/lib/media/series
-chown 20000:20000 /var/lib/media/series
+echo "-----> Mount shows filesystem"
+mkdir -p /var/lib/media/shows
+mount -t ext4 /dev/tank/shows /var/lib/media/shows
+chown 20000:20000 /var/lib/media/shows
 
 echo "-----> Create books volume"
 lvcreate --size 50G --name books tank
@@ -159,13 +181,35 @@ mkdir -p /var/lib/media/music
 mount -t ext4 /dev/tank/music /var/lib/media/music
 chown 20000:20000 /var/lib/media/music
 
-echo "-----> Create shares volume"
-lvcreate --size 50G --name shares tank
+echo "-----> Create downloads volume"
+lvcreate --size 100G --name downloads tank
 
-echo "-----> Create shares filesystem"
-mkfs.ext4 -L shares /dev/tank/shares
+echo "-----> Create downloads filesystem"
+mkfs.ext4 -L downloads /dev/tank/downloads
 
-echo "-----> Mount shares filesystem"
-mkdir -p /var/lib/media/shares
-mount -t ext4 /dev/tank/shares /var/lib/media/shares
-chown 20000:20000 /var/lib/media/shares
+echo "-----> Mount downloads filesystem"
+mkdir -p /var/lib/media/downloads
+mount -t ext4 /dev/tank/downloads /var/lib/media/downloads
+chown 20000:20000 /var/lib/media/downloads
+
+echo "-----> Create printer volume"
+lvcreate --size 5G --name printer tank
+
+echo "-----> Create printer filesystem"
+mkfs.ext4 -L printer /dev/tank/printer
+
+echo "-----> Mount printer filesystem"
+mkdir -p /var/lib/media/printer
+mount -t ext4 /dev/tank/printer /var/lib/printer
+chown 20001:20001 /var/lib/printer
+
+echo "-----> Create backup volume"
+lvcreate --size 50G --name backup tank
+
+echo "-----> Create backup filesystem"
+mkfs.ext4 -L backup /dev/tank/backup
+
+echo "-----> Mount backup filesystem"
+mkdir -p /var/lib/media/backup
+mount -t ext4 /dev/tank/backup /var/lib/backup
+chown 20000:20000 /var/lib/backup
