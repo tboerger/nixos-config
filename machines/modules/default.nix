@@ -3,6 +3,7 @@ with lib;
 
 {
   imports = [
+    ./agenix.nix
     ./network.nix
     ./nixpkgs.nix
     ./prowlarr.nix
