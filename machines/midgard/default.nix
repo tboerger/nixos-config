@@ -12,7 +12,23 @@
   ];
 
   personal = {
-    services = { };
+    services = {
+      acme = {
+        enable = true;
+      };
+      adguard = {
+        enable = true;
+      };
+      coredns = {
+        enable = true;
+      };
+      docker = {
+        enable = true;
+      };
+      tailscale = {
+        enable = true;
+      };
+    };
   };
 
   system = {

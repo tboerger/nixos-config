@@ -16,10 +16,13 @@
       acme = {
         enable = true;
       };
-      frpc = {
+      hass = {
         enable = true;
       };
       media = {
+        enable = true;
+      };
+      tailscale = {
         enable = true;
       };
     };

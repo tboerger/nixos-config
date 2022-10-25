@@ -3,7 +3,6 @@ with lib;
 
 {
   imports = [
-    ./frpc.nix
     ./network.nix
     ./nixpkgs.nix
     ./prowlarr.nix

@@ -6,10 +6,6 @@
       url = "github:nixos/nixpkgs/nixos-unstable";
     };
 
-    hardware = {
-      url = "github:nixos/nixos-hardware/master";
-    };
-
     nur = {
       url = "github:nix-community/NUR";
     };
@@ -18,23 +14,32 @@
       url = "github:numtide/flake-utils";
     };
 
-    deployrs = {
-      url = "github:serokell/deploy-rs";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     homemanager = {
-      url = "github:nix-community/home-manager/release-22.05";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    deployrs = {
+      url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    arion = {
+      url = "github:hercules-ci/arion";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    hardware = {
+      url = "github:nixos/nixos-hardware";
     };
   };
 
-  outputs = { self, nixpkgs, hardware, nur, utils, deployrs, agenix, homemanager, ... }@inputs:
+  outputs = { self, nixpkgs, nur, utils, agenix, homemanager, deployrs, arion, hardware, ... }@inputs:
     let
 
     in
@@ -64,8 +69,12 @@
               })
             homemanager.nixosModules.home-manager
             agenix.nixosModules.age
+            arion.nixosModules.arion
             ./machines/chnum
             ./profiles/thomas
+            # ./profiles/anna
+            # ./profiles/adrian
+            # ./profiles/tabea
           ];
 
           specialArgs = {
@@ -98,8 +107,12 @@
             hardware.nixosModules.raspberry-pi-4
             homemanager.nixosModules.home-manager
             agenix.nixosModules.age
+            arion.nixosModules.arion
             ./machines/midgard
             ./profiles/thomas
+            # ./profiles/anna
+            # ./profiles/adrian
+            # ./profiles/tabea
           ];
 
           specialArgs = {
@@ -133,8 +146,12 @@
               })
             homemanager.nixosModules.home-manager
             agenix.nixosModules.age
+            arion.nixosModules.arion
             ./machines/utgard
             ./profiles/thomas
+            # ./profiles/anna
+            # ./profiles/adrian
+            # ./profiles/tabea
           ];
 
           specialArgs = {
@@ -166,8 +183,12 @@
               })
             homemanager.nixosModules.home-manager
             agenix.nixosModules.age
+            arion.nixosModules.arion
             ./machines/asgard
             ./profiles/thomas
+            # ./profiles/anna
+            # ./profiles/adrian
+            # ./profiles/tabea
           ];
 
           specialArgs = {

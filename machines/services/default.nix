@@ -3,15 +3,18 @@
 {
   imports = [
     ./acme.nix
+    ./adguard.nix
     ./citrix.nix
+    ./coredns.nix
     ./desktop.nix
     ./docker.nix
-    ./frpc.nix
+    ./hass.nix
     ./haveged.nix
     ./libvirt.nix
     ./media.nix
     ./nixbuild.nix
     ./openssh.nix
+    ./tailscale.nix
     ./timesyncd.nix
     ./webserver.nix
   ];

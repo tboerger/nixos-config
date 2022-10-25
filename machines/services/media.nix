@@ -11,14 +11,6 @@ in
       services = {
         media = {
           enable = mkEnableOption "Media";
-
-          domain = mkOption {
-            description = ''
-              Domain used for media vhosts
-            '';
-            type = types.str;
-            default = "boerger.ws";
-          };
         };
       };
     };
@@ -28,10 +20,13 @@ in
     users = {
       users = {
         media = {
+          uid = 20000;
+          description = "Media";
+          shell = pkgs.zsh;
+          isSystemUser = true;
           group = "media";
           home = "/var/lib/media";
-          uid = 20000;
-          isSystemUser = true;
+          passwordFile = config.age.secrets."users/media/password".path;
         };
       };
 
@@ -138,35 +133,35 @@ in
 
           hosts = [
             {
-              domain = "nzbget.${cfg.domain}";
+              domain = "nzbget.boerger.ws";
               proxy = "http://localhost:6789";
             }
             {
-              domain = "jellyfin.${cfg.domain}";
+              domain = "jellyfin.boerger.ws";
               proxy = "http://localhost:8096";
             }
             {
-              domain = "radarr.${cfg.domain}";
+              domain = "radarr.boerger.ws";
               proxy = "http://localhost:7878";
             }
             {
-              domain = "sonarr.${cfg.domain}";
+              domain = "sonarr.boerger.ws";
               proxy = "http://localhost:8989";
             }
             {
-              domain = "lidarr.${cfg.domain}";
+              domain = "lidarr.boerger.ws";
               proxy = "http://localhost:8686";
             }
             {
-              domain = "readarr.${cfg.domain}";
+              domain = "readarr.boerger.ws";
               proxy = "http://localhost:8787";
             }
             {
-              domain = "bazarr.${cfg.domain}";
+              domain = "bazarr.boerger.ws";
               proxy = "http://localhost:6767";
             }
             {
-              domain = "prowlarr.${cfg.domain}";
+              domain = "prowlarr.boerger.ws";
               proxy = "http://localhost:9696";
             }
           ];
@@ -179,6 +174,10 @@ in
         allowedTCPPorts = [ 8096 ];
         allowedUDPPorts = [ 1900 7359 ];
       };
+    };
+
+    age.secrets."users/media/password" = {
+      file = ../../secrets/users/media/password.age;
     };
   };
 }

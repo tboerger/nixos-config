@@ -4,6 +4,81 @@ with lib;
 let
   cfg = config.profile.desktop.i3;
 
+  programs = {
+    term = [
+      {
+        exec = "Alacritty";
+        class = "Alacritty";
+      }
+    ];
+
+    editor = [
+      {
+        exec = "code";
+        class = "code";
+      }
+    ];
+
+    browser = [
+      {
+        exec = "google-chrome-stable";
+        class = "google-chrome";
+      }
+    ];
+
+    music = [ ];
+
+    mail = [
+      {
+        exec = "thunderbird";
+        class = "thunderbird";
+      }
+    ];
+
+    chat = [
+      {
+        exec = "discord";
+        class = "discord";
+      }
+      {
+        exec = "element-desktop";
+        class = "element";
+      }
+      {
+        exec = "mattermost-desktop";
+        class = "mattermost";
+      }
+      {
+        exec = "rocketchat-desktop";
+        class = "rocket.chat";
+      }
+      {
+        exec = "signal-desktop";
+        class = "signal";
+      }
+      {
+        exec = "skypeforlinux";
+        class = "skype";
+      }
+      {
+        exec = "slack";
+        class = "slack";
+      }
+      {
+        exec = "teams";
+        class = "microsoft teams";
+      }
+      {
+        exec = "tdekstop";
+        class = "telegram-desktop";
+      }
+      {
+        exec = "whatsapp-for-linux";
+        class = "whatsapp-for-linux";
+      }
+    ];
+  };
+
 in
 {
   options = {
@@ -21,13 +96,21 @@ in
       home = {
         packages = with pkgs; [
           betterlockscreen
+          deadd-notification-center
           feh
           gnome.nautilus
           gucharmap
+          libnotify
           lxappearance
           playerctl
           scrot
         ];
+      };
+
+      services = {
+        gnome-keyring = {
+          enable = true;
+        };
       };
 
       xsession = {
@@ -55,21 +138,23 @@ in
               };
 
               assigns = {
-                "1" = [{
-                  class = "Alacritty";
-                }];
-                "3" = [{
-                  class = "google-chrome";
-                }];
+                "1" = map (i: { class = i.class; }) programs.term;
+                "2" = map (i: { class = i.class; }) programs.editor;
+                "3" = map (i: { class = i.class; }) programs.browser;
+                "4" = map (i: { class = i.class; }) programs.mail;
+                "5" = map (i: { class = i.class; }) programs.music;
+                "6" = map (i: { class = i.class; }) programs.chat;
               };
 
               startup = [
                 {
-                  command = "feh --borderless --no-fehbg --bg-scale $HOME/.wallpapers/tower.jpg";
+                  command = "feh --no-fehbg --bg-scale $HOME/.wallpapers/tower.jpg";
+                  always = false;
                   notification = false;
                 }
                 {
-                  command = "betterlockscreen -w dim -u $HOME/.wallpapers/tower.jpg";
+                  command = "betterlockscreen --update $HOME/.wallpapers/tower.jpg";
+                  always = false;
                   notification = false;
                 }
                 {
@@ -77,11 +162,11 @@ in
                   always = true;
                   notification = false;
                 }
-                {
-                  command = "systemctl --user restart dunst";
-                  always = true;
-                  notification = false;
-                }
+                # {
+                #   command = "systemctl --user restart dunst";
+                #   always = true;
+                #   notification = false;
+                # }
                 {
                   command = "systemctl --user restart udiskie";
                   always = true;
@@ -97,7 +182,19 @@ in
                   always = true;
                   notification = false;
                 }
-              ];
+
+                {
+                  command = "deadd-notification-center";
+                  always = false;
+                  notification = false;
+                }
+
+                # {
+                #   command = "clockify";
+                #   always = false;
+                #   notification = false;
+                # }
+              ] ++ (map (i: { command = i.exec; notification = false; }) programs.term) ++ (map (i: { command = i.exec; notification = false; }) programs.editor) ++ (map (i: { command = i.exec; notification = false; }) programs.browser) ++ (map (i: { command = i.exec; notification = false; }) programs.mail) ++ (map (i: { command = i.exec; notification = false; }) programs.music) ++ (map (i: { command = i.exec; notification = false; }) programs.chat);
 
               gaps = {
                 smartGaps = true;
@@ -210,7 +307,7 @@ in
               set $power "[l]ock log[o]ut [s]uspend [h]ibernate [r]eboot [p]oweroff"
 
               mode $power {
-                  bindsym l exec betterlockscreen -w dim -u $HOME/.wallpapers/tower.jpg; mode "default"
+                  bindsym l exec betterlockscreen --lock dim; mode "default"
                   bindsym o exec i3-msg exit; mode "default"
                   bindsym s exec systemctl suspend; mode "default"
                   bindsym h exec systemctl hibernate; mode "default"

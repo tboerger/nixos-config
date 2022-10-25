@@ -12,7 +12,17 @@
   ];
 
   personal = {
-    services = { };
+    services = {
+      docker = {
+        enable = true;
+      };
+      samba = {
+        enable = true;
+      };
+      tailscale = {
+        enable = true;
+      };
+    };
   };
 
   system = {

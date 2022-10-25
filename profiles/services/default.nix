@@ -5,6 +5,7 @@
     ./blueman.nix
     ./caffeine.nix
     ./flameshot.nix
+    ./mopidy.nix
     ./nmapplet.nix
     ./owncloud.nix
     ./udiskie.nix

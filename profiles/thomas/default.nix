@@ -20,7 +20,7 @@ in
   ];
 
   profile = {
-    username = "${username}";
+    username = username;
 
     desktop = {
       i3 = {
@@ -68,6 +68,9 @@ in
       lutris = {
         enable = desktop;
       };
+      thunderbird = {
+        enable = desktop;
+      };
       mattermost = {
         enable = desktop;
       };
@@ -80,9 +83,9 @@ in
       owncloud = {
         enable = desktop;
       };
-      playonlinux = {
-        enable = desktop;
-      };
+      # playonlinux = {
+      #   enable = desktop;
+      # };
       rocketchat = {
         enable = desktop;
       };
@@ -99,6 +102,9 @@ in
         enable = desktop;
       };
       teams = {
+        enable = desktop;
+      };
+      telegram = {
         enable = desktop;
       };
       whatsapp = {
@@ -141,6 +147,9 @@ in
       flameshot = {
         enable = desktop;
       };
+      mopidy = {
+        enable = desktop;
+      };
       nmapplet = {
         enable = desktop;
       };
@@ -151,9 +160,9 @@ in
         enable = desktop;
       };
 
-      dunst = {
-        enable = desktop;
-      };
+      # dunst = {
+      #   enable = desktop;
+      # };
       polybar = {
         enable = desktop;
       };
@@ -166,7 +175,7 @@ in
         description = "${fullname}";
         shell = pkgs.zsh;
         isNormalUser = true;
-        hashedPassword = "$6$yuwsoikF5utqohar$fdcvq0iXdmiioiRyBGeVZICzQm4nKlv6.pj9AWh13VRCsE07dN9StDnXV0aslIBb0SWRFC4dY5Um2MYiAMfmH0";
+        passwordFile = config.age.secrets."users/${username}/password".path;
         openssh = {
           authorizedKeys = {
             keys = [
@@ -228,5 +237,9 @@ in
 
       stateVersion = "18.09";
     };
+  };
+
+  age.secrets."users/${username}/password" = {
+    file = ../../secrets/users/${username}/password.age;
   };
 }

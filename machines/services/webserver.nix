@@ -60,22 +60,6 @@ in
             type = types.str;
             default = "boerger.ws";
           };
-
-          defaultDomain = mkOption {
-            description = ''
-              Domain used by default vhost
-            '';
-            type = types.str;
-            default = "boerger.ws";
-          };
-
-          redirectDomain = mkOption {
-            description = ''
-              Domain to redirect the default
-            '';
-            type = types.str;
-            default = "jellyfin.boerger.ws";
-          };
         };
       };
     };
@@ -101,20 +85,25 @@ in
                 locations = {
                   "/" = mkIf (builtins.hasAttr "proxy" elem) {
                     proxyPass = elem.proxy;
-                    extraConfig = ''
-                      proxy_set_header X-Forwarded-Ssl on;
-                    '' + (elem.proxyOptions or "");
+                    extraConfig = (
+                      elem.proxyOptions or ''
+                        proxy_http_version 1.1;
+                        proxy_set_header Upgrade $http_upgrade;
+                        proxy_set_header Connection $http_connection;
+                        proxy_set_header X-Forwarded-Ssl on;
+                      ''
+                    );
                   };
                 };
               } // (elem.domainOptions or { });
             })
             config.personal.services.webserver.hosts) // {
-          "${cfg.defaultDomain}" = {
+          "boerger.ws" = {
             useACMEHost = cfg.acmeHost;
             addSSL = true;
             forceSSL = false;
             default = true;
-            globalRedirect = cfg.redirectDomain;
+            root = "/var/empty";
           };
         };
       };

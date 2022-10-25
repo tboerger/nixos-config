@@ -4,18 +4,18 @@ with lib;
 let
   cfg = config.profile.programs.develop;
 
-  python = pkgs.python39.withPackages (p: with p; [
-    ansible-core
-    ansible-doctor
-    # ansible-later
-    ansible-lint
-    boto3
-    botocore
-    hcloud
-    passlib
-    requests
-    yamllint
-  ]);
+  # python = pkgs.python39.withPackages (p: with p; [
+  #   ansible-core
+  #   ansible-doctor
+  #   # ansible-later
+  #   ansible-lint
+  #   boto3
+  #   botocore
+  #   hcloud
+  #   passlib
+  #   requests
+  #   yamllint
+  # ]);
 
 in
 {
@@ -32,20 +32,18 @@ in
   config = mkIf cfg.enable {
     environment = {
       systemPackages = with pkgs; [
-        python
-
-        php80
-        php80Packages.composer
-
-        nodejs-16_x
-        yarn
+        # python
 
         act
+        ansible-doctor
+        ansible-later
+        ansible-lint
         awscli2
         eksctl
         git-chglog
         gopass
         graphviz
+        hcloud
         httpie
         ipcalc
         ngrok
@@ -53,9 +51,17 @@ in
         reflex
         shellcheck
         sops
+        upx
+        yamllint
+
+        checkov
         terraform
         terragrunt
-        upx
+        tflint
+        tfsec
+
+        nodejs-16_x
+        yarn
       ];
     };
   };

@@ -1,14 +1,15 @@
 # Todo
 
+## desktop
+
 * clickup (package https://nixos.org/manual/nixpkgs/stable/#sec-pkgs-appimageTools)
 * curseforge (package)
-* deezer (mpd / mopidy)
 * mail (thunderbird / mailspring / prospect-mail)
+* assign windows to right desktop
+* autostart standard tools on desktops
 
-# Maybe
+## server
 
-* hexchat (irc client)
-* irssi (irc client)
-* kitty (terminal)
-* mangohud (fps overlay)
-* ncmpcpp (mpd client)
+* coredns for private domain names
+* nfs server on asgard
+* mount nfs volumes on utgard

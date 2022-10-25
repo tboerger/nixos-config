@@ -31,6 +31,8 @@
     ./slack.nix
     ./steam.nix
     ./teams.nix
+    ./telegram.nix
+    ./thunderbird.nix
     ./tmux.nix
     ./whatsapp.nix
     ./wine.nix
