@@ -4,17 +4,6 @@
 
 Provisioning for my NixOS systems based on [Nix][nix].
 
-## Secrets
-
-Generally all secrets are encrypted with [agenix][agenix], so make sure to copy
-the SSH keys from the `secrets` stick with these commands:
-
-```console
-mkdir -p $HOME/.ssh
-cp /mnt/secrets/ssh/id_* $HOME/.ssh/
-chmod u=rw,g=,o= $HOME/.ssh/id_*
-```
-
 ## Chnum
 
 ### Bootstrap
@@ -27,11 +16,10 @@ execute these commands:
 sudo loadkeys de
 sudo nix-shell --packages nixUnstable
 
-mkdir ~/.ssh
-cp /mnt/secrets/ssh/id_ed25519* ~/.ssh
-chmod u=rw,g=,o= ~/.ssh/id_*
-
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/chnum-partitions)"
+
+mkdir -p /mnt/etc/ssh
+cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
 nixos-install --root /mnt --flake github:tboerger/nixos-config#chnum
 ```
 
@@ -53,11 +41,10 @@ nixos-rebuild switch \
 sudo loadkeys de
 sudo nix-shell --packages nixUnstable
 
-mkdir ~/.ssh
-cp /mnt/secrets/ssh/id_ed25519* ~/.ssh
-chmod u=rw,g=,o= ~/.ssh/id_*
-
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/asgard-partitions)"
+
+mkdir -p /mnt/etc/ssh
+cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
 nixos-install --root /mnt --flake github:tboerger/nixos-config#asgard
 ```
 
@@ -79,11 +66,10 @@ nixos-rebuild switch \
 sudo loadkeys de
 sudo nix-shell --packages nixUnstable
 
-mkdir ~/.ssh
-cp /mnt/secrets/ssh/id_ed25519* ~/.ssh
-chmod u=rw,g=,o= ~/.ssh/id_*
-
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/utgard-partitions)"
+
+mkdir -p /mnt/etc/ssh
+cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
 nixos-install --root /mnt --flake github:tboerger/nixos-config#utgard
 ```
 
@@ -105,11 +91,10 @@ nixos-rebuild switch \
 sudo loadkeys de
 sudo nix-shell --packages nixUnstable
 
-mkdir ~/.ssh
-cp /mnt/secrets/ssh/id_ed25519* ~/.ssh
-chmod u=rw,g=,o= ~/.ssh/id_*
-
 mount /dev/disk/by-label/NIXOS_SD /mnt
+
+mkdir -p /mnt/etc/ssh
+cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
 nixos-install --root /mnt --flake github:tboerger/nixos-config#midgard
 ```
 
