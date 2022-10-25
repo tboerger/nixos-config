@@ -128,7 +128,7 @@ in
     ];
   };
 
-  fileSystems."/var/lib/media/downloads" = {
+  fileSystems."/var/lib/downloads" = {
     device = "/dev/disk/by-label/downloads";
     fsType = "ext4";
     options = [
@@ -136,8 +136,6 @@ in
       "discard"
     ];
   };
-
-
 
   fileSystems."/var/lib/media/movies" = {
     device = "/dev/disk/by-label/movies";

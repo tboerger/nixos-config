@@ -37,11 +37,14 @@ sgdisk -n 0:0:+1G -t 0:ef00 -c 0:boot /dev/sda
 echo "-----> Create root partition"
 sgdisk -n 0:0:0 -t 0:8300 -c 0:data /dev/sda
 
+echo "-----> Create tank partition"
+sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/sdb
+
 echo "-----> Wait for data"
 sleep 3
 
 echo "-----> Create data pv"
-pvcreate /dev/disk/by-partlabel/data
+pvcreate /dev/disk/by-partlabel/data /dev/disk/by-partlabel/tank
 
 echo "-----> Create data vg"
 vgcreate system /dev/disk/by-partlabel/data
@@ -94,22 +97,13 @@ for PARTITION in acme nzbget jellyfin bazarr lidarr prowlarr radarr readarr sona
     mount -t ext4 /dev/system/${PARTITION} /mnt/var/lib/${PARTITION}
 done
 
-echo "-----> Create tank partition"
-sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/sdb
-
-echo "-----> Create tank pv"
-pvcreate /dev/disk/by-partlabel/tank
-
-echo "-----> Create tank vg"
-vgcreate tank /dev/disk/by-partlabel/tank
-
 echo "-----> Create downloads volume"
-lvcreate --size 200G --name downloads tank
+lvcreate --size 200G --name downloads system
 
 echo "-----> Create downloads filesystem"
-mkfs.ext4 -L downloads /dev/tank/downloads
+mkfs.ext4 -L downloads /dev/system/downloads
 
 echo "-----> Mount downloads filesystem"
-mkdir -p /mnt/var/lib/media/downloads
-mount -t ext4 /dev/tank/downloads /mnt/var/lib/media/downloads
-chown 20000:20000 /mnt/var/lib/media/downloads
+mkdir -p /mnt/var/lib/downloads
+mount -t ext4 /dev/tank/downloads /mnt/var/lib/downloads
+chown 20000:20000 /mnt/var/lib/downloads
