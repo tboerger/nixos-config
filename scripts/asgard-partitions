@@ -181,17 +181,6 @@ mkdir -p /mnt/var/lib/media/music
 mount -t ext4 /dev/tank/music /mnt/var/lib/media/music
 chown 20000:20000 /mnt/var/lib/media/music
 
-echo "-----> Create downloads volume"
-lvcreate --size 100G --name downloads tank
-
-echo "-----> Create downloads filesystem"
-mkfs.ext4 -L downloads /dev/tank/downloads
-
-echo "-----> Mount downloads filesystem"
-mkdir -p /mnt/var/lib/media/downloads
-mount -t ext4 /dev/tank/downloads /mnt/var/lib/media/downloads
-chown 20000:20000 /mnt/var/lib/media/downloads
-
 echo "-----> Create printer volume"
 lvcreate --size 5G --name printer tank
 

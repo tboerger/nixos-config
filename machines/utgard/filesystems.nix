@@ -128,6 +128,17 @@ in
     ];
   };
 
+  fileSystems."/var/lib/media/downloads" = {
+    device = "/dev/disk/by-label/downloads";
+    fsType = "ext4";
+    options = [
+      "noatime"
+      "discard"
+    ];
+  };
+
+
+
   fileSystems."/var/lib/media/movies" = {
     device = "/dev/disk/by-label/movies";
     fsType = "ext4";
@@ -184,21 +195,6 @@ in
 
   # fileSystems."/var/lib/media/music" = {
   #   device = "${cifsServer}/music";
-  #   fsType = "cifs";
-  #   options = cifsOptions;
-  # };
-
-  fileSystems."/var/lib/media/downloads" = {
-    device = "/dev/disk/by-label/downloads";
-    fsType = "ext4";
-    options = [
-      "noatime"
-      "discard"
-    ];
-  };
-
-  # fileSystems."/var/lib/media/downloads" = {
-  #   device = "${cifsServer}/downloads";
   #   fsType = "cifs";
   #   options = cifsOptions;
   # };

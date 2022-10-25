@@ -91,15 +91,6 @@
     ];
   };
 
-  fileSystems."/var/lib/media/downloads" = {
-    device = "/dev/disk/by-label/downloads";
-    fsType = "ext4";
-    options = [
-      "noatime"
-      "discard"
-    ];
-  };
-
   fileSystems."/var/lib/printer" = {
     device = "/dev/disk/by-label/printer";
     fsType = "ext4";

@@ -14,6 +14,7 @@
     ./media.nix
     ./nixbuild.nix
     ./openssh.nix
+    ./samba.nix
     ./tailscale.nix
     ./timesyncd.nix
     ./webserver.nix

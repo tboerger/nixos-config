@@ -151,19 +151,6 @@ in
             "valid users" = "media";
           };
 
-          downloads = {
-            comment = "Shared downloads";
-            path = "/var/lib/media/downloads";
-
-            "browseable" = "no";
-            "read only" = "no";
-            "writeable" = "yes";
-            "guest ok" = "no";
-            "force user" = "media";
-            "force group" = "media";
-            "valid users" = "media";
-          };
-
           printer = {
             comment = "Shared printer";
             path = "/var/lib/printer";
