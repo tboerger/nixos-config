@@ -8,5 +8,11 @@
   hardware = {
     enableAllFirmware = true;
     enableRedistributableFirmware = true;
+
+    cpu = {
+      amd = {
+        updateMicrocode = lib.mkDefault true;
+      };
+    };
   };
 }

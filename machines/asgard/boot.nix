@@ -5,7 +5,6 @@
     binfmt = {
       emulatedSystems = [
         "aarch64-linux"
-        "armv6l-linux"
       ];
     };
 
@@ -25,7 +24,7 @@
     };
 
     kernelModules = [
-
+      "kvm-amd"
     ];
 
     extraModulePackages = [
@@ -34,7 +33,13 @@
 
     initrd = {
       availableKernelModules = [
-
+        "ahci"
+        "ehci_pci"
+        "ohci_pci"
+        "pata_atiixp"
+        "sd_mod"
+        "usb_storage"
+        "usbhid"
       ];
 
       kernelModules = [
