@@ -38,10 +38,10 @@ echo "-----> Wait for cleanup"
 sleep 3
 
 echo "-----> Create boot partition"
-sgdisk -n 0:0:+1G -t 0:ef00 -c 0:boot /dev/sde
+sgdisk -n 0:0:+1G -t 0:ef00 -c 0:boot /dev/disk/by-path/pci-0000:00:14.1-ata-1
 
 echo "-----> Create root partition"
-sgdisk -n 0:0:0 -t 0:8300 -c 0:data /dev/sde
+sgdisk -n 0:0:0 -t 0:8300 -c 0:data /dev/disk/by-path/pci-0000:00:14.1-ata-1
 
 echo "-----> Wait for data"
 sleep 3
@@ -89,14 +89,14 @@ mkdir /mnt/boot
 mount /dev/disk/by-label/boot /mnt/boot
 
 echo "-----> Create tank partition"
-sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/sda
-sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/sdb
-sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/sdc
-sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/sdd
+sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/disk/by-path/pci-0000:00:11.0-ata-1
+sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/disk/by-path/pci-0000:00:11.0-ata-2
+sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/disk/by-path/pci-0000:00:11.0-ata-3
+sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/disk/by-path/pci-0000:00:11.0-ata-4
 
 echo "-----> Create raid volume"
-echo yes | mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sda1 /dev/sdb1
-echo yes | mdadm --create /dev/md1 --level=1 --raid-devices=2 /dev/sdc1 /dev/sdd1
+echo yes | mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/disk/by-path/pci-0000:00:11.0-ata-1.0-part1 /dev/disk/by-path/pci-0000:00:11.0-ata-2.0-part1
+echo yes | mdadm --create /dev/md1 --level=1 --raid-devices=2 /dev/disk/by-path/pci-0000:00:11.0-ata-3.0-part1 /dev/disk/by-path/pci-0000:00:11.0-ata-4.0-part1
 
 echo "-----> Create tank pv"
 pvcreate /dev/md0 /dev/md1
