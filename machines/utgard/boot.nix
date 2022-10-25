@@ -16,10 +16,11 @@
         canTouchEfiVariables = true;
       };
 
-      systemd-boot = {
+      grub = {
         enable = true;
-        consoleMode = "2";
-        editor = false;
+        version = 2;
+        device = "nodev";
+        efiSupport = false;
       };
     };
 
