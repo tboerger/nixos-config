@@ -19,9 +19,17 @@ chmod u=rw,g=,o= $HOME/.ssh/id_*
 
 ### Bootstrap
 
+Copy `/etc/ssh/ssh_host_ed25519_key.pub` into [secrets](./secrets/secrets.nix)
+and rekey the secrets via [agenix][agenix]. After pushing the regkeyed secrets
+execute these commands:
+
 ```console
 sudo loadkeys de
 sudo nix-shell --packages nixUnstable
+
+mkdir ~/.ssh
+cp /mnt/secrets/ssh/id_ed25519* ~/.ssh
+chmod u=rw,g=,o= ~/.ssh/id_*
 
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/chnum-partitions)"
 nixos-install --root /mnt --flake github:tboerger/nixos-config#chnum
@@ -45,6 +53,10 @@ nixos-rebuild switch \
 sudo loadkeys de
 sudo nix-shell --packages nixUnstable
 
+mkdir ~/.ssh
+cp /mnt/secrets/ssh/id_ed25519* ~/.ssh
+chmod u=rw,g=,o= ~/.ssh/id_*
+
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/asgard-partitions)"
 nixos-install --root /mnt --flake github:tboerger/nixos-config#asgard
 ```
@@ -67,6 +79,10 @@ nixos-rebuild switch \
 sudo loadkeys de
 sudo nix-shell --packages nixUnstable
 
+mkdir ~/.ssh
+cp /mnt/secrets/ssh/id_ed25519* ~/.ssh
+chmod u=rw,g=,o= ~/.ssh/id_*
+
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/utgard-partitions)"
 nixos-install --root /mnt --flake github:tboerger/nixos-config#utgard
 ```
@@ -88,6 +104,10 @@ nixos-rebuild switch \
 ```console
 sudo loadkeys de
 sudo nix-shell --packages nixUnstable
+
+mkdir ~/.ssh
+cp /mnt/secrets/ssh/id_ed25519* ~/.ssh
+chmod u=rw,g=,o= ~/.ssh/id_*
 
 mount /dev/disk/by-label/NIXOS_SD /mnt
 nixos-install --root /mnt --flake github:tboerger/nixos-config#midgard

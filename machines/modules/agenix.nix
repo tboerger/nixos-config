@@ -11,6 +11,3 @@ with lib;
     };
   };
 }
-
-
-identityPaths
