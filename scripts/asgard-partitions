@@ -95,8 +95,8 @@ sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/sdc
 sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/sdd
 
 echo "-----> Create raid volume"
-mdadm --create /dev/md0 --level=1 --raid-devices=4 /dev/sda1 /dev/sdb1
-mdadm --create /dev/md1 --level=1 --raid-devices=4 /dev/sdc1 /dev/sdd1
+echo yes | mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sda1 /dev/sdb1
+echo yes | mdadm --create /dev/md1 --level=1 --raid-devices=2 /dev/sdc1 /dev/sdd1
 
 echo "-----> Create tank pv"
 pvcreate /dev/md0 /dev/md1
