@@ -5,7 +5,6 @@
     binfmt = {
       emulatedSystems = [
         "aarch64-linux"
-        "armv6l-linux"
       ];
     };
 
