@@ -23,11 +23,14 @@ while true; do
 done
 
 echo "----> Drop existing partitions"
-sgdisk --zap-all /dev/sda
-sgdisk -og /dev/sda
+wipefs -a /dev/sda
+sfdisk --delete /dev/sda
 
 echo "-----> Wait for cleanup"
 sleep 3
+
+echo "-----> Mark GPT disk"
+echo yes | parted /dev/sda -- mklabel gpt
 
 echo "-----> Create boot partition"
 sgdisk -n 0:0:+1G -t 0:ef00 -c 0:boot /dev/sda
@@ -78,9 +81,6 @@ mount -t ext4 /dev/system/home /mnt/home
 
 echo "-----> Create boot filesystem"
 mkfs.vfat -n boot /dev/disk/by-partlabel/boot
-
-echo "-----> Wait for boot"
-sleep 3
 
 echo "-----> Mount boot filesystem"
 mkdir /mnt/boot
