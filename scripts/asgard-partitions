@@ -53,13 +53,13 @@ echo "-----> Create data vg"
 vgcreate system /dev/disk/by-partlabel/data
 
 echo "-----> Create swap volume"
-lvcreate --size 24G --name swap system
+lvcreate -y --size 24G --name swap system
 
 echo "-----> Create root volume"
-lvcreate --size 50G --name root system
+lvcreate -y --size 50G --name root system
 
 echo "-----> Create home volume"
-lvcreate --size 50G --name home system
+lvcreate -y --size 50G --name home system
 
 echo "-----> Enable swap partition"
 mkswap -L swap /dev/system/swap
@@ -105,7 +105,7 @@ echo "-----> Create tank vg"
 vgcreate tank /dev/md0 /dev/md1
 
 echo "-----> Create shares volume"
-lvcreate --size 10G --name shares tank
+lvcreate -y --size 10G --name shares tank
 
 echo "-----> Create shares filesystem"
 mkfs.ext4 -L shares /dev/tank/shares
@@ -116,7 +116,7 @@ mount -t ext4 /dev/tank/shares /mnt/var/lib/media/shares
 chown 20000:20000 /mnt/var/lib/media/shares
 
 echo "-----> Create photos volume"
-lvcreate --size 100G --name photos tank
+lvcreate -y --size 100G --name photos tank
 
 echo "-----> Create photos filesystem"
 mkfs.ext4 -L photos /dev/tank/photos
@@ -127,7 +127,7 @@ mount -t ext4 /dev/tank/photos /mnt/var/lib/media/photos
 chown 20000:20000 /mnt/var/lib/media/photos
 
 echo "-----> Create videos volume"
-lvcreate --size 100G --name videos tank
+lvcreate -y --size 100G --name videos tank
 
 echo "-----> Create videos filesystem"
 mkfs.ext4 -L videos /dev/tank/videos
@@ -138,7 +138,7 @@ mount -t ext4 /dev/tank/videos /mnt/var/lib/media/videos
 chown 20000:20000 /mnt/var/lib/media/videos
 
 echo "-----> Create movies volume"
-lvcreate --size 500G --name movies tank
+lvcreate -y --size 500G --name movies tank
 
 echo "-----> Create movies filesystem"
 mkfs.ext4 -L movies /dev/tank/movies
@@ -149,7 +149,7 @@ mount -t ext4 /dev/tank/movies /mnt/var/lib/media/movies
 chown 20000:20000 /mnt/var/lib/media/movies
 
 echo "-----> Create shows volume"
-lvcreate --size 500G --name shows tank
+lvcreate -y --size 500G --name shows tank
 
 echo "-----> Create shows filesystem"
 mkfs.ext4 -L shows /dev/tank/shows
@@ -160,7 +160,7 @@ mount -t ext4 /dev/tank/shows /mnt/var/lib/media/shows
 chown 20000:20000 /mnt/var/lib/media/shows
 
 echo "-----> Create books volume"
-lvcreate --size 50G --name books tank
+lvcreate -y --size 50G --name books tank
 
 echo "-----> Create books filesystem"
 mkfs.ext4 -L books /dev/tank/books
@@ -171,7 +171,7 @@ mount -t ext4 /dev/tank/books /mnt/var/lib/media/books
 chown 20000:20000 /mnt/var/lib/media/books
 
 echo "-----> Create music volume"
-lvcreate --size 50G --name music tank
+lvcreate -y --size 50G --name music tank
 
 echo "-----> Create music filesystem"
 mkfs.ext4 -L music /dev/tank/music
@@ -182,7 +182,7 @@ mount -t ext4 /dev/tank/music /mnt/var/lib/media/music
 chown 20000:20000 /mnt/var/lib/media/music
 
 echo "-----> Create printer volume"
-lvcreate --size 5G --name printer tank
+lvcreate -y --size 5G --name printer tank
 
 echo "-----> Create printer filesystem"
 mkfs.ext4 -L printer /dev/tank/printer
@@ -193,7 +193,7 @@ mount -t ext4 /dev/tank/printer /mnt/var/lib/printer
 chown 20001:20001 /mnt/var/lib/printer
 
 echo "-----> Create backup volume"
-lvcreate --size 50G --name backup tank
+lvcreate -y --size 50G --name backup tank
 
 echo "-----> Create backup filesystem"
 mkfs.ext4 -L backup /dev/tank/backup
