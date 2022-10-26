@@ -3,7 +3,7 @@ let
   users = [ thomas ];
 
   midgard = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICGC6aSeeKiMO9y3NMxPOh2JvvGYcyS4za+0+hSqI3Bj";
-  asgard = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE89Efj2pqq83mv+psNY48iSHSyK3xU21MyubMN41ZoJ";
+  asgard = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE2yYJUssGAmPBv5QBQJTZfwyl0HSgYMQjssG2hjk63+";
   utgard = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN02izetkp+Wru4KE0ZASwOcjJfXr3U0H/Q/i0fjdgJ7";
   systems = [ midgard asgard utgard ];
 in
