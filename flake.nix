@@ -41,7 +41,7 @@
 
   outputs = { self, nixpkgs, nur, utils, agenix, homemanager, deployrs, arion, hardware, ... }@inputs:
     let
-      mkComputer = configurationNix: systemName: enableServices: extraModules: nixpkgs.lib.nixosSystem {
+      mkComputer = configurationNix: systemName: extraModules: nixpkgs.lib.nixosSystem {
         system = systemName;
 
         modules = [
@@ -67,13 +67,6 @@
           agenix.nixosModules.age
           arion.nixosModules.arion
           configurationNix
-          {
-            personal = {
-              services = {
-                enable = enableServices;
-              };
-            };
-          }
         ] ++ extraModules;
 
         specialArgs = {
@@ -87,58 +80,36 @@
         chnum = mkComputer
           ./machines/chnum
           "x86_64-linux"
-          true
           [
             ./profiles/thomas
             # ./profiles/anna
             # ./profiles/adrian
             # ./profiles/tabea
           ];
-
-        chnum-bootstrap = mkComputer
-          ./machines/chnum
-          "x86_64-linux"
-          false
-          [ ];
 
         asgard = mkComputer
           ./machines/asgard
           "x86_64-linux"
-          true
           [
             ./profiles/thomas
             # ./profiles/anna
             # ./profiles/adrian
             # ./profiles/tabea
           ];
-
-        asgard-bootstrap = mkComputer
-          ./machines/asgard
-          "x86_64-linux"
-          false
-          [ ];
 
         utgard = mkComputer
           ./machines/utgard
           "x86_64-linux"
-          true
           [
             ./profiles/thomas
             # ./profiles/anna
             # ./profiles/adrian
             # ./profiles/tabea
           ];
-
-        utgard-bootstrap = mkComputer
-          ./machines/utgard
-          "x86_64-linux"
-          false
-          [ ];
 
         midgard = mkComputer
           ./machines/midgard
           "aarch64-linux"
-          true
           [
             hardware.nixosModules.raspberry-pi-4
             ./profiles/thomas
@@ -146,24 +117,12 @@
             # ./profiles/adrian
             # ./profiles/tabea
           ];
-
-        midgard-bootstrap = mkComputer
-          ./machines/midgard
-          "aarch64-linux"
-          false
-          [
-            hardware.nixosModules.raspberry-pi-4
-          ];
       };
 
       chnum = self.nixosConfigurations.chnum.config.system.build.toplevel;
-      chnum-bootstrap = self.nixosConfigurations.chnum-bootstrap.config.system.build.toplevel;
       asgard = self.nixosConfigurations.asgard.config.system.build.toplevel;
-      asgard-bootstrap = self.nixosConfigurations.asgard-bootstrap.config.system.build.toplevel;
       utgard = self.nixosConfigurations.utgard.config.system.build.toplevel;
-      utgard-bootstrap = self.nixosConfigurations.utgard-bootstrap.config.system.build.toplevel;
       midgard = self.nixosConfigurations.midgard.config.system.build.toplevel;
-      midgard-bootstrap = self.nixosConfigurations.midgard-bootstrap.config.system.build.toplevel;
 
       deploy = {
         nodes = {

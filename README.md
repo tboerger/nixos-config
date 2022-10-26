@@ -8,17 +8,20 @@ Provisioning for my NixOS systems based on [Nix][nix].
 
 ### Bootstrap
 
+Copy `/etc/ssh/ssh_host_ed25519_key.pub` into [secrets](./secrets/secrets.nix)
+and rekey the secrets via [agenix][agenix]. After pushing the rekeyed secrets
+execute these commands:
+
 ```console
 sudo loadkeys de
 sudo nix-shell --packages nixUnstable
 
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/chnum-partitions)"
+
+mkdir -p /mnt/etc/ssh
+cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
 nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#chnum-bootstrap
 ```
-
-Do not forget to rekey the secrets via [agenix][agenix] including the new keys
-at `/etc/ssh/ssh_host_ed25519_key.pub`, otherwise updating with the final
-services won't work.
 
 ### Updates
 
@@ -34,17 +37,20 @@ nixos-rebuild switch \
 
 ### Bootstrap
 
+Copy `/etc/ssh/ssh_host_ed25519_key.pub` into [secrets](./secrets/secrets.nix)
+and rekey the secrets via [agenix][agenix]. After pushing the rekeyed secrets
+execute these commands:
+
 ```console
 sudo loadkeys de
 sudo nix-shell --packages nixUnstable
 
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/asgard-partitions)"
-nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#asgard-bootstrap
-```
 
-Do not forget to rekey the secrets via [agenix][agenix] including the new keys
-at `/etc/ssh/ssh_host_ed25519_key.pub`, otherwise updating with the final
-services won't work.
+mkdir -p /mnt/etc/ssh
+cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
+nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#asgard
+```
 
 ### Updates
 
@@ -60,17 +66,20 @@ nixos-rebuild switch \
 
 ### Bootstrap
 
+Copy `/etc/ssh/ssh_host_ed25519_key.pub` into [secrets](./secrets/secrets.nix)
+and rekey the secrets via [agenix][agenix]. After pushing the rekeyed secrets
+execute these commands:
+
 ```console
 sudo loadkeys de
 sudo nix-shell --packages nixUnstable
 
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/utgard-partitions)"
+
+mkdir -p /mnt/etc/ssh
+cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
 nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#utgard-bootstrap
 ```
-
-Do not forget to rekey the secrets via [agenix][agenix] including the new keys
-at `/etc/ssh/ssh_host_ed25519_key.pub`, otherwise updating with the final
-services won't work.
 
 ### Updates
 
@@ -86,17 +95,20 @@ nixos-rebuild switch \
 
 ### Bootstrap
 
+Copy `/etc/ssh/ssh_host_ed25519_key.pub` into [secrets](./secrets/secrets.nix)
+and rekey the secrets via [agenix][agenix]. After pushing the rekeyed secrets
+execute these commands:
+
 ```console
 sudo loadkeys de
 sudo nix-shell --packages nixUnstable
 
 mount /dev/disk/by-label/NIXOS_SD /mnt
+
+mkdir -p /mnt/etc/ssh
+cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
 nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#midgard-bootstrap
 ```
-
-Do not forget to rekey the secrets via [agenix][agenix] including the new keys
-at `/etc/ssh/ssh_host_ed25519_key.pub`, otherwise updating with the final
-services won't work.
 
 ### Updates
 
