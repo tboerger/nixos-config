@@ -13,7 +13,7 @@ sudo loadkeys de
 sudo nix-shell --packages nixUnstable
 
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/chnum-partitions)"
-nixos-install --root /mnt --flake github:tboerger/nixos-config#chnum-bootstrap
+nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#chnum-bootstrap
 ```
 
 Do not forget to rekey the secrets via [agenix][agenix] including the new keys
@@ -39,7 +39,7 @@ sudo loadkeys de
 sudo nix-shell --packages nixUnstable
 
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/asgard-partitions)"
-nixos-install --root /mnt --flake github:tboerger/nixos-config#asgard-bootstrap
+nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#asgard-bootstrap
 ```
 
 Do not forget to rekey the secrets via [agenix][agenix] including the new keys
@@ -65,7 +65,7 @@ sudo loadkeys de
 sudo nix-shell --packages nixUnstable
 
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/utgard-partitions)"
-nixos-install --root /mnt --flake github:tboerger/nixos-config#utgard-bootstrap
+nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#utgard-bootstrap
 ```
 
 Do not forget to rekey the secrets via [agenix][agenix] including the new keys
@@ -91,7 +91,7 @@ sudo loadkeys de
 sudo nix-shell --packages nixUnstable
 
 mount /dev/disk/by-label/NIXOS_SD /mnt
-nixos-install --root /mnt --flake github:tboerger/nixos-config#midgard-bootstrap
+nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#midgard-bootstrap
 ```
 
 Do not forget to rekey the secrets via [agenix][agenix] including the new keys
