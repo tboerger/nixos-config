@@ -69,6 +69,14 @@
           configurationNix
         ] ++ extraModules;
 
+        config = {
+          personal = {
+            services = {
+              enable = enableServices;
+            };
+          };
+        };
+
         specialArgs = {
           inherit inputs;
         };
@@ -170,10 +178,10 @@
 
       chnum = self.nixosConfigurations.chnum.config.system.build.toplevel;
       chnum-bootstrap = self.nixosConfigurations.chnum-bootstrap.config.system.build.toplevel;
-      utgard = self.nixosConfigurations.utgard.config.system.build.toplevel;
-      utgard-bootstrap = self.nixosConfigurations.utgard-bootstrap.config.system.build.toplevel;
       asgard = self.nixosConfigurations.asgard.config.system.build.toplevel;
       asgard-bootstrap = self.nixosConfigurations.asgard-bootstrap.config.system.build.toplevel;
+      utgard = self.nixosConfigurations.utgard.config.system.build.toplevel;
+      utgard-bootstrap = self.nixosConfigurations.utgard-bootstrap.config.system.build.toplevel;
       midgard = self.nixosConfigurations.midgard.config.system.build.toplevel;
       midgard-bootstrap = self.nixosConfigurations.midgard-bootstrap.config.system.build.toplevel;
 
@@ -185,7 +193,7 @@
             fastConnection = true;
 
             profiles.system = {
-              sshUser = "thomas";
+              sshUser = "admin";
               user = "root";
               path = deployrs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.asgard;
             };
@@ -197,7 +205,7 @@
             fastConnection = true;
 
             profiles.system = {
-              sshUser = "thomas";
+              sshUser = "admin";
               user = "root";
               path = deployrs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.utgard;
             };
@@ -209,7 +217,7 @@
             fastConnection = true;
 
             profiles.system = {
-              sshUser = "thomas";
+              sshUser = "admin";
               user = "root";
               path = deployrs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.midgard;
             };
