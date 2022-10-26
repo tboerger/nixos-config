@@ -99,12 +99,7 @@
           ./machines/chnum
           "x86_64-linux"
           false
-          [
-            ./profiles/thomas
-            # ./profiles/anna
-            # ./profiles/adrian
-            # ./profiles/tabea
-          ];
+          [ ];
 
         asgard = mkComputer
           ./machines/asgard
@@ -121,12 +116,7 @@
           ./machines/asgard
           "x86_64-linux"
           false
-          [
-            ./profiles/thomas
-            # ./profiles/anna
-            # ./profiles/adrian
-            # ./profiles/tabea
-          ];
+          [ ];
 
         utgard = mkComputer
           ./machines/utgard
@@ -143,12 +133,7 @@
           ./machines/utgard
           "x86_64-linux"
           false
-          [
-            ./profiles/thomas
-            # ./profiles/anna
-            # ./profiles/adrian
-            # ./profiles/tabea
-          ];
+          [ ];
 
         midgard = mkComputer
           ./machines/midgard
@@ -168,10 +153,6 @@
           false
           [
             hardware.nixosModules.raspberry-pi-4
-            ./profiles/thomas
-            # ./profiles/anna
-            # ./profiles/adrian
-            # ./profiles/tabea
           ];
       };
 
