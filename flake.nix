@@ -67,15 +67,14 @@
           agenix.nixosModules.age
           arion.nixosModules.arion
           configurationNix
-        ] ++ extraModules;
-
-        config = {
-          personal = {
-            services = {
-              enable = enableServices;
+          {
+            personal = {
+              services = {
+                enable = enableServices;
+              };
             };
-          };
-        };
+          }
+        ] ++ extraModules;
 
         specialArgs = {
           inherit inputs;
