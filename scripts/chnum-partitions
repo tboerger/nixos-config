@@ -22,14 +22,25 @@ while true; do
     esac
 done
 
+echo "----> Remove previous VGs"
+for VG in $(vgs --noheadings 2>/dev/null | sed -e 's/^[[:space:]]*//' | cut -d" " -f 1); do
+    vgremove -y ${VG} 2>/dev/null
+done
+
+echo "----> Remove previous PVs"
+for PV in $(pvs --noheadings 2>/dev/null | sed -e 's/^[[:space:]]*//' | cut -d" " -f 1); do
+    pvremove -y ${PV} 2>/dev/null
+done
+
 echo "----> Drop existing partitions"
 wipefs -a /dev/sda
 sfdisk --delete /dev/sda
 
 echo "-----> Wait for cleanup"
 sleep 3
+sync
 
-echo "-----> Mark GPT disk"
+echo "-----> Mark GPT disks"
 echo yes | parted /dev/sda -- mklabel gpt
 
 echo "-----> Create boot partition"
@@ -40,27 +51,22 @@ sgdisk -n 0:0:0 -t 0:8300 -c 0:data /dev/sda
 
 echo "-----> Wait for data"
 sleep 3
-
-echo "-----> Format luks partition"
-cryptsetup --verify-passphrase luksFormat /dev/disk/by-partlabel/data
-
-echo "-----> Open luks partition"
-cryptsetup --allow-discards luksOpen /dev/disk/by-partlabel/data luks
+sync
 
 echo "-----> Create data pv"
-pvcreate /dev/mapper/luks
+pvcreate /dev/disk/by-partlabel/data
 
 echo "-----> Create data vg"
-vgcreate system /dev/mapper/luks
+vgcreate system /dev/disk/by-partlabel/data
 
 echo "-----> Create swap volume"
-lvcreate --size 24G --name swap system
+lvcreate -y --size 24G --name swap system
 
 echo "-----> Create root volume"
-lvcreate --size 100G --name root system
+lvcreate -y --size 100G --name root system
 
 echo "-----> Create home volume"
-lvcreate --size 100G --name home system
+lvcreate -y --size 100G --name home system
 
 echo "-----> Enable swap partition"
 mkswap -L swap /dev/system/swap
@@ -85,3 +91,7 @@ mkfs.vfat -n boot /dev/disk/by-partlabel/boot
 echo "-----> Mount boot filesystem"
 mkdir /mnt/boot
 mount /dev/disk/by-label/boot /mnt/boot
+
+echo "-----> Wait for filesystems"
+sleep 3
+sync

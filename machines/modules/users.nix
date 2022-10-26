@@ -10,7 +10,7 @@ with lib;
       users = {
         root = {
           shell = pkgs.zsh;
-          passwordFile = config.age.secrets."users/root/password".path;
+          hashedPassword = "$6$i1AZZ2GnRxgVnJ0X$yfWoi.SDf4mWYRAI6AbaCUMM15OOOZsabgbLo82HgEvCH3yc97N00y5m3aQPcLZ/5QHaL4BPUFRU6Ux3/ziEE/";
           openssh = {
             authorizedKeys = {
               keys = [
@@ -23,7 +23,7 @@ with lib;
           description = "Admin";
           shell = pkgs.zsh;
           isNormalUser = true;
-          passwordFile = config.age.secrets."users/admin/password".path;
+          hashedPassword = "$6$l5FBDK2QUtR6Sfvv$N.eol4kjcwIr56wIv1iwT07qlK.gD2KU7fAwc8JLMeKLLuik2FjmzQszgglQUuLbvLPiMM39Dj8AsHxJyXwhX.";
           uid = 1337;
           openssh = {
             authorizedKeys = {
@@ -39,14 +39,6 @@ with lib;
           ];
         };
       };
-    };
-
-    age.secrets."users/root/password" = {
-      file = ../../secrets/users/root/password.age;
-    };
-
-    age.secrets."users/admin/password" = {
-      file = ../../secrets/users/admin/password.age;
     };
   };
 }

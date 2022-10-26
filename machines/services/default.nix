@@ -1,4 +1,5 @@
 { pkgs, lib, config, options, ... }:
+with lib;
 
 {
   imports = [
@@ -22,7 +23,11 @@
 
   options = {
     personal = {
-      services = { };
+      services = {
+        enable = mkEnableOption "Services" // {
+          default = true;
+        };
+      };
     };
   };
 }

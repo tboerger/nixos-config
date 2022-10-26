@@ -14,16 +14,16 @@
   personal = {
     services = {
       acme = {
-        enable = true;
+        enable = config.personal.services.enable;
       };
       hass = {
-        enable = true;
+        enable = config.personal.services.enable;
       };
       media = {
-        enable = true;
+        enable = config.personal.services.enable;
       };
       tailscale = {
-        enable = true;
+        enable = config.personal.services.enable;
       };
     };
   };

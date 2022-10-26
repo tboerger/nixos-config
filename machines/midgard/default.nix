@@ -14,19 +14,19 @@
   personal = {
     services = {
       acme = {
-        enable = true;
+        enable = config.personal.services.enable;
       };
       adguard = {
-        enable = true;
+        enable = config.personal.services.enable;
       };
       coredns = {
-        enable = true;
+        enable = config.personal.services.enable;
       };
       docker = {
-        enable = true;
+        enable = config.personal.services.enable;
       };
       tailscale = {
-        enable = true;
+        enable = config.personal.services.enable;
       };
     };
   };

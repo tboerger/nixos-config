@@ -14,16 +14,16 @@
   personal = {
     services = {
       citrix = {
-        enable = true;
+        enable = config.personal.services.enable;
       };
       desktop = {
-        enable = true;
+        enable = config.personal.services.enable;
       };
       docker = {
-        enable = true;
+        enable = config.personal.services.enable;
       };
       libvirt = {
-        enable = true;
+        enable = config.personal.services.enable;
       };
     };
   };

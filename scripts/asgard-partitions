@@ -22,35 +22,70 @@ while true; do
     esac
 done
 
+echo "----> Remove previous VGs"
+for VG in $(vgs --noheadings 2>/dev/null | sed -e 's/^[[:space:]]*//' | cut -d" " -f 1); do
+    vgremove -y ${VG} 2>/dev/null
+done
+
+echo "----> Remove previous PVs"
+for PV in $(pvs --noheadings 2>/dev/null | sed -e 's/^[[:space:]]*//' | cut -d" " -f 1); do
+    pvremove -y ${PV} 2>/dev/null
+done
+
+echo "----> Remove previous MDs"
+if [[ -d /dev/md ]]; then
+    for MD in /dev/md/*; do
+        mdadm --stop $MD
+    done
+fi
+
 echo "----> Drop existing partitions"
-sgdisk --zap-all /dev/sda
-sgdisk -og /dev/sda
-sgdisk --zap-all /dev/sdb
-sgdisk -og /dev/sdb
-sgdisk --zap-all /dev/sdc
-sgdisk -og /dev/sdc
-sgdisk --zap-all /dev/sdd
-sgdisk -og /dev/sdd
-sgdisk --zap-all /dev/sde
-sgdisk -og /dev/sde
+wipefs -a /dev/sda || true
+sfdisk --delete /dev/sda || true
+wipefs -a /dev/sdb || true
+sfdisk --delete /dev/sdb || true
+wipefs -a /dev/sdc || true
+sfdisk --delete /dev/sdc || true
+wipefs -a /dev/sdd || true
+sfdisk --delete /dev/sdd || true
+wipefs -a /dev/sde || true
+sfdisk --delete /dev/sde || true
 
 echo "-----> Wait for cleanup"
 sleep 3
+sync
+
+echo "-----> Mark MBR disks"
+echo yes | parted /dev/disk/by-path/pci-0000:00:14.1-ata-1 -- mklabel msdos
+
+echo "-----> Mark GPT disks"
+echo yes | parted /dev/disk/by-path/pci-0000:00:11.0-ata-1.0 -- mklabel gpt
+echo yes | parted /dev/disk/by-path/pci-0000:00:11.0-ata-2.0 -- mklabel gpt
+echo yes | parted /dev/disk/by-path/pci-0000:00:11.0-ata-3.0 -- mklabel gpt
+echo yes | parted /dev/disk/by-path/pci-0000:00:11.0-ata-4.0 -- mklabel gpt
 
 echo "-----> Create boot partition"
-sgdisk -n 0:0:+1G -t 0:ef00 -c 0:boot /dev/disk/by-path/pci-0000:00:14.1-ata-1
+parted /dev/disk/by-path/pci-0000:00:14.1-ata-1 -- mkpart primary ext4 1MB 1GB
+parted /dev/disk/by-path/pci-0000:00:14.1-ata-1 -- set 1 boot on
 
 echo "-----> Create root partition"
-sgdisk -n 0:0:0 -t 0:8300 -c 0:data /dev/disk/by-path/pci-0000:00:14.1-ata-1
+parted /dev/disk/by-path/pci-0000:00:14.1-ata-1 -- mkpart primary ext4 1GB 100%
+
+echo "-----> Create tank partition"
+sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/disk/by-path/pci-0000:00:11.0-ata-1
+sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/disk/by-path/pci-0000:00:11.0-ata-2
+sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/disk/by-path/pci-0000:00:11.0-ata-3
+sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/disk/by-path/pci-0000:00:11.0-ata-4
 
 echo "-----> Wait for data"
 sleep 3
+sync
 
 echo "-----> Create data pv"
-pvcreate /dev/disk/by-partlabel/data
+pvcreate /dev/disk/by-path/pci-0000:00:14.1-ata-1-part2
 
 echo "-----> Create data vg"
-vgcreate system /dev/disk/by-partlabel/data
+vgcreate system /dev/disk/by-path/pci-0000:00:14.1-ata-1-part2
 
 echo "-----> Create swap volume"
 lvcreate -y --size 24G --name swap system
@@ -79,20 +114,22 @@ mkdir /mnt/home
 mount -t ext4 /dev/system/home /mnt/home
 
 echo "-----> Create boot filesystem"
-mkfs.vfat -n boot /dev/disk/by-partlabel/boot
-
-echo "-----> Wait for boot"
-sleep 3
+mkfs.ext4 -L boot /dev/disk/by-path/pci-0000:00:14.1-ata-1-part1
 
 echo "-----> Mount boot filesystem"
 mkdir /mnt/boot
 mount /dev/disk/by-label/boot /mnt/boot
 
-echo "-----> Create tank partition"
-sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/disk/by-path/pci-0000:00:11.0-ata-1
-sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/disk/by-path/pci-0000:00:11.0-ata-2
-sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/disk/by-path/pci-0000:00:11.0-ata-3
-sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/disk/by-path/pci-0000:00:11.0-ata-4
+echo "-----> Wait for filesystems"
+sleep 3
+sync
+
+echo "----> Remove previous MDs"
+if [[ -d /dev/md ]]; then
+    for MD in /dev/md/*; do
+        mdadm --stop $MD
+    done
+fi
 
 echo "-----> Create raid volume"
 echo yes | mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/disk/by-path/pci-0000:00:11.0-ata-1.0-part1 /dev/disk/by-path/pci-0000:00:11.0-ata-2.0-part1

@@ -41,181 +41,144 @@
 
   outputs = { self, nixpkgs, nur, utils, agenix, homemanager, deployrs, arion, hardware, ... }@inputs:
     let
+      mkComputer = configurationNix: systemName: enableServices: extraModules: nixpkgs.lib.nixosSystem {
+        system = systemName;
+
+        modules = [
+          ({ pkgs, ... }:
+            let
+              nur-no-pkgs = import nur {
+                nurpkgs = import nixpkgs { system = systemName; };
+              };
+            in
+            {
+              imports = [
+                nur-no-pkgs.repos.tboerger.modules
+              ];
+
+              nixpkgs = {
+                overlays = [
+                  (import ./overlays)
+                  nur.overlay
+                ];
+              };
+            })
+          homemanager.nixosModules.home-manager
+          agenix.nixosModules.age
+          arion.nixosModules.arion
+          configurationNix
+        ] ++ extraModules;
+
+        specialArgs = {
+          inherit inputs;
+        };
+      };
 
     in
     {
       nixosConfigurations = {
-        chnum = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-
-          modules = [
-            ({ pkgs, ... }:
-              let
-                nur-no-pkgs = import nur {
-                  nurpkgs = import nixpkgs { system = "x86_64-linux"; };
-                };
-              in
-              {
-                imports = [
-                  nur-no-pkgs.repos.tboerger.modules
-                ];
-
-                nixpkgs = {
-                  overlays = [
-                    (import ./overlays)
-                    nur.overlay
-                  ];
-                };
-              })
-            homemanager.nixosModules.home-manager
-            agenix.nixosModules.age
-            arion.nixosModules.arion
-            ./machines/chnum
+        chnum = mkComputer
+          ./machines/chnum
+          "x86_64-linux"
+          true
+          [
             ./profiles/thomas
             # ./profiles/anna
             # ./profiles/adrian
             # ./profiles/tabea
           ];
 
-          specialArgs = {
-            inherit inputs;
-          };
-        };
+        chnum-bootstrap = mkComputer
+          ./machines/chnum
+          "x86_64-linux"
+          false
+          [
+            ./profiles/thomas
+            # ./profiles/anna
+            # ./profiles/adrian
+            # ./profiles/tabea
+          ];
 
-        midgard = nixpkgs.lib.nixosSystem {
-          system = "aarch64-linux";
+        asgard = mkComputer
+          ./machines/asgard
+          "x86_64-linux"
+          true
+          [
+            ./profiles/thomas
+            # ./profiles/anna
+            # ./profiles/adrian
+            # ./profiles/tabea
+          ];
 
-          modules = [
-            ({ pkgs, ... }:
-              let
-                nur-no-pkgs = import nur {
-                  nurpkgs = import nixpkgs { system = "aarch64-linux"; };
-                };
-              in
-              {
-                imports = [
-                  nur-no-pkgs.repos.tboerger.modules
-                ];
+        asgard-bootstrap = mkComputer
+          ./machines/asgard
+          "x86_64-linux"
+          false
+          [
+            ./profiles/thomas
+            # ./profiles/anna
+            # ./profiles/adrian
+            # ./profiles/tabea
+          ];
 
-                nixpkgs = {
-                  overlays = [
-                    (import ./overlays)
-                    nur.overlay
-                  ];
-                };
-              })
+        utgard = mkComputer
+          ./machines/utgard
+          "x86_64-linux"
+          true
+          [
+            ./profiles/thomas
+            # ./profiles/anna
+            # ./profiles/adrian
+            # ./profiles/tabea
+          ];
+
+        utgard-bootstrap = mkComputer
+          ./machines/utgard
+          "x86_64-linux"
+          false
+          [
+            ./profiles/thomas
+            # ./profiles/anna
+            # ./profiles/adrian
+            # ./profiles/tabea
+          ];
+
+        midgard = mkComputer
+          ./machines/midgard
+          "aarch64-linux"
+          true
+          [
             hardware.nixosModules.raspberry-pi-4
-            homemanager.nixosModules.home-manager
-            agenix.nixosModules.age
-            arion.nixosModules.arion
-            ./machines/midgard
             ./profiles/thomas
             # ./profiles/anna
             # ./profiles/adrian
             # ./profiles/tabea
           ];
 
-          specialArgs = {
-            inherit inputs;
-          };
-        };
-
-        utgard = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-
-          modules = [
-            ({ pkgs, ... }:
-              let
-                nur-no-pkgs = import nur {
-                  nurpkgs = import nixpkgs { system = "x86_64-linux"; };
-                };
-              in
-              {
-                imports = [
-                  nur-no-pkgs.repos.tboerger.modules
-                ];
-
-                nixpkgs = {
-                  overlays = [
-                    (import ./overlays)
-                    nur.overlay
-                  ];
-                };
-
-                nixpkgs.config.allowUnfree = true;
-              })
-            homemanager.nixosModules.home-manager
-            agenix.nixosModules.age
-            arion.nixosModules.arion
-            ./machines/utgard
+        midgard-bootstrap = mkComputer
+          ./machines/midgard
+          "aarch64-linux"
+          false
+          [
+            hardware.nixosModules.raspberry-pi-4
             ./profiles/thomas
             # ./profiles/anna
             # ./profiles/adrian
             # ./profiles/tabea
           ];
-
-          specialArgs = {
-            inherit inputs;
-          };
-        };
-
-        asgard = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-
-          modules = [
-            ({ pkgs, ... }:
-              let
-                nur-no-pkgs = import nur {
-                  nurpkgs = import nixpkgs { system = "x86_64-linux"; };
-                };
-              in
-              {
-                imports = [
-                  nur-no-pkgs.repos.tboerger.modules
-                ];
-
-                nixpkgs = {
-                  overlays = [
-                    (import ./overlays)
-                    nur.overlay
-                  ];
-                };
-              })
-            homemanager.nixosModules.home-manager
-            agenix.nixosModules.age
-            arion.nixosModules.arion
-            ./machines/asgard
-            ./profiles/thomas
-            # ./profiles/anna
-            # ./profiles/adrian
-            # ./profiles/tabea
-          ];
-
-          specialArgs = {
-            inherit inputs;
-          };
-        };
       };
 
       chnum = self.nixosConfigurations.chnum.config.system.build.toplevel;
-      midgard = self.nixosConfigurations.midgard.config.system.build.toplevel;
+      chnum-bootstrap = self.nixosConfigurations.chnum-bootstrap.config.system.build.toplevel;
       utgard = self.nixosConfigurations.utgard.config.system.build.toplevel;
+      utgard-bootstrap = self.nixosConfigurations.utgard-bootstrap.config.system.build.toplevel;
       asgard = self.nixosConfigurations.asgard.config.system.build.toplevel;
+      asgard-bootstrap = self.nixosConfigurations.asgard-bootstrap.config.system.build.toplevel;
+      midgard = self.nixosConfigurations.midgard.config.system.build.toplevel;
+      midgard-bootstrap = self.nixosConfigurations.midgard-bootstrap.config.system.build.toplevel;
 
       deploy = {
         nodes = {
-          midgard = {
-            sshOpts = [ "-p" "22" ];
-            hostname = "192.168.1.5";
-            fastConnection = true;
-
-            profiles.system = {
-              sshUser = "thomas";
-              user = "root";
-              path = deployrs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.midgard;
-            };
-          };
-
           asgard = {
             sshOpts = [ "-p" "22" ];
             hostname = "192.168.1.10";
@@ -237,6 +200,18 @@
               sshUser = "thomas";
               user = "root";
               path = deployrs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.utgard;
+            };
+          };
+
+          midgard = {
+            sshOpts = [ "-p" "22" ];
+            hostname = "192.168.1.5";
+            fastConnection = true;
+
+            profiles.system = {
+              sshUser = "thomas";
+              user = "root";
+              path = deployrs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.midgard;
             };
           };
         };

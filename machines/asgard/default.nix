@@ -14,13 +14,13 @@
   personal = {
     services = {
       docker = {
-        enable = true;
+        enable = config.personal.services.enable;
       };
       samba = {
-        enable = true;
+        enable = config.personal.services.enable;
       };
       tailscale = {
-        enable = true;
+        enable = config.personal.services.enable;
       };
     };
   };

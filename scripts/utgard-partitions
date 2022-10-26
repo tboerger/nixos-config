@@ -22,6 +22,16 @@ while true; do
     esac
 done
 
+echo "----> Remove previous VGs"
+for VG in $(vgs --noheadings 2>/dev/null | sed -e 's/^[[:space:]]*//' | cut -d" " -f 1); do
+    vgremove -y ${VG} 2>/dev/null
+done
+
+echo "----> Remove previous PVs"
+for PV in $(pvs --noheadings 2>/dev/null | sed -e 's/^[[:space:]]*//' | cut -d" " -f 1); do
+    pvremove -y ${PV} 2>/dev/null
+done
+
 echo "----> Drop existing partitions"
 wipefs -a /dev/sda
 sfdisk --delete /dev/sda
@@ -30,8 +40,9 @@ sfdisk --delete /dev/sdb
 
 echo "-----> Wait for cleanup"
 sleep 3
+sync
 
-echo "-----> Mark GPT disk"
+echo "-----> Mark GPT disks"
 echo yes | parted /dev/sda -- mklabel gpt
 echo yes | parted /dev/sdb -- mklabel gpt
 
@@ -46,21 +57,22 @@ sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/sdb
 
 echo "-----> Wait for data"
 sleep 3
+sync
 
 echo "-----> Create data pv"
 pvcreate /dev/disk/by-partlabel/data /dev/disk/by-partlabel/tank
 
 echo "-----> Create data vg"
-vgcreate system /dev/disk/by-partlabel/data
+vgcreate system /dev/disk/by-partlabel/data /dev/disk/by-partlabel/tank
 
 echo "-----> Create swap volume"
-lvcreate --size 24G --name swap system
+lvcreate -y --size 24G --name swap system
 
 echo "-----> Create root volume"
-lvcreate --size 50G --name root system
+lvcreate -y --size 50G --name root system
 
 echo "-----> Create home volume"
-lvcreate --size 50G --name home system
+lvcreate -y --size 50G --name home system
 
 echo "-----> Enable swap partition"
 mkswap -L swap /dev/system/swap
@@ -86,20 +98,12 @@ echo "-----> Mount boot filesystem"
 mkdir /mnt/boot
 mount /dev/disk/by-label/boot /mnt/boot
 
-for PARTITION in acme nzbget jellyfin bazarr lidarr prowlarr radarr readarr sonarr; do
-    echo "-----> Create ${PARTITION} volume"
-    lvcreate --size 5G --name ${PARTITION} system
-
-    echo "-----> Create ${PARTITION} filesystem"
-    mkfs.ext4 -L ${PARTITION} /dev/system/${PARTITION}
-
-    echo "-----> Mount ${PARTITION} filesystem"
-    mkdir /mnt/var/lib/${PARTITION}
-    mount -t ext4 /dev/system/${PARTITION} /mnt/var/lib/${PARTITION}
-done
+echo "-----> Wait for filesystems"
+sleep 3
+sync
 
 echo "-----> Create downloads volume"
-lvcreate --size 200G --name downloads system
+lvcreate -y --size 200G --name downloads system
 
 echo "-----> Create downloads filesystem"
 mkfs.ext4 -L downloads /dev/system/downloads
@@ -108,3 +112,15 @@ echo "-----> Mount downloads filesystem"
 mkdir -p /mnt/var/lib/downloads
 mount -t ext4 /dev/tank/downloads /mnt/var/lib/downloads
 chown 20000:20000 /mnt/var/lib/downloads
+
+for PARTITION in acme nzbget jellyfin bazarr lidarr prowlarr radarr readarr sonarr; do
+    echo "-----> Create ${PARTITION} volume"
+    lvcreate -y --size 5G --name ${PARTITION} system
+
+    echo "-----> Create ${PARTITION} filesystem"
+    mkfs.ext4 -L ${PARTITION} /dev/system/${PARTITION}
+
+    echo "-----> Mount ${PARTITION} filesystem"
+    mkdir /mnt/var/lib/${PARTITION}
+    mount -t ext4 /dev/system/${PARTITION} /mnt/var/lib/${PARTITION}
+done
