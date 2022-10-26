@@ -9,8 +9,7 @@
     device = "/dev/disk/by-label/root";
     fsType = "ext4";
     options = [
-      "noatime"
-      "discard"
+      "default"
     ];
   };
 
@@ -18,22 +17,23 @@
     device = "/dev/disk/by-label/home";
     fsType = "ext4";
     options = [
-      "noatime"
-      "discard"
+      "default"
     ];
   };
 
   fileSystems."/boot" = {
     device = "/dev/disk/by-label/boot";
-    fsType = "vfat";
+    fsType = "ext4";
+    options = [
+      "default"
+    ];
   };
 
   fileSystems."/var/lib/media/shares" = {
     device = "/dev/disk/by-label/shares";
     fsType = "ext4";
     options = [
-      "noatime"
-      "discard"
+      "default"
     ];
   };
 
@@ -41,8 +41,7 @@
     device = "/dev/disk/by-label/photos";
     fsType = "ext4";
     options = [
-      "noatime"
-      "discard"
+      "default"
     ];
   };
 
@@ -50,8 +49,7 @@
     device = "/dev/disk/by-label/videos";
     fsType = "ext4";
     options = [
-      "noatime"
-      "discard"
+      "default"
     ];
   };
 
@@ -59,8 +57,7 @@
     device = "/dev/disk/by-label/movies";
     fsType = "ext4";
     options = [
-      "noatime"
-      "discard"
+      "default"
     ];
   };
 
@@ -68,8 +65,7 @@
     device = "/dev/disk/by-label/shows";
     fsType = "ext4";
     options = [
-      "noatime"
-      "discard"
+      "default"
     ];
   };
 
@@ -77,8 +73,7 @@
     device = "/dev/disk/by-label/books";
     fsType = "ext4";
     options = [
-      "noatime"
-      "discard"
+      "default"
     ];
   };
 
@@ -86,8 +81,7 @@
     device = "/dev/disk/by-label/music";
     fsType = "ext4";
     options = [
-      "noatime"
-      "discard"
+      "default"
     ];
   };
 
@@ -95,8 +89,7 @@
     device = "/dev/disk/by-label/printer";
     fsType = "ext4";
     options = [
-      "noatime"
-      "discard"
+      "default"
     ];
   };
 
@@ -104,8 +97,7 @@
     device = "/dev/disk/by-label/backup";
     fsType = "ext4";
     options = [
-      "noatime"
-      "discard"
+      "default"
     ];
   };
 }
