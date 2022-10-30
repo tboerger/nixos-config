@@ -78,7 +78,7 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/ma
 
 mkdir -p /mnt/etc/ssh
 cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
-nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#utgard-bootstrap
+nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#utgard
 ```
 
 ### Updates
@@ -107,7 +107,7 @@ mount /dev/disk/by-label/NIXOS_SD /mnt
 
 mkdir -p /mnt/etc/ssh
 cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
-nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#midgard-bootstrap
+nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#midgard
 ```
 
 ### Updates
