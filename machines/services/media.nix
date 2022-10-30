@@ -44,13 +44,13 @@ in
         group = "media";
 
         settings = {
-          MainDir = "/var/lib/media/downloads";
-          DestDir = "/var/lib/media/downloads/completed";
-          InterDir = "/var/lib/media/downloads/intermediate";
-          NzbDir = "/var/lib/media/downloads/nzb";
-          QueueDir = "/var/lib/media/downloads/queue";
-          TempDir = "/var/lib/media/downloads/temp";
-          ScriptDir = "/var/lib/media/downloads/scripts";
+          MainDir = "/var/lib/downloads";
+          DestDir = "/var/lib/downloads/completed";
+          InterDir = "/var/lib/downloads/intermediate";
+          NzbDir = "/var/lib/downloads/nzb";
+          QueueDir = "/var/lib/downloads/queue";
+          TempDir = "/var/lib/downloads/temp";
+          ScriptDir = "/var/lib/downloads/scripts";
 
           "Category1.Name" = "Movies";
           "Category1.Unpack" = "yes";

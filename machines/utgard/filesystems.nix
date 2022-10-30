@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 let
-  cifsServer = "\\192.168.1.10";
+  cifsServer = "//192.168.1.10";
   cifsOptions = [
     "x-systemd.automount"
     "noauto"
@@ -8,8 +8,8 @@ let
     "x-systemd.device-timeout=5s"
     "x-systemd.mount-timeout=5s"
     "credentials=${config.age.secrets."users/media/smbpasswd".path}"
-    "uid=${config.users.users.media.uid}"
-    "gid=${config.users.groups.media.gid}"
+    "uid=${toString config.users.users.media.uid}"
+    "gid=${toString config.users.groups.media.gid}"
   ];
 
 in
@@ -128,6 +128,15 @@ in
     ];
   };
 
+  fileSystems."/var/lib/hass" = {
+    device = "/dev/disk/by-label/hass";
+    fsType = "ext4";
+    options = [
+      "noatime"
+      "discard"
+    ];
+  };
+
   fileSystems."/var/lib/downloads" = {
     device = "/dev/disk/by-label/downloads";
     fsType = "ext4";
@@ -138,64 +147,28 @@ in
   };
 
   fileSystems."/var/lib/media/movies" = {
-    device = "/dev/disk/by-label/movies";
-    fsType = "ext4";
-    options = [
-      "noatime"
-      "discard"
-    ];
+    device = "${cifsServer}/movies";
+    fsType = "cifs";
+    options = cifsOptions;
   };
 
-  # fileSystems."/var/lib/media/movies" = {
-  #   device = "${cifsServer}/movies";
-  #   fsType = "cifs";
-  #   options = cifsOptions;
-  # };
-
-  fileSystems."/var/lib/media/series" = {
-    device = "/dev/disk/by-label/series";
-    fsType = "ext4";
-    options = [
-      "noatime"
-      "discard"
-    ];
+  fileSystems."/var/lib/media/shows" = {
+    device = "${cifsServer}/shows";
+    fsType = "cifs";
+    options = cifsOptions;
   };
-
-  # fileSystems."/var/lib/media/shows" = {
-  #   device = "${cifsServer}/shows";
-  #   fsType = "cifs";
-  #   options = cifsOptions;
-  # };
 
   fileSystems."/var/lib/media/books" = {
-    device = "/dev/disk/by-label/books";
-    fsType = "ext4";
-    options = [
-      "noatime"
-      "discard"
-    ];
+    device = "${cifsServer}/books";
+    fsType = "cifs";
+    options = cifsOptions;
   };
-
-  # fileSystems."/var/lib/media/books" = {
-  #   device = "${cifsServer}/books";
-  #   fsType = "cifs";
-  #   options = cifsOptions;
-  # };
 
   fileSystems."/var/lib/media/music" = {
-    device = "/dev/disk/by-label/music";
-    fsType = "ext4";
-    options = [
-      "noatime"
-      "discard"
-    ];
+    device = "${cifsServer}/music";
+    fsType = "cifs";
+    options = cifsOptions;
   };
-
-  # fileSystems."/var/lib/media/music" = {
-  #   device = "${cifsServer}/music";
-  #   fsType = "cifs";
-  #   options = cifsOptions;
-  # };
 
   age.secrets."users/media/smbpasswd" = {
     file = ../../secrets/users/media/smbpasswd.age;

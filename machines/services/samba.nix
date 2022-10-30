@@ -49,10 +49,27 @@ in
       };
     };
 
+    networking = {
+      firewall = {
+        allowedTCPPorts = [
+          5357
+        ];
+
+        allowedUDPPorts = [
+          3702
+        ];
+      };
+    };
+
     services = {
+      samba-wsdd = {
+        enable = true;
+      };
+
       samba = {
         enable = true;
         openFirewall = true;
+        securityType = "user";
 
         extraConfig = ''
           workgroup = WORKGROUP
@@ -60,6 +77,7 @@ in
           netbios name = Server
           guest account = nobody
           map to guest = bad user
+          server min protocol = SMB2
         '';
 
         shares = {

@@ -110,10 +110,10 @@ mkfs.ext4 -L downloads /dev/system/downloads
 
 echo "-----> Mount downloads filesystem"
 mkdir -p /mnt/var/lib/downloads
-mount -t ext4 /dev/tank/downloads /mnt/var/lib/downloads
+mount -t ext4 /dev/system/downloads /mnt/var/lib/downloads
 chown 20000:20000 /mnt/var/lib/downloads
 
-for PARTITION in acme nzbget jellyfin bazarr lidarr prowlarr radarr readarr sonarr; do
+for PARTITION in acme nzbget jellyfin bazarr lidarr prowlarr radarr readarr sonarr hass; do
     echo "-----> Create ${PARTITION} volume"
     lvcreate -y --size 5G --name ${PARTITION} system
 
