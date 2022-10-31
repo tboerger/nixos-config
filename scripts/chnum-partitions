@@ -33,15 +33,12 @@ for PV in $(pvs --noheadings 2>/dev/null | sed -e 's/^[[:space:]]*//' | cut -d" 
 done
 
 echo "----> Drop existing partitions"
-wipefs -a /dev/sda || true
-sfdisk --delete /dev/sda || true
+sgdisk --zap-all /dev/sda
+sgdisk -og /dev/sda
 
 echo "-----> Wait for cleanup"
 sleep 3
 sync
-
-echo "-----> Mark GPT disks"
-echo yes | parted /dev/sda -- mklabel gpt
 
 echo "-----> Create boot partition"
 sgdisk -n 0:0:+1G -t 0:ef00 -c 0:boot /dev/sda

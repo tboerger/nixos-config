@@ -40,16 +40,17 @@ if [[ -d /dev/md ]]; then
 fi
 
 echo "----> Drop existing partitions"
-wipefs -a /dev/sda || true
-sfdisk --delete /dev/sda || true
-wipefs -a /dev/sdb || true
-sfdisk --delete /dev/sdb || true
-wipefs -a /dev/sdc || true
-sfdisk --delete /dev/sdc || true
-wipefs -a /dev/sdd || true
-sfdisk --delete /dev/sdd || true
-wipefs -a /dev/sde || true
-sfdisk --delete /dev/sde || true
+wipefs -a /dev/disk/by-path/pci-0000:00:14.1-ata-1 || true
+sfdisk --delete /dev/disk/by-path/pci-0000:00:14.1-ata-1 || true
+
+sgdisk --zap-all /dev/disk/by-path/pci-0000:00:11.0-ata-1.0
+sgdisk -og /dev/disk/by-path/pci-0000:00:11.0-ata-1.0
+sgdisk --zap-all /dev/disk/by-path/pci-0000:00:11.0-ata-2.0
+sgdisk -og /dev/disk/by-path/pci-0000:00:11.0-ata-2.0
+sgdisk --zap-all /dev/disk/by-path/pci-0000:00:11.0-ata-3.0
+sgdisk -og /dev/disk/by-path/pci-0000:00:11.0-ata-3.0
+sgdisk --zap-all /dev/disk/by-path/pci-0000:00:11.0-ata-4.0
+sgdisk -og /dev/disk/by-path/pci-0000:00:11.0-ata-4.0
 
 echo "-----> Wait for cleanup"
 sleep 3
@@ -57,12 +58,6 @@ sync
 
 echo "-----> Mark MBR disks"
 echo yes | parted /dev/disk/by-path/pci-0000:00:14.1-ata-1 -- mklabel msdos
-
-echo "-----> Mark GPT disks"
-echo yes | parted /dev/disk/by-path/pci-0000:00:11.0-ata-1.0 -- mklabel gpt
-echo yes | parted /dev/disk/by-path/pci-0000:00:11.0-ata-2.0 -- mklabel gpt
-echo yes | parted /dev/disk/by-path/pci-0000:00:11.0-ata-3.0 -- mklabel gpt
-echo yes | parted /dev/disk/by-path/pci-0000:00:11.0-ata-4.0 -- mklabel gpt
 
 echo "-----> Create boot partition"
 parted /dev/disk/by-path/pci-0000:00:14.1-ata-1 -- mkpart primary ext4 1MB 1GB
