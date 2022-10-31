@@ -33,10 +33,10 @@ for PV in $(pvs --noheadings 2>/dev/null | sed -e 's/^[[:space:]]*//' | cut -d" 
 done
 
 echo "----> Drop existing partitions"
-wipefs -a /dev/sda
-sfdisk --delete /dev/sda
-wipefs -a /dev/sdb
-sfdisk --delete /dev/sdb
+wipefs -a /dev/sda || true
+sfdisk --delete /dev/sda || true
+wipefs -a /dev/sdb || true
+sfdisk --delete /dev/sdb || true
 
 echo "-----> Wait for cleanup"
 sleep 3
