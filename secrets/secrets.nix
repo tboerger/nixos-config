@@ -4,7 +4,7 @@ let
 
   midgard = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICGC6aSeeKiMO9y3NMxPOh2JvvGYcyS4za+0+hSqI3Bj";
   asgard = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE2yYJUssGAmPBv5QBQJTZfwyl0HSgYMQjssG2hjk63+";
-  utgard = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOD8X1dovOJZusD4EdPBSP9rrs92ZQO+EFj/WRwu676D";
+  utgard = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDv7Ua1agDUdEo+0uSr99qlhFGsyte+jgf1Z3M+veuq7";
   systems = [ midgard asgard utgard ];
 in
 {
