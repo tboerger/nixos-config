@@ -34,6 +34,15 @@ in
     ];
   };
 
+  fileSystems."/nix" = {
+    device = "/dev/disk/by-label/nix";
+    fsType = "ext4";
+    options = [
+      "noatime"
+      "discard"
+    ];
+  };
+
   fileSystems."/home" = {
     device = "/dev/disk/by-label/home";
     fsType = "ext4";
