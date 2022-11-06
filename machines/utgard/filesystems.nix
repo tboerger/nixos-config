@@ -156,25 +156,25 @@ in
     ];
   };
 
-  fileSystems."/var/lib/media/movies" = {
+  fileSystems."/var/lib/movies" = {
     device = "${cifsServer}/movies";
     fsType = "cifs";
     options = cifsOptions;
   };
 
-  fileSystems."/var/lib/media/shows" = {
+  fileSystems."/var/lib/shows" = {
     device = "${cifsServer}/shows";
     fsType = "cifs";
     options = cifsOptions;
   };
 
-  fileSystems."/var/lib/media/books" = {
+  fileSystems."/var/lib/books" = {
     device = "${cifsServer}/books";
     fsType = "cifs";
     options = cifsOptions;
   };
 
-  fileSystems."/var/lib/media/music" = {
+  fileSystems."/var/lib/music" = {
     device = "${cifsServer}/music";
     fsType = "cifs";
     options = cifsOptions;
