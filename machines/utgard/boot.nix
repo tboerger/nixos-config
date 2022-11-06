@@ -39,8 +39,8 @@
         "ehci_pci"
         "ahci"
         "firewire_ohci"
-        "usb_storage"
         "usbhid"
+        "usb_storage"
         "sd_mod"
         "sdhci_pci"
       ];
