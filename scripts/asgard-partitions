@@ -57,7 +57,7 @@ sleep 3
 sync
 
 echo "-----> Mark MBR disks"
-echo yes | parted /dev/disk/by-path/pci-0000:00:14.1-ata-1 -- mklabel msdos
+echo yes | parted -s /dev/disk/by-path/pci-0000:00:14.1-ata-1 -- mklabel msdos
 
 echo "-----> Create boot partition"
 parted /dev/disk/by-path/pci-0000:00:14.1-ata-1 -- mkpart primary ext4 1MB 1GB
