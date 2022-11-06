@@ -40,8 +40,12 @@ echo "-----> Wait for cleanup"
 sleep 3
 sync
 
+echo "-----> Mark GPT disks"
+echo yes | parted /dev/sda -- mklabel gpt
+
 echo "-----> Create boot partition"
 sgdisk -n 0:0:+1G -t 0:ef00 -c 0:boot /dev/sda
+sgdisk -A 0:set:2 /dev/sda
 
 echo "-----> Create root partition"
 sgdisk -n 0:0:0 -t 0:8300 -c 0:data /dev/sda
