@@ -47,6 +47,8 @@ echo yes | parted -s /dev/sda -- mklabel gpt
 
 echo "-----> Create boot partition"
 sgdisk -n 0:0:+1G -t 0:ef00 -c 0:boot /dev/sda
+
+echo "-----> Enable legacy boot"
 sgdisk -A 1:set:2 /dev/sda
 
 echo "-----> Create root partition"
