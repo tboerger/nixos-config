@@ -16,35 +16,20 @@
         canTouchEfiVariables = true;
       };
 
-      grub = {
+      systemd-boot = {
         enable = true;
-        version = 2;
-        device = "nodev";
-        efiSupport = true;
+        consoleMode = "2";
+        configurationLimit = 5;
+        editor = false;
       };
     };
 
-    kernelModules = [
-      "kvm-intel"
-    ];
-
-    extraModulePackages = [
-
-    ];
+    kernelModules = [ "kvm-intel" ];
+    extraModulePackages = [ ];
 
     initrd = {
-      availableKernelModules = [
-        "ahci"
-        "atkbd"
-        "rtsx_pci_sdmmc"
-        "sd_mod"
-        "usb_storage"
-        "xhci_pci"
-      ];
-
-      kernelModules = [
-        "dm-snapshot"
-      ];
+      availableKernelModules = [ "ahci" "atkbd" "rtsx_pci_sdmmc" "sd_mod" "usb_storage" "xhci_pci" ];
+      kernelModules = [ "dm-snapshot" ];
     };
   };
 }

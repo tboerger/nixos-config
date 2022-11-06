@@ -20,28 +20,12 @@
       };
     };
 
-    kernelModules = [
-      "kvm-amd"
-    ];
-
-    extraModulePackages = [
-
-    ];
+    kernelModules = [ "kvm-amd" ];
+    extraModulePackages = [ ];
 
     initrd = {
-      availableKernelModules = [
-        "ahci"
-        "ehci_pci"
-        "ohci_pci"
-        "pata_atiixp"
-        "sd_mod"
-        "usb_storage"
-        "usbhid"
-      ];
-
-      kernelModules = [
-        "dm-snapshot"
-      ];
+      availableKernelModules = [ "ahci" "ehci_pci" "ohci_pci" "pata_atiixp" "sd_mod" "usb_storage" "usbhid" ];
+      kernelModules = [ "dm-snapshot" ];
     };
   };
 }
