@@ -76,18 +76,12 @@ in
         package = pkgs.jellyfin;
       };
 
-      unpackerr = {
-        enable = true;
-        user = "media";
-        group = "media";
-        # package = pkgs.unpackerr;
-      };
-
       radarr = {
         enable = true;
         user = "media";
         group = "media";
         package = pkgs.radarr;
+        dataDir = "/var/lib/radarr";
       };
 
       sonarr = {
@@ -95,6 +89,7 @@ in
         user = "media";
         group = "media";
         package = pkgs.sonarr;
+        dataDir = "/var/lib/sonarr";
       };
 
       lidarr = {
@@ -102,6 +97,15 @@ in
         user = "media";
         group = "media";
         package = pkgs.lidarr;
+        dataDir = "/var/lib/lidarr";
+      };
+
+      readarr = {
+        enable = true;
+        user = "media";
+        group = "media";
+        package = pkgs.nur.repos.tboerger.readarr;
+        dataDir = "/var/lib/readarr";
       };
 
       bazarr = {
@@ -118,12 +122,12 @@ in
         package = pkgs.prowlarr;
       };
 
-      readarr = {
-        enable = true;
-        user = "media";
-        group = "media";
-        package = pkgs.nur.repos.tboerger.readarr;
-      };
+      # unpackerr = {
+      #   enable = true;
+      #   user = "media";
+      #   group = "media";
+      #   # package = pkgs.unpackerr;
+      # };
     };
 
     personal = {
