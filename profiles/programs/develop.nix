@@ -35,8 +35,8 @@ in
         # python
 
         act
-        ansible-doctor
-        ansible-later
+        # ansible-doctor
+        # ansible-later
         ansible-lint
         awscli2
         eksctl
