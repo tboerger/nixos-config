@@ -4,18 +4,18 @@ with lib;
 let
   cfg = config.profile.programs.develop;
 
-  ansible-doctor = pkgs.ansible-doctor.overrideAttrs (final: prev: {
-    postPatch = ''
-      substituteInPlace pyproject.toml \
-        --replace 'version = "0.0.0"' 'version = "${prev.version}"' \
-        --replace 'colorama = "9.4.5"' 'colorama = "*"'
-    '';
-  });
+  # ansible-doctor = pkgs.ansible-doctor.overrideAttrs (final: prev: {
+  #   postPatch = ''
+  #     substituteInPlace pyproject.toml \
+  #       --replace 'version = "0.0.0"' 'version = "${prev.version}"' \
+  #       --replace 'colorama = "9.4.5"' 'colorama = "*"'
+  #   '';
+  # });
 
   # python = pkgs.python39.withPackages (p: with p; [
   #   ansible-core
   #   ansible-doctor
-  #   # ansible-later
+  #   ansible-later
   #   ansible-lint
   #   boto3
   #   botocore
@@ -43,7 +43,7 @@ in
         # python
 
         act
-        ansible-doctor
+        # ansible-doctor
         ansible-later
         ansible-lint
         awscli2
