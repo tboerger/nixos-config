@@ -129,29 +129,31 @@ in
       };
 
       nginx = {
-        virtualHosts = let
-          base = locations: {
-            inherit locations;
+        virtualHosts =
+          let
+            base = locations: {
+              inherit locations;
 
-            useACMEHost = "boerger.ws";
-            forceSSL = true;
-          };
-          proxy = port: base {
-            "/" = {
-              proxyPass = "http://127.0.0.1:" + toString(port) + "/";
-              proxyWebsockets = true;
+              useACMEHost = "boerger.ws";
+              forceSSL = true;
             };
+            proxy = port: base {
+              "/" = {
+                proxyPass = "http://127.0.0.1:" + toString (port) + "/";
+                proxyWebsockets = true;
+              };
+            };
+          in
+          {
+            "nzbget.boerger.ws" = proxy 6789;
+            "jellyfin.boerger.ws" = proxy 8096;
+            "radarr.boerger.ws" = proxy 7878;
+            "sonarr.boerger.ws" = proxy 8989;
+            "lidarr.boerger.ws" = proxy 8686;
+            "readarr.boerger.ws" = proxy 8787;
+            "bazarr.boerger.ws" = proxy 6767;
+            "prowlarr.boerger.ws" = proxy 9696;
           };
-        in {
-          "nzbget.boerger.ws" = proxy 6789;
-          "jellyfin.boerger.ws" = proxy 8096;
-          "radarr.boerger.ws" = proxy 7878;
-          "sonarr.boerger.ws" = proxy 8989;
-          "lidarr.boerger.ws" = proxy 8686;
-          "readarr.boerger.ws" = proxy 8787;
-          "bazarr.boerger.ws" = proxy 6767;
-          "prowlarr.boerger.ws" = proxy 9696;
-        };
       };
     };
 
