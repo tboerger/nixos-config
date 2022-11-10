@@ -84,7 +84,7 @@ in
           gnome.hitori
           gnome.iagno
           gnome.tali
-        ]
+        ];
       };
     };
   };

@@ -7,6 +7,7 @@
 * mail (thunderbird / mailspring / prospect-mail)
 * assign windows to right desktop
 * autostart standard tools on desktops
+* ymuse for mpd
 
 ## server
 
