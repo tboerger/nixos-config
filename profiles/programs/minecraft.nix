@@ -22,7 +22,7 @@ in
         adoptopenjdk-hotspot-bin-8
         mcrcon
         packwiz
-        polymc
+        prismlauncher
       ];
     };
   };
