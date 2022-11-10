@@ -114,10 +114,6 @@ in
         enable = true;
       };
 
-      tlp = {
-        enable = true;
-      };
-
       printing = {
         enable = true;
       };
