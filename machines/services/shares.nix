@@ -2,15 +2,15 @@
 with lib;
 
 let
-  cfg = config.personal.services.samba;
+  cfg = config.personal.services.shares;
 
 in
 {
   options = {
     personal = {
       services = {
-        samba = {
-          enable = mkEnableOption "Samba";
+        shares = {
+          enable = mkEnableOption "Shares";
         };
       };
     };
@@ -52,6 +52,7 @@ in
     networking = {
       firewall = {
         allowedTCPPorts = [
+          2049
           5357
         ];
 
@@ -62,8 +63,22 @@ in
     };
 
     services = {
-      samba-wsdd = {
-        enable = true;
+      nfs = {
+        server = {
+          enable = true;
+
+          exports = ''
+            /exports 192.168.1.0/255.255.255.0(rw,fsid=0,no_subtree_check)
+            /exports/shares 192.168.1.0/255.255.255.0(rw,nohide,insecure,no_subtree_check)
+            /exports/photos 192.168.1.0/255.255.255.0(rw,nohide,insecure,no_subtree_check)
+            /exports/videos 192.168.1.0/255.255.255.0(rw,nohide,insecure,no_subtree_check)
+            /exports/movies 192.168.1.0/255.255.255.0(rw,nohide,insecure,no_subtree_check)
+            /exports/shows 192.168.1.0/255.255.255.0(rw,nohide,insecure,no_subtree_check)
+            /exports/books 192.168.1.0/255.255.255.0(rw,nohide,insecure,no_subtree_check)
+            /exports/music 192.168.1.0/255.255.255.0(rw,nohide,insecure,no_subtree_check)
+            /exports/printer 192.168.1.0/255.255.255.0(rw,nohide,insecure,no_subtree_check)
+          '';
+        };
       };
 
       samba = {
@@ -83,7 +98,7 @@ in
         shares = {
           shares = {
             comment = "General shares";
-            path = "/var/lib/media/shares";
+            path = "/var/lib/shares";
 
             "browseable" = "yes";
             "read only" = "no";
@@ -95,7 +110,7 @@ in
 
           photos = {
             comment = "Shared photos";
-            path = "/var/lib/media/photos";
+            path = "/var/lib/photos";
 
             "browseable" = "yes";
             "read only" = "no";
@@ -107,7 +122,7 @@ in
 
           videos = {
             comment = "Shared videos";
-            path = "/var/lib/media/videos";
+            path = "/var/lib/videos";
 
             "browseable" = "yes";
             "read only" = "no";
@@ -119,7 +134,7 @@ in
 
           movies = {
             comment = "Shared movies";
-            path = "/var/lib/media/movies";
+            path = "/var/lib/movies";
 
             "browseable" = "no";
             "read only" = "no";
@@ -132,7 +147,7 @@ in
 
           shows = {
             comment = "Shared shows";
-            path = "/var/lib/media/shows";
+            path = "/var/lib/shows";
 
             "browseable" = "no";
             "read only" = "no";
@@ -145,7 +160,7 @@ in
 
           books = {
             comment = "Shared books";
-            path = "/var/lib/media/books";
+            path = "/var/lib/books";
 
             "browseable" = "no";
             "read only" = "no";
@@ -158,7 +173,7 @@ in
 
           music = {
             comment = "Shared music";
-            path = "/var/lib/media/music";
+            path = "/var/lib/music";
 
             "browseable" = "no";
             "read only" = "no";
@@ -191,6 +206,10 @@ in
             "guest ok" = "no";
           };
         };
+      };
+
+      samba-wsdd = {
+        enable = true;
       };
     };
 

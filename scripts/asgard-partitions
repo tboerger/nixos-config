@@ -113,7 +113,7 @@ mkfs.ext4 -L boot /dev/disk/by-path/pci-0000:00:14.1-ata-1-part1
 
 echo "-----> Mount boot filesystem"
 mkdir /mnt/boot
-mount /dev/disk/by-label/boot /mnt/boot
+mount /dev/disk/by-path/pci-0000:00:14.1-ata-1-part1 /mnt/boot
 
 echo "-----> Wait for filesystems"
 sleep 3

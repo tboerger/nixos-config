@@ -1,32 +1,24 @@
 { config, lib, pkgs, ... }:
 
 {
-  boot = {
-    initrd = {
-      luks = {
-        devices = {
-          luks = {
-            name = "luks";
-            device = "/dev/disk/by-partlabel/data";
-            preLVM = true;
-            allowDiscards = true;
-          };
-        };
-      };
-    };
-  };
-
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-label/boot";
-    fsType = "vfat";
-  };
+  swapDevices = [{
+    device = "/dev/disk/by-label/swap";
+  }];
 
   fileSystems."/" = {
     device = "/dev/disk/by-label/root";
     fsType = "ext4";
     options = [
       "noatime"
-      "nodiratime"
+      "discard"
+    ];
+  };
+
+  fileSystems."/nix" = {
+    device = "/dev/disk/by-label/nix";
+    fsType = "ext4";
+    options = [
+      "noatime"
       "discard"
     ];
   };
@@ -36,12 +28,12 @@
     fsType = "ext4";
     options = [
       "noatime"
-      "nodiratime"
       "discard"
     ];
   };
 
-  swapDevices = [{
-    device = "/dev/disk/by-label/swap";
-  }];
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-label/boot";
+    fsType = "vfat";
+  };
 }

@@ -9,13 +9,14 @@ with lib;
     ./coredns.nix
     ./desktop.nix
     ./docker.nix
+    ./hacking.nix
     ./hass.nix
     ./haveged.nix
     ./libvirt.nix
     ./media.nix
     ./nixbuild.nix
     ./openssh.nix
-    ./samba.nix
+    ./shares.nix
     ./tailscale.nix
     ./timesyncd.nix
     ./webserver.nix

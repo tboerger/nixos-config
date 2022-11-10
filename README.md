@@ -20,7 +20,7 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/ma
 
 mkdir -p /mnt/etc/ssh
 cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
-nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#chnum-bootstrap
+nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#chnum
 ```
 
 ### Updates

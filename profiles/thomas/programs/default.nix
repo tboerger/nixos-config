@@ -6,7 +6,6 @@
     ./autorandr.nix
     ./dircolors.nix
     ./git.nix
-    ./rofi.nix
     ./ssh.nix
     ./starship.nix
     ./vscode.nix

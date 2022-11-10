@@ -23,7 +23,7 @@ in
     username = username;
 
     desktop = {
-      i3 = {
+      gnome = {
         enable = desktop;
       };
     };
@@ -126,9 +126,6 @@ in
       autorandr = {
         enable = desktop;
       };
-      rofi = {
-        enable = desktop;
-      };
       ssh = {
         enable = desktop;
       };
@@ -157,13 +154,6 @@ in
         enable = desktop;
       };
       udiskie = {
-        enable = desktop;
-      };
-
-      # dunst = {
-      #   enable = desktop;
-      # };
-      polybar = {
         enable = desktop;
       };
     };

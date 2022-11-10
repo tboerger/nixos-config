@@ -146,24 +146,15 @@ in
           };
         };
 
-        desktopManager = {
-          xterm = {
-            enable = false;
-          };
-        };
-
         displayManager = {
-          defaultSession = "none+i3";
-
-          lightdm = {
+          gdm = {
             enable = true;
           };
         };
 
-        windowManager = {
-          i3 = {
+        desktopManager = {
+          gnome = {
             enable = true;
-            package = pkgs.i3-gaps;
           };
         };
       };

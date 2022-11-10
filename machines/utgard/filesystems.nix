@@ -1,23 +1,19 @@
 { config, lib, pkgs, ... }:
 let
-  cifsServer = "//192.168.1.10";
-
-  cifsOptions = [
+  nfsOptions = [
     "x-systemd.automount"
     "noauto"
     "x-systemd.idle-timeout=60"
     "x-systemd.device-timeout=5s"
     "x-systemd.mount-timeout=5s"
-    "credentials=${config.age.secrets."users/media/smbpasswd".path}"
-    "uid=${toString config.users.users.media.uid}"
-    "gid=${toString config.users.groups.media.gid}"
+    "nfsvers=4.2"
   ];
 
 in
 {
   environment = {
     systemPackages = with pkgs; [
-      cifs-utils
+      nfs-utils
     ];
   };
 
@@ -157,30 +153,26 @@ in
   };
 
   fileSystems."/var/lib/movies" = {
-    device = "${cifsServer}/movies";
-    fsType = "cifs";
-    options = cifsOptions;
+    device = "192.168.1.10:/movies";
+    fsType = "nfs";
+    options = nfsOptions;
   };
 
   fileSystems."/var/lib/shows" = {
-    device = "${cifsServer}/shows";
-    fsType = "cifs";
-    options = cifsOptions;
+    device = "192.168.1.10:/shows";
+    fsType = "nfs";
+    options = nfsOptions;
   };
 
   fileSystems."/var/lib/books" = {
-    device = "${cifsServer}/books";
-    fsType = "cifs";
-    options = cifsOptions;
+    device = "192.168.1.10:/books";
+    fsType = "nfs";
+    options = nfsOptions;
   };
 
   fileSystems."/var/lib/music" = {
-    device = "${cifsServer}/music";
-    fsType = "cifs";
-    options = cifsOptions;
-  };
-
-  age.secrets."users/media/smbpasswd" = {
-    file = ../../secrets/users/media/smbpasswd.age;
+    device = "192.168.1.10:/music";
+    fsType = "nfs";
+    options = nfsOptions;
   };
 }

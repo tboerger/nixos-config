@@ -33,31 +33,33 @@ for PV in $(pvs --noheadings 2>/dev/null | sed -e 's/^[[:space:]]*//' | cut -d" 
 done
 
 echo "----> Drop existing partitions"
-sgdisk --zap-all /dev/sda
-sgdisk -og /dev/sda
-sgdisk --zap-all /dev/sdb
-sgdisk -og /dev/sdb
+sgdisk --zap-all /dev/disk/by-path/pci-0000:00:1f.2-ata-1.0
+sgdisk -og /dev/disk/by-path/pci-0000:00:1f.2-ata-1.0
+sgdisk --zap-all /dev/disk/by-path/pci-0000:00:1f.2-ata-2.0
+sgdisk -og /dev/disk/by-path/pci-0000:00:1f.2-ata-2.0
 
 echo "-----> Wait for cleanup"
 sleep 3
 sync
 
-echo "-----> Mark GPT disks"
-echo yes | parted -s /dev/sda -- mklabel gpt
+echo "-----> Create sda partitions"
+parted -a opt --script /dev/disk/by-path/pci-0000:00:1f.2-ata-1.0 \
+    mklabel gpt \
+    mkpart primary fat32 0% 1GiB \
+    mkpart primary 1GiB 100% \
+    set 1 esp on \
+    name 1 boot \
+    set 2 lvm on \
+    name 2 data
 
-echo "-----> Create boot partition"
-sgdisk -n 0:0:+1G -t 0:ef00 -c 0:boot /dev/sda
+echo "-----> Create sdb partitions"
+parted -a opt --script /dev/disk/by-path/pci-0000:00:1f.2-ata-2.0 \
+    mklabel gpt \
+    mkpart primary 0% 100% \
+    set 1 lvm on \
+    name 1 tank1
 
-echo "-----> Enable legacy boot"
-sgdisk -A 1:set:2 /dev/sda
-
-echo "-----> Create root partition"
-sgdisk -n 0:0:0 -t 0:8300 -c 0:data /dev/sda
-
-echo "-----> Create tank partition"
-sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/sdb
-
-echo "-----> Wait for data"
+echo "-----> Wait for partitions"
 sleep 3
 sync
 
@@ -68,10 +70,13 @@ echo "-----> Create data vg"
 vgcreate system /dev/disk/by-partlabel/data
 
 echo "-----> Create swap volume"
-lvcreate -y --size 24G --name swap system
+lvcreate -y --size $(cat /proc/meminfo | grep MemTotal | cut -d':' -f2 | sed 's/ //g') --name swap system
 
 echo "-----> Create root volume"
-lvcreate -y --size 50G --name root system
+lvcreate -y --size 20G --name root system
+
+echo "-----> Create nix volume"
+lvcreate -y --size 50G --name nix system
 
 echo "-----> Create home volume"
 lvcreate -y --size 50G --name home system
@@ -86,6 +91,13 @@ mkfs.ext4 -L root /dev/system/root
 echo "-----> Mount root filesystem"
 mount -t ext4 /dev/system/root /mnt
 
+echo "-----> Create nix filesystem"
+mkfs.ext4 -L nix /dev/system/nix
+
+echo "-----> Mount nix filesystem"
+mkdir /mnt/nix
+mount -t ext4 /dev/system/nix /mnt/nix
+
 echo "-----> Create home filesystem"
 mkfs.ext4 -L home /dev/system/home
 
@@ -94,21 +106,17 @@ mkdir /mnt/home
 mount -t ext4 /dev/system/home /mnt/home
 
 echo "-----> Create boot filesystem"
-mkfs.vfat -n boot /dev/disk/by-partlabel/boot
+mkfs.vfat -F32 -n boot /dev/disk/by-partlabel/boot
 
 echo "-----> Mount boot filesystem"
 mkdir /mnt/boot
 mount /dev/disk/by-label/boot /mnt/boot
 
-echo "-----> Wait for filesystems"
-sleep 3
-sync
-
 echo "-----> Create tank pv"
-pvcreate /dev/disk/by-partlabel/tank
+pvcreate /dev/disk/by-partlabel/tank1
 
 echo "-----> Create tank vg"
-vgcreate tank /dev/disk/by-partlabel/tank
+vgcreate tank /dev/disk/by-partlabel/tank1
 
 echo "-----> Create downloads volume"
 lvcreate -y --size 200G --name downloads tank

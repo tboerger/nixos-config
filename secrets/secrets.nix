@@ -2,14 +2,14 @@ let
   thomas = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINaQYR0/Oj6k1H03kshz2J7rlGCaDSuaGPhhOs9FcZfn";
   users = [ thomas ];
 
+  chnum = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP4dZCcl+P+RPV+dwWNu+UAIKrnkyvcLHxN6N6YtFXfh";
   midgard = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICGC6aSeeKiMO9y3NMxPOh2JvvGYcyS4za+0+hSqI3Bj";
   asgard = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE2yYJUssGAmPBv5QBQJTZfwyl0HSgYMQjssG2hjk63+";
   utgard = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDv7Ua1agDUdEo+0uSr99qlhFGsyte+jgf1Z3M+veuq7";
-  systems = [ midgard asgard utgard ];
+  systems = [ chnum midgard asgard utgard ];
 in
 {
   "services/acme/credentials.age".publicKeys = users ++ systems;
-  "services/frpc/token.age".publicKeys = users ++ systems;
   "services/mopidy/jellyfin.age".publicKeys = users ++ systems;
   "services/nixbuild/sshkey.age".publicKeys = users ++ systems;
   "services/tailscale/authkey.age".publicKeys = users ++ systems;
@@ -18,6 +18,7 @@ in
 
   "users/media/password.age".publicKeys = users ++ systems;
   "users/printer/password.age".publicKeys = users ++ systems;
+
   "users/thomas/password.age".publicKeys = users ++ systems;
   "users/anna/password.age".publicKeys = users ++ systems;
   "users/adrian/password.age".publicKeys = users ++ systems;

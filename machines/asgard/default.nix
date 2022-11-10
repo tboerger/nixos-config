@@ -16,7 +16,7 @@
       docker = {
         enable = config.personal.services.enable;
       };
-      samba = {
+      shares = {
         enable = config.personal.services.enable;
       };
       tailscale = {

@@ -17,6 +17,12 @@ in
   };
 
   config = mkIf cfg.enable {
+    environment = {
+      systemPackages = with pkgs; [
+        nur.repos.tboerger.jellyseerr
+      ];
+    };
+
     users = {
       users = {
         media = {
@@ -122,53 +128,37 @@ in
         package = pkgs.prowlarr;
       };
 
-      # unpackerr = {
-      #   enable = true;
-      #   user = "media";
-      #   group = "media";
-      #   # package = pkgs.unpackerr;
-      # };
+      nginx = {
+        virtualHosts = let
+          base = locations: {
+            inherit locations;
+
+            useACMEHost = "boerger.ws";
+            forceSSL = true;
+          };
+          proxy = port: base {
+            "/" = {
+              proxyPass = "http://127.0.0.1:" + toString(port) + "/";
+              proxyWebsockets = true;
+            };
+          };
+        in {
+          "nzbget.boerger.ws" = proxy 6789;
+          "jellyfin.boerger.ws" = proxy 8096;
+          "radarr.boerger.ws" = proxy 7878;
+          "sonarr.boerger.ws" = proxy 8989;
+          "lidarr.boerger.ws" = proxy 8686;
+          "readarr.boerger.ws" = proxy 8787;
+          "bazarr.boerger.ws" = proxy 6767;
+          "prowlarr.boerger.ws" = proxy 9696;
+        };
+      };
     };
 
     personal = {
       services = {
         webserver = {
           enable = true;
-
-          hosts = [
-            {
-              domain = "nzbget.boerger.ws";
-              proxy = "http://localhost:6789";
-            }
-            {
-              domain = "jellyfin.boerger.ws";
-              proxy = "http://localhost:8096";
-            }
-            {
-              domain = "radarr.boerger.ws";
-              proxy = "http://localhost:7878";
-            }
-            {
-              domain = "sonarr.boerger.ws";
-              proxy = "http://localhost:8989";
-            }
-            {
-              domain = "lidarr.boerger.ws";
-              proxy = "http://localhost:8686";
-            }
-            {
-              domain = "readarr.boerger.ws";
-              proxy = "http://localhost:8787";
-            }
-            {
-              domain = "bazarr.boerger.ws";
-              proxy = "http://localhost:6767";
-            }
-            {
-              domain = "prowlarr.boerger.ws";
-              proxy = "http://localhost:9696";
-            }
-          ];
         };
       };
     };

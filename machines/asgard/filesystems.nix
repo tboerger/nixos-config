@@ -29,7 +29,7 @@
     ];
   };
 
-  fileSystems."/var/lib/media/shares" = {
+  fileSystems."/var/lib/shares" = {
     device = "/dev/disk/by-label/shares";
     fsType = "ext4";
     options = [
@@ -37,7 +37,12 @@
     ];
   };
 
-  fileSystems."/var/lib/media/photos" = {
+  fileSystems."/exports/shares" = {
+    device = "/var/lib/shares";
+    options = [ "bind" ];
+  };
+
+  fileSystems."/var/lib/photos" = {
     device = "/dev/disk/by-label/photos";
     fsType = "ext4";
     options = [
@@ -45,7 +50,12 @@
     ];
   };
 
-  fileSystems."/var/lib/media/videos" = {
+  fileSystems."/exports/photos" = {
+    device = "/var/lib/photos";
+    options = [ "bind" ];
+  };
+
+  fileSystems."/var/lib/videos" = {
     device = "/dev/disk/by-label/videos";
     fsType = "ext4";
     options = [
@@ -53,7 +63,12 @@
     ];
   };
 
-  fileSystems."/var/lib/media/movies" = {
+  fileSystems."/exports/videos" = {
+    device = "/var/lib/videos";
+    options = [ "bind" ];
+  };
+
+  fileSystems."/var/lib/movies" = {
     device = "/dev/disk/by-label/movies";
     fsType = "ext4";
     options = [
@@ -61,7 +76,12 @@
     ];
   };
 
-  fileSystems."/var/lib/media/shows" = {
+  fileSystems."/exports/movies" = {
+    device = "/var/lib/movies";
+    options = [ "bind" ];
+  };
+
+  fileSystems."/var/lib/shows" = {
     device = "/dev/disk/by-label/shows";
     fsType = "ext4";
     options = [
@@ -69,7 +89,12 @@
     ];
   };
 
-  fileSystems."/var/lib/media/books" = {
+  fileSystems."/exports/shows" = {
+    device = "/var/lib/shows";
+    options = [ "bind" ];
+  };
+
+  fileSystems."/var/lib/books" = {
     device = "/dev/disk/by-label/books";
     fsType = "ext4";
     options = [
@@ -77,12 +102,22 @@
     ];
   };
 
-  fileSystems."/var/lib/media/music" = {
+  fileSystems."/exports/books" = {
+    device = "/var/lib/books";
+    options = [ "bind" ];
+  };
+
+  fileSystems."/var/lib/music" = {
     device = "/dev/disk/by-label/music";
     fsType = "ext4";
     options = [
       "noatime"
     ];
+  };
+
+  fileSystems."/exports/music" = {
+    device = "/var/lib/music";
+    options = [ "bind" ];
   };
 
   fileSystems."/var/lib/printer" = {
@@ -91,6 +126,11 @@
     options = [
       "noatime"
     ];
+  };
+
+  fileSystems."/exports/printer" = {
+    device = "/var/lib/printer";
+    options = [ "bind" ];
   };
 
   fileSystems."/var/lib/backup" = {

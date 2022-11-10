@@ -17,6 +17,7 @@ with lib;
         jq
         lsof
         minio-client
+        nix-index
         nmap
         p7zip
         pciutils
