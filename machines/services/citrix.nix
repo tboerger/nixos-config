@@ -1,4 +1,4 @@
-{ pkgs, lib, config, options, fetchurl, ... }:
+{ pkgs, lib, config, options, ... }:
 with lib;
 
 let

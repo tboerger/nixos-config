@@ -14,10 +14,14 @@ in
   "services/nixbuild/sshkey.age".publicKeys = users ++ systems;
   "services/tailscale/authkey.age".publicKeys = users ++ systems;
 
+  "users/media/password.age".publicKeys = users ++ systems;
   "users/media/smbpasswd.age".publicKeys = users ++ systems;
 
-  "users/media/password.age".publicKeys = users ++ systems;
   "users/printer/password.age".publicKeys = users ++ systems;
+  "users/printer/smbpasswd.age".publicKeys = users ++ systems;
+
+  "users/root/password.age".publicKeys = users ++ systems;
+  "users/admin/password.age".publicKeys = users ++ systems;
 
   "users/thomas/password.age".publicKeys = users ++ systems;
   "users/anna/password.age".publicKeys = users ++ systems;
