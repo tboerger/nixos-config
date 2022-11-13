@@ -53,6 +53,9 @@ in
       golang = {
         enable = desktop;
       };
+      joplin = {
+        enable = desktop;
+      };
       kube = {
         enable = desktop;
       };

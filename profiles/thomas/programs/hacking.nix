@@ -30,18 +30,21 @@ in
         chkrootkit
         crunch
         evil-winrm
+        exploitdb
         ffuf
         gobuster
+        hashcat
         inetutils
         john
         lynis
         metasploit
+        netcat-openbsd
         nikto
         nmap
         openvpn
+        rustscan
         thc-hydra
         wireshark
-        netcat-openbsd
 
         python310Packages.impacket
         python310Packages.netifaces
