@@ -27,4 +27,6 @@ in
   "users/anna/password.age".publicKeys = users ++ systems;
   "users/adrian/password.age".publicKeys = users ++ systems;
   "users/tabea/password.age".publicKeys = users ++ systems;
+
+  "users/thomas/hackthebox.age".publicKeys = users ++ systems;
 }

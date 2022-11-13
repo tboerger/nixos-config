@@ -40,7 +40,15 @@ in
       };
 
       gnome = {
+        core-utilities = {
+          enable = true;
+        };
+
         evolution-data-server = {
+          enable = true;
+        };
+
+        gnome-keyring = {
           enable = true;
         };
 
@@ -48,7 +56,15 @@ in
           enable = true;
         };
 
-        gnome-keyring = {
+        gnome-remote-desktop = {
+          enable = true;
+        };
+
+        gnome-settings-daemon = {
+          enable = true;
+        };
+
+        sushi = {
           enable = true;
         };
       };
@@ -63,6 +79,7 @@ in
         gnomeExtensions.clipman
         gnomeExtensions.ddterm
         gnomeExtensions.docker
+        gnomeExtensions.espresso
         gnomeExtensions.gsnap
         gnomeExtensions.gtile
         gnomeExtensions.keyman
@@ -74,16 +91,6 @@ in
       gnome = {
         excludePackages = with pkgs; [
           gnome-tour
-
-          gnome.atomix
-          gnome.cheese
-          gnome.epiphany
-          gnome.geary
-          gnome.gnome-music
-          gnome.gnome-terminal
-          gnome.hitori
-          gnome.iagno
-          gnome.tali
         ];
       };
     };

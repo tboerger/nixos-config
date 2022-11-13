@@ -126,6 +126,9 @@ in
       autorandr = {
         enable = desktop;
       };
+      hacking = {
+        enable = desktop;
+      };
       ssh = {
         enable = desktop;
       };
@@ -222,6 +225,10 @@ in
         };
         ".wallpapers/tower.jpg" = {
           source = ./wallpapers/tower.jpg;
+        };
+
+        ".face" = {
+          source = ./face.jpg;
         };
       } else { });
 

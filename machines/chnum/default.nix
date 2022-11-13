@@ -22,9 +22,6 @@
       docker = {
         enable = config.personal.services.enable;
       };
-      hacking = {
-        enable = config.personal.services.enable;
-      };
       libvirt = {
         enable = config.personal.services.enable;
       };

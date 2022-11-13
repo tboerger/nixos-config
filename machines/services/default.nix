@@ -9,7 +9,6 @@ with lib;
     ./coredns.nix
     ./desktop.nix
     ./docker.nix
-    ./hacking.nix
     ./hass.nix
     ./haveged.nix
     ./libvirt.nix

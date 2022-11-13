@@ -24,8 +24,10 @@ with lib;
         rsync
         s3cmd
         silver-searcher
+        tldr
         tmux
         tree
+        unzip
         vim
         wget
         yq
