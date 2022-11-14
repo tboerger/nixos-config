@@ -87,6 +87,16 @@
             # ./profiles/tabea
           ];
 
+        nilfheim = mkComputer
+          ./machines/niflheim
+          "x86_64-linux"
+          [
+            ./profiles/thomas
+            # ./profiles/anna
+            # ./profiles/adrian
+            # ./profiles/tabea
+          ];
+
         asgard = mkComputer
           ./machines/asgard
           "x86_64-linux"
@@ -120,12 +130,25 @@
       };
 
       chnum = self.nixosConfigurations.chnum.config.system.build.toplevel;
+      niflheim = self.nixosConfigurations.niflheim.config.system.build.toplevel;
       asgard = self.nixosConfigurations.asgard.config.system.build.toplevel;
       utgard = self.nixosConfigurations.utgard.config.system.build.toplevel;
       midgard = self.nixosConfigurations.midgard.config.system.build.toplevel;
 
       deploy = {
         nodes = {
+          nilfheim = {
+            sshOpts = [ "-p" "22" ];
+            hostname = "192.168.64.4";
+            fastConnection = true;
+
+            profiles.system = {
+              sshUser = "admin";
+              user = "root";
+              path = deployrs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.niflheim;
+            };
+          };
+
           asgard = {
             sshOpts = [ "-p" "22" ];
             hostname = "192.168.1.10";
