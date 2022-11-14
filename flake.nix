@@ -87,7 +87,7 @@
             # ./profiles/tabea
           ];
 
-        nilfheim = mkComputer
+        niflheim = mkComputer
           ./machines/niflheim
           "x86_64-linux"
           [
