@@ -30,10 +30,7 @@
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-label/boot";
-    fsType = "ext4";
-    options = [
-      "noatime"
-    ];
+    device = "/dev/disk/by-label/boot1";
+    fsType = "vfat";
   };
 }

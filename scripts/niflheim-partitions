@@ -49,18 +49,20 @@ sync
 echo "-----> Create sda partitions"
 parted -a opt --script /dev/disk/by-path/pci-0000:00:1f.2-ata-1.0 \
     mklabel gpt \
-    mkpart non-fs 0 2 \
-    mkpart primary 2 100% \
-    set 1 bios_grub on \
+    mkpart primary fat32 0% 1GiB \
+    mkpart primary 1GiB 100% \
+    set 1 esp on \
+    name 1 boot1 \
     set 2 lvm on \
     name 2 tank1
 
 echo "-----> Create sdb partitions"
 parted -a opt --script /dev/disk/by-path/pci-0000:00:1f.2-ata-2.0 \
     mklabel gpt \
-    mkpart non-fs 0 2 \
-    mkpart primary 2 100% \
-    set 1 bios_grub on \
+    mkpart primary fat32 0% 1GiB \
+    mkpart primary 1GiB 100% \
+    set 1 esp on \
+    name 1 boot2 \
     set 2 lvm on \
     name 2 tank2
 
@@ -70,20 +72,16 @@ echo yes | mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/disk/by-partl
 # echo "-----> Create sdc partitions"
 # parted -a opt --script /dev/disk/by-path/pci-0000:00:1f.2-ata-3.0 \
 #     mklabel gpt \
-#     mkpart primary 0 2 \
-#     mkpart primary 2 100% \
-#     set 1 bios_grub on \
-#     set 2 lvm on \
-#     name 2 tank3
+#     mkpart primary 0 100% \
+#     set 1 lvm on \
+#     name 1 tank3
 
 # echo "-----> Create sdd partitions"
 # parted -a opt --script /dev/disk/by-path/pci-0000:00:1f.2-ata-4.0 \
 #     mklabel gpt \
-#     mkpart primary 0 2 \
-#     mkpart primary 2 100% \
-#     set 1 bios_grub on \
-#     set 2 lvm on \
-#     name 2 tank4
+#     mkpart primary 0 100% \
+#     set 1 lvm on \
+#     name 1 tank4
 
 # echo "-----> Create raid2 volume"
 # echo yes | mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/disk/by-partlabel/tank3 /dev/disk/by-partlabel/tank4
@@ -102,16 +100,13 @@ echo "-----> Create swap volume"
 lvcreate -y --size $(cat /proc/meminfo | grep MemTotal | cut -d':' -f2 | sed 's/ //g') --name swap system
 
 echo "-----> Create root volume"
-lvcreate -y --size 1G --name root system
+lvcreate -y --size 10G --name root system
 
 echo "-----> Create nix volume"
-lvcreate -y --size 50G --name nix system
+lvcreate -y --size 45G --name nix system
 
 echo "-----> Create home volume"
 lvcreate -y --size 1G --name home system
-
-echo "-----> Create boot volume"
-lvcreate -y --size 1G --name boot system
 
 echo "-----> Enable swap partition"
 mkswap -L swap /dev/system/swap
@@ -139,8 +134,8 @@ mkdir -p /mnt/home
 mount -t ext4 /dev/system/home /mnt/home
 
 echo "-----> Create boot filesystem"
-mkfs.vfat -F32 -n boot /dev/system/boot
+mkfs.vfat -F32 -n boot1 /dev/disk/by-partlabel/boot1
 
 echo "-----> Mount boot filesystem"
 mkdir -p /mnt/boot
-mount /dev/system/boot /mnt/boot
+mount /dev/disk/by-label/boot1 /mnt/boot

@@ -33,6 +33,35 @@ nixos-rebuild switch \
     --flake github:tboerger/nixos-config#chnum
 ```
 
+## Niflheim
+
+### Bootstrap
+
+Copy `/etc/ssh/ssh_host_ed25519_key.pub` into [secrets](./secrets/secrets.nix)
+and rekey the secrets via [agenix][agenix]. After pushing the rekeyed secrets
+execute these commands:
+
+```console
+sudo loadkeys de
+sudo nix-shell --packages nixUnstable
+
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/niflheim-partitions)"
+
+mkdir -p /mnt/etc/ssh
+cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
+nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#niflheim
+```
+
+### Updates
+
+If the repository had been cloned you could just execute `make switch`,
+otherwise there is still this long option to update the deployment:
+
+```console
+nixos-rebuild switch \
+    --flake github:tboerger/nixos-config#niflheim
+```
+
 ## Asgard
 
 ### Bootstrap
