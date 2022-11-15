@@ -78,7 +78,27 @@
     {
       nixosConfigurations = {
         chnum = mkComputer
-          ./machines/chnum
+          ./desktops/chnum
+          "x86_64-linux"
+          [
+            ./profiles/thomas
+            # ./profiles/anna
+            # ./profiles/adrian
+            # ./profiles/tabea
+          ];
+
+        hathor = mkComputer
+          ./desktops/hathor
+          "x86_64-linux"
+          [
+            ./profiles/thomas
+            # ./profiles/anna
+            # ./profiles/adrian
+            # ./profiles/tabea
+          ];
+
+        osiris = mkComputer
+          ./desktops/osiris
           "x86_64-linux"
           [
             ./profiles/thomas
@@ -88,7 +108,7 @@
           ];
 
         niflheim = mkComputer
-          ./machines/niflheim
+          ./servers/niflheim
           "x86_64-linux"
           [
             ./profiles/thomas
@@ -98,7 +118,7 @@
           ];
 
         asgard = mkComputer
-          ./machines/asgard
+          ./servers/asgard
           "x86_64-linux"
           [
             ./profiles/thomas
@@ -108,7 +128,7 @@
           ];
 
         utgard = mkComputer
-          ./machines/utgard
+          ./servers/utgard
           "x86_64-linux"
           [
             ./profiles/thomas
@@ -118,7 +138,7 @@
           ];
 
         midgard = mkComputer
-          ./machines/midgard
+          ./servers/midgard
           "aarch64-linux"
           [
             hardware.nixosModules.raspberry-pi-4
@@ -130,6 +150,9 @@
       };
 
       chnum = self.nixosConfigurations.chnum.config.system.build.toplevel;
+      hathor = self.nixosConfigurations.hathor.config.system.build.toplevel;
+      osiris = self.nixosConfigurations.osiris.config.system.build.toplevel;
+
       niflheim = self.nixosConfigurations.niflheim.config.system.build.toplevel;
       asgard = self.nixosConfigurations.asgard.config.system.build.toplevel;
       utgard = self.nixosConfigurations.utgard.config.system.build.toplevel;

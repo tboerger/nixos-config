@@ -4,13 +4,21 @@
 
 Provisioning for my NixOS systems based on [Nix][nix].
 
-## Chnum
-
-### Bootstrap
+## Prepare
 
 Copy `/etc/ssh/ssh_host_ed25519_key.pub` into [secrets](./secrets/secrets.nix)
 and rekey the secrets via [agenix][agenix]. After pushing the rekeyed secrets
-execute these commands:
+execute the commands below.
+
+## Desktops
+
+Generally after the installation I'm cloning this repository somewhere onto the
+desktop machine and just execute `make switch` within that repository to apply
+updates, if this is not the case I can always execute
+`nixos-rebuild switch --flake github:tboerger/nixos-config#name` to get the
+latest changes pulled in.
+
+### Chnum
 
 ```console
 sudo loadkeys de
@@ -23,23 +31,39 @@ cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
 nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#chnum
 ```
 
-### Updates
-
-If the repository had been cloned you could just execute `make switch`,
-otherwise there is still this long option to update the deployment:
+### Hathor
 
 ```console
-nixos-rebuild switch \
-    --flake github:tboerger/nixos-config#chnum
+sudo loadkeys de
+sudo nix-shell --packages nixUnstable
+
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/hathor-partitions)"
+
+mkdir -p /mnt/etc/ssh
+cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
+nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#hathor
 ```
 
-## Niflheim
+### Osiris
 
-### Bootstrap
+```console
+sudo loadkeys de
+sudo nix-shell --packages nixUnstable
 
-Copy `/etc/ssh/ssh_host_ed25519_key.pub` into [secrets](./secrets/secrets.nix)
-and rekey the secrets via [agenix][agenix]. After pushing the rekeyed secrets
-execute these commands:
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/osiris-partitions)"
+
+mkdir -p /mnt/etc/ssh
+cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
+nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#osiris
+```
+
+## Servers
+
+Currently I'm applying the updates manually by cloning the repository into the
+machine and executing `make switch`, but on longterm it should also just work to
+use the `deploy #name` command, at least if it's executed from a NixOS desktop.
+
+### Niflheim
 
 ```console
 sudo loadkeys de
@@ -52,23 +76,7 @@ cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
 nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#niflheim
 ```
 
-### Updates
-
-If the repository had been cloned you could just execute `make switch`,
-otherwise there is still this long option to update the deployment:
-
-```console
-nixos-rebuild switch \
-    --flake github:tboerger/nixos-config#niflheim
-```
-
-## Asgard
-
-### Bootstrap
-
-Copy `/etc/ssh/ssh_host_ed25519_key.pub` into [secrets](./secrets/secrets.nix)
-and rekey the secrets via [agenix][agenix]. After pushing the rekeyed secrets
-execute these commands:
+### Asgard
 
 ```console
 sudo loadkeys de
@@ -81,23 +89,7 @@ cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
 nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#asgard
 ```
 
-### Updates
-
-If the repository had been cloned you could just execute `make switch`,
-otherwise there is still this long option to update the deployment:
-
-```console
-nixos-rebuild switch \
-    --flake github:tboerger/nixos-config#asgard
-```
-
-## Utgard
-
-### Bootstrap
-
-Copy `/etc/ssh/ssh_host_ed25519_key.pub` into [secrets](./secrets/secrets.nix)
-and rekey the secrets via [agenix][agenix]. After pushing the rekeyed secrets
-execute these commands:
+### Utgard
 
 ```console
 sudo loadkeys de
@@ -110,23 +102,7 @@ cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
 nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#utgard
 ```
 
-### Updates
-
-If the repository had been cloned you could just execute `make switch`,
-otherwise there is still this long option to update the deployment:
-
-```console
-nixos-rebuild switch \
-    --flake github:tboerger/nixos-config#utgard
-```
-
-## Midgard
-
-### Bootstrap
-
-Copy `/etc/ssh/ssh_host_ed25519_key.pub` into [secrets](./secrets/secrets.nix)
-and rekey the secrets via [agenix][agenix]. After pushing the rekeyed secrets
-execute these commands:
+### Midgard
 
 ```console
 sudo loadkeys de
@@ -137,16 +113,6 @@ mount /dev/disk/by-label/NIXOS_SD /mnt
 mkdir -p /mnt/etc/ssh
 cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
 nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#midgard
-```
-
-### Updates
-
-If the repository had been cloned you could just execute `make switch`,
-otherwise there is still this long option to update the deployment:
-
-```console
-nixos-rebuild switch \
-    --flake github:tboerger/nixos-config#midgard
 ```
 
 ## Security
