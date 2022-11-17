@@ -36,13 +36,12 @@ done
 
 echo "----> Remove previous MDs"
 mdadm --stop --scan || true
-mkdir -p /etc/mdadm
 
 echo 'AUTO -all
 ARRAY <ignore> UUID=00000000:00000000:00000000:00000000' > /etc/mdadm/mdadm.conf
 
 echo "----> Drop existing partitions"
-for DISK in pci-0000:00:1f.2-ata-3.0 pci-0000:00:1f.2-ata-4.0 pci-0000:00:1f.2-ata-5.0 pci-0000:00:1f.2-ata-6.0; do
+for DISK in pci-0000:00:1f.2-ata-1.0 pci-0000:00:1f.2-ata-2.0; do
     sgdisk --zap-all /dev/disk/by-path/${DISK}
     sgdisk -og /dev/disk/by-path/${DISK}
 done
@@ -52,62 +51,40 @@ sleep 3
 sync
 
 echo "-----> Create sda partitions"
-parted -a opt --script /dev/disk/by-path/pci-0000:00:1f.2-ata-3.0 \
+parted -a opt --script /dev/disk/by-path/pci-0000:00:1f.2-ata-1.0 \
     mklabel gpt \
-    mkpart primary 1MB 1GB \
-    set 1 bios_grub on \
-    name 1 boot1 \
+    mkpart primary fat32 0% 1GB \
+    set 1 esp on \
+    name 1 boot \
     mkpart primary 1GB 100% \
     set 2 lvm on \
-    name 2 tank1
+    name 2 system
 
 echo "-----> Create sdb partitions"
-parted -a opt --script /dev/disk/by-path/pci-0000:00:1f.2-ata-4.0 \
+parted -a opt --script /dev/disk/by-path/pci-0000:00:1f.2-ata-2.0 \
     mklabel gpt \
-    mkpart primary 1MB 1GB \
-    set 1 bios_grub on \
-    name 1 boot2 \
-    mkpart primary 1GB 100% \
-    set 2 lvm on \
-    name 2 tank2
-
-echo "-----> Create sdc partitions"
-parted -a opt --script /dev/disk/by-path/pci-0000:00:1f.2-ata-5.0 \
-    mklabel gpt \
-    mkpart primary 1MB 1GB \
-    set 1 bios_grub on \
-    name 1 boot3 \
-    mkpart primary 1GB 100% \
-    set 2 lvm on \
-    name 2 tank3
-
-echo "-----> Create sdd partitions"
-parted -a opt --script /dev/disk/by-path/pci-0000:00:1f.2-ata-6.0 \
-    mklabel gpt \
-    mkpart primary 1MB 1GB \
-    set 1 bios_grub on \
-    name 1 boot4 \
-    mkpart primary 1GB 100% \
-    set 2 lvm on \
-    name 2 tank4
+    mkpart primary 0% 100% \
+    set 1 lvm on \
+    name 1 tank
 
 echo "-----> Reload partition table"
 partprobe
 
-echo "-----> Create raid0 volume"
-echo yes | mdadm --create /dev/md0 --level=10 --raid-devices=4 --homehost=niflheim --name=md0 /dev/disk/by-partlabel/tank1 /dev/disk/by-partlabel/tank2 /dev/disk/by-partlabel/tank3 /dev/disk/by-partlabel/tank4
-wipefs -a /dev/md0
-echo 0 > /proc/sys/dev/raid/speed_limit_max
-
-echo "-----> Wait for raids"
+echo "-----> Wait for partitions"
 sleep 3
 sync
 
 echo "-----> Create data pv"
-pvcreate /dev/md0
+pvcreate /dev/disk/by-partlabel/system
 
 echo "-----> Create data vg"
-vgcreate system /dev/md0
+vgcreate system /dev/disk/by-partlabel/system
+
+echo "-----> Create tank pv"
+pvcreate /dev/disk/by-partlabel/tank
+
+echo "-----> Create tank vg"
+vgcreate tank /dev/disk/by-partlabel/tank
 
 echo "-----> Create swap volume"
 lvcreate -y --size $(cat /proc/meminfo | grep MemTotal | cut -d':' -f2 | sed 's/ //g') --name swap system
@@ -147,17 +124,17 @@ mkdir -p /mnt/home
 mount -t ext4 /dev/system/home /mnt/home
 
 echo "-----> Create boot filesystem"
-mkfs.ext4 -L boot /dev/disk/by-partlabel/boot1
+mkfs.vfat -F32 -n boot /dev/disk/by-partlabel/boot
 
 echo "-----> Mount boot filesystem"
 mkdir -p /mnt/boot
-mount /dev/disk/by-partlabel/boot1 /mnt/boot
+mount /dev/disk/by-label/boot /mnt/boot
 
 #
 # STORAGE
 #
 
-for PARTITION in ; do
+for PARTITION in acme hass; do
     echo "-----> Create ${PARTITION} volume"
     lvcreate -y --size 5G --name ${PARTITION} system
 
@@ -168,43 +145,3 @@ for PARTITION in ; do
     mkdir /mnt/var/lib/${PARTITION}
     mount -t ext4 /dev/system/${PARTITION} /mnt/var/lib/${PARTITION}
 done
-
-echo "-----> Create movies volume"
-lvcreate -y --size 2000G --name movies system
-
-echo "-----> Create movies filesystem"
-mkfs.ext4 -L movies /dev/system/movies
-
-echo "-----> Mount movies filesystem"
-mkdir -p /mnt/var/lib/movies
-mount -t ext4 /dev/system/movies /mnt/var/lib/movies
-
-echo "-----> Create shows volume"
-lvcreate -y --size 2000G --name shows system
-
-echo "-----> Create shows filesystem"
-mkfs.ext4 -L shows /dev/system/shows
-
-echo "-----> Mount shows filesystem"
-mkdir -p /mnt/var/lib/shows
-mount -t ext4 /dev/system/shows /mnt/var/lib/shows
-
-echo "-----> Create books volume"
-lvcreate -y --size 100G --name books system
-
-echo "-----> Create books filesystem"
-mkfs.ext4 -L books /dev/system/books
-
-echo "-----> Mount books filesystem"
-mkdir -p /mnt/var/lib/books
-mount -t ext4 /dev/system/books /mnt/var/lib/books
-
-echo "-----> Create music volume"
-lvcreate -y --size 100G --name music system
-
-echo "-----> Create music filesystem"
-mkfs.ext4 -L music /dev/system/music
-
-echo "-----> Mount music filesystem"
-mkdir -p /mnt/var/lib/music
-mount -t ext4 /dev/system/music /mnt/var/lib/music

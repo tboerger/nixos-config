@@ -24,7 +24,7 @@ latest changes pulled in.
 sudo loadkeys de
 sudo nix-shell --packages nixUnstable
 
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/chnum-partitions)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/desktops/chnum/partitions.sh)"
 
 mkdir -p /mnt/etc/ssh
 cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
@@ -37,7 +37,7 @@ nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-confi
 sudo loadkeys de
 sudo nix-shell --packages nixUnstable
 
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/hathor-partitions)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/desktops/hathor/partitions.sh)"
 
 mkdir -p /mnt/etc/ssh
 cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
@@ -50,7 +50,7 @@ nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-confi
 sudo loadkeys de
 sudo nix-shell --packages nixUnstable
 
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/osiris-partitions)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/desktops/osiris/partitions.sh)"
 
 mkdir -p /mnt/etc/ssh
 cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
@@ -88,7 +88,7 @@ EOF
 nixos-generate -o /root/result  -f kexec-bundle -c /root/config.nix
 /root/result
 
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/niflheim-partitions)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/servers/niflheim/partitions.sh)"
 
 mkdir -p /mnt/etc/ssh
 cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
@@ -101,7 +101,7 @@ nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-confi
 sudo loadkeys de
 sudo nix-shell --packages nixUnstable
 
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/asgard-partitions)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/servers/asgard/partitions.sh)"
 
 mkdir -p /mnt/etc/ssh
 cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
@@ -114,7 +114,7 @@ nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-confi
 sudo loadkeys de
 sudo nix-shell --packages nixUnstable
 
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/utgard-partitions)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/servers/utgard/partitions.sh)"
 
 mkdir -p /mnt/etc/ssh
 cp /etc/ssh/ssh_host_* /mnt/etc/ssh/

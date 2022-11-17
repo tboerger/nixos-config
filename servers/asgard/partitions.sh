@@ -92,6 +92,10 @@ parted -a opt --script /dev/disk/by-path/pci-0000:00:11.0-ata-4 \
 echo "-----> Reload partition table"
 partprobe
 
+echo "-----> Wait for partitions"
+sleep 3
+sync
+
 echo "-----> Create raid0 volume"
 echo yes | mdadm --create /dev/md0 --level=10 --raid-devices=4 --homehost=asgard --name=md0 /dev/disk/by-partlabel/tank1 /dev/disk/by-partlabel/tank2 /dev/disk/by-partlabel/tank3 /dev/disk/by-partlabel/tank4
 wipefs -a /dev/md0

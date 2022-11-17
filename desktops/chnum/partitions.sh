@@ -34,12 +34,6 @@ for PV in $(pvs --noheadings 2>/dev/null | sed -e 's/^[[:space:]]*//' | cut -d" 
     pvremove -y ${PV} 2>/dev/null
 done
 
-echo "----> Remove previous MDs"
-mdadm --stop --scan || true
-
-echo 'AUTO -all
-ARRAY <ignore> UUID=00000000:00000000:00000000:00000000' > /etc/mdadm/mdadm.conf
-
 echo "----> Drop existing partitions"
 for DISK in pci-0000:00:1f.2-ata-1.0; do
     sgdisk --zap-all /dev/disk/by-path/${DISK}
@@ -62,6 +56,10 @@ parted -a opt --script /dev/disk/by-path/pci-0000:00:14.1-ata-1 \
 
 echo "-----> Reload partition table"
 partprobe
+
+echo "-----> Wait for partitions"
+sleep 3
+sync
 
 echo "-----> Create data pv"
 pvcreate /dev/disk/by-partlabel/system
@@ -112,19 +110,3 @@ mkfs.vfat -F32 -n boot /dev/disk/by-partlabel/boot
 echo "-----> Mount boot filesystem"
 mkdir -p /mnt/boot
 mount /dev/disk/by-label/boot /mnt/boot
-
-#
-# STORAGE
-#
-
-for PARTITION in ; do
-    echo "-----> Create ${PARTITION} volume"
-    lvcreate -y --size 5G --name ${PARTITION} system
-
-    echo "-----> Create ${PARTITION} filesystem"
-    mkfs.ext4 -L ${PARTITION} /dev/system/${PARTITION}
-
-    echo "-----> Mount ${PARTITION} filesystem"
-    mkdir /mnt/var/lib/${PARTITION}
-    mount -t ext4 /dev/system/${PARTITION} /mnt/var/lib/${PARTITION}
-done
