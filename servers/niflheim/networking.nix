@@ -3,8 +3,16 @@
 {
   networking = {
     hostName = "niflheim";
-    defaultGateway = "176.9.93.193";
-    defaultGateway6 = "fe80::1";
+
+    defaultGateway = {
+      address = "176.9.93.193";
+      interface = "enp3s0";
+    };
+
+    defaultGateway6 = {
+      address = "fe80::1";
+      interface = "enp3s0";
+    };
 
     nameservers = [
       "1.1.1.1"
