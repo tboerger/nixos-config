@@ -15,8 +15,12 @@
       grub = {
         enable = true;
         version = 2;
-        device = "/dev/disk/by-path/pci-0000:00:14.1-ata-1";
         efiSupport = false;
+        copyKernels = true;
+
+        devices = [
+          "/dev/disk/by-path/pci-0000:00:14.1-ata-1"
+        ];
       };
     };
 

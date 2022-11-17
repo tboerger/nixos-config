@@ -31,6 +31,41 @@
 
   fileSystems."/boot" = {
     device = "/dev/disk/by-label/boot1";
-    fsType = "vfat";
+    fsType = "ext4";
+    options = [
+      "noatime"
+    ];
+  };
+
+  fileSystems."/var/lib/movies" = {
+    device = "/dev/disk/by-label/movies";
+    fsType = "ext4";
+    options = [
+      "noatime"
+    ];
+  };
+
+  fileSystems."/var/lib/shows" = {
+    device = "/dev/disk/by-label/shows";
+    fsType = "ext4";
+    options = [
+      "noatime"
+    ];
+  };
+
+  fileSystems."/var/lib/books" = {
+    device = "/dev/disk/by-label/books";
+    fsType = "ext4";
+    options = [
+      "noatime"
+    ];
+  };
+
+  fileSystems."/var/lib/music" = {
+    device = "/dev/disk/by-label/music";
+    fsType = "ext4";
+    options = [
+      "noatime"
+    ];
   };
 }

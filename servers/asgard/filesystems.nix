@@ -13,13 +13,13 @@
     ];
   };
 
-  # fileSystems."/nix" = {
-  #   device = "/dev/disk/by-label/nix";
-  #   fsType = "ext4";
-  #   options = [
-  #     "noatime"
-  #   ];
-  # };
+  fileSystems."/nix" = {
+    device = "/dev/disk/by-label/nix";
+    fsType = "ext4";
+    options = [
+      "noatime"
+    ];
+  };
 
   fileSystems."/home" = {
     device = "/dev/disk/by-label/home";
@@ -30,7 +30,7 @@
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-label/boot";
+    device = "/dev/disk/by-label/boot1";
     fsType = "ext4";
     options = [
       "noatime"
@@ -82,66 +82,6 @@
     ];
   };
 
-  fileSystems."/var/lib/movies" = {
-    device = "/dev/disk/by-label/movies";
-    fsType = "ext4";
-    options = [
-      "noatime"
-    ];
-  };
-
-  fileSystems."/exports/movies" = {
-    device = "/var/lib/movies";
-    options = [
-      "bind"
-    ];
-  };
-
-  fileSystems."/var/lib/shows" = {
-    device = "/dev/disk/by-label/shows";
-    fsType = "ext4";
-    options = [
-      "noatime"
-    ];
-  };
-
-  fileSystems."/exports/shows" = {
-    device = "/var/lib/shows";
-    options = [
-      "bind"
-    ];
-  };
-
-  fileSystems."/var/lib/books" = {
-    device = "/dev/disk/by-label/books";
-    fsType = "ext4";
-    options = [
-      "noatime"
-    ];
-  };
-
-  fileSystems."/exports/books" = {
-    device = "/var/lib/books";
-    options = [
-      "bind"
-    ];
-  };
-
-  fileSystems."/var/lib/music" = {
-    device = "/dev/disk/by-label/music";
-    fsType = "ext4";
-    options = [
-      "noatime"
-    ];
-  };
-
-  fileSystems."/exports/music" = {
-    device = "/var/lib/music";
-    options = [
-      "bind"
-    ];
-  };
-
   fileSystems."/var/lib/printer" = {
     device = "/dev/disk/by-label/printer";
     fsType = "ext4";
@@ -162,6 +102,13 @@
     fsType = "ext4";
     options = [
       "noatime"
+    ];
+  };
+
+  fileSystems."/exports/backup" = {
+    device = "/var/lib/backup";
+    options = [
+      "bind"
     ];
   };
 }

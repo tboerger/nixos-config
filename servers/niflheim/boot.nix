@@ -12,23 +12,26 @@
     cleanTmpDir = true;
 
     loader = {
-      efi = {
-        canTouchEfiVariables = true;
-      };
-
-      systemd-boot = {
+      grub = {
         enable = true;
-        consoleMode = "2";
-        configurationLimit = 5;
-        editor = false;
+        version = 2;
+        efiSupport = false;
+        copyKernels = true;
+
+        devices = [
+          "/dev/disk/by-path/pci-0000:00:1f.2-ata-3.0"
+          "/dev/disk/by-path/pci-0000:00:1f.2-ata-4.0"
+          "/dev/disk/by-path/pci-0000:00:1f.2-ata-5.0"
+          "/dev/disk/by-path/pci-0000:00:1f.2-ata-6.0"
+        ];
       };
     };
 
-    kernelModules = [ ];
+    kernelModules = [ "kvm-intel" ];
     extraModulePackages = [ ];
 
     initrd = {
-      availableKernelModules = [ "xhci_pci" "uhci_hcd" "ehci_pci" "ahci" "usbhid" "sd_mod" "sr_mod" ];
+      availableKernelModules = [ "ehci_pci" "ahci" "sd_mod" ];
       kernelModules = [ "dm-snapshot" ];
     };
   };

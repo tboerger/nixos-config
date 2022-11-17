@@ -32,33 +32,48 @@ for PV in $(pvs --noheadings 2>/dev/null | sed -e 's/^[[:space:]]*//' | cut -d" 
     pvremove -y ${PV} 2>/dev/null
 done
 
+echo "----> Remove previous MDs"
+if [[ -d /dev/md ]]; then
+    for MD in /dev/md/*; do
+        mdadm --stop $MD
+    done
+fi
+
+echo "----> Remove previous MDs"
+if [[ -d /dev/md ]]; then
+    for MD in /dev/md/*; do
+        mdadm --stop $MD
+    done
+fi
+
 echo "----> Drop existing partitions"
-sgdisk --zap-all /dev/disk/by-path/pci-0000:00:1f.2-ata-1.0
-sgdisk -og /dev/disk/by-path/pci-0000:00:1f.2-ata-1.0
+for DISK in pci-0000:00:1f.2-ata-1.0; do
+    sgdisk --zap-all /dev/disk/by-path/${DISK}
+    sgdisk -og /dev/disk/by-path/${DISK}
+done
 
 echo "-----> Wait for cleanup"
 sleep 3
 sync
 
 echo "-----> Create sda partitions"
-parted -a opt --script /dev/disk/by-path/pci-0000:00:1f.2-ata-1.0 \
+parted -a opt --script /dev/disk/by-path/pci-0000:00:14.1-ata-1 \
     mklabel gpt \
-    mkpart primary fat32 0% 1GiB \
-    mkpart primary 1GiB 100% \
+    mkpart primary fat32 0% 1GB \
     set 1 esp on \
     name 1 boot \
+    mkpart primary 1GB 100% \
     set 2 lvm on \
-    name 2 data
+    name 2 system
 
-echo "-----> Wait for partitions"
-sleep 3
-sync
+echo "-----> Reload partition table"
+partprobe
 
 echo "-----> Create data pv"
-pvcreate /dev/disk/by-partlabel/data
+pvcreate /dev/disk/by-partlabel/system
 
 echo "-----> Create data vg"
-vgcreate system /dev/disk/by-partlabel/data
+vgcreate system /dev/disk/by-partlabel/system
 
 echo "-----> Create swap volume"
 lvcreate -y --size $(cat /proc/meminfo | grep MemTotal | cut -d':' -f2 | sed 's/ //g') --name swap system
@@ -80,25 +95,42 @@ echo "-----> Create root filesystem"
 mkfs.ext4 -L root /dev/system/root
 
 echo "-----> Mount root filesystem"
+mkdir -p /mnt
 mount -t ext4 /dev/system/root /mnt
 
 echo "-----> Create nix filesystem"
 mkfs.ext4 -L nix /dev/system/nix
 
 echo "-----> Mount nix filesystem"
-mkdir /mnt/nix
+mkdir -p /mnt/nix
 mount -t ext4 /dev/system/nix /mnt/nix
 
 echo "-----> Create home filesystem"
 mkfs.ext4 -L home /dev/system/home
 
 echo "-----> Mount home filesystem"
-mkdir /mnt/home
+mkdir -p /mnt/home
 mount -t ext4 /dev/system/home /mnt/home
 
 echo "-----> Create boot filesystem"
 mkfs.vfat -F32 -n boot /dev/disk/by-partlabel/boot
 
 echo "-----> Mount boot filesystem"
-mkdir /mnt/boot
+mkdir -p /mnt/boot
 mount /dev/disk/by-label/boot /mnt/boot
+
+#
+# STORAGE
+#
+
+for PARTITION in ; do
+    echo "-----> Create ${PARTITION} volume"
+    lvcreate -y --size 5G --name ${PARTITION} system
+
+    echo "-----> Create ${PARTITION} filesystem"
+    mkfs.ext4 -L ${PARTITION} /dev/system/${PARTITION}
+
+    echo "-----> Mount ${PARTITION} filesystem"
+    mkdir /mnt/var/lib/${PARTITION}
+    mount -t ext4 /dev/system/${PARTITION} /mnt/var/lib/${PARTITION}
+done

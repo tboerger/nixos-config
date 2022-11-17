@@ -39,54 +39,91 @@ if [[ -d /dev/md ]]; then
     done
 fi
 
-echo "----> Drop existing partitions"
-wipefs -a /dev/disk/by-path/pci-0000:00:14.1-ata-1 || true
-sfdisk --delete /dev/disk/by-path/pci-0000:00:14.1-ata-1 || true
+echo "----> Remove previous MDs"
+if [[ -d /dev/md ]]; then
+    for MD in /dev/md/*; do
+        mdadm --stop $MD
+    done
+fi
 
-sgdisk --zap-all /dev/disk/by-path/pci-0000:00:11.0-ata-1.0
-sgdisk -og /dev/disk/by-path/pci-0000:00:11.0-ata-1.0
-sgdisk --zap-all /dev/disk/by-path/pci-0000:00:11.0-ata-2.0
-sgdisk -og /dev/disk/by-path/pci-0000:00:11.0-ata-2.0
-sgdisk --zap-all /dev/disk/by-path/pci-0000:00:11.0-ata-3.0
-sgdisk -og /dev/disk/by-path/pci-0000:00:11.0-ata-3.0
-sgdisk --zap-all /dev/disk/by-path/pci-0000:00:11.0-ata-4.0
-sgdisk -og /dev/disk/by-path/pci-0000:00:11.0-ata-4.0
+echo "----> Drop existing partitions"
+for DISK in pci-0000:00:14.1-ata-1 pci-0000:00:11.0-ata-1.0 pci-0000:00:11.0-ata-2.0 pci-0000:00:11.0-ata-3.0 pci-0000:00:11.0-ata-4.0; do
+    sgdisk --zap-all /dev/disk/by-path/${DISK}
+    sgdisk -og /dev/disk/by-path/${DISK}
+done
 
 echo "-----> Wait for cleanup"
 sleep 3
 sync
 
-echo "-----> Mark MBR disks"
-echo yes | parted -s /dev/disk/by-path/pci-0000:00:14.1-ata-1 -- mklabel msdos
+echo "-----> Create sda partitions"
+parted -a opt --script /dev/disk/by-path/pci-0000:00:14.1-ata-1 \
+    mklabel gpt \
+    mkpart primary 1MB 1GB \
+    set 1 bios_grub on \
+    name 1 boot \
+    mkpart primary 1GB 100% \
+    set 2 lvm on \
+    name 2 system
 
-echo "-----> Create boot partition"
-parted /dev/disk/by-path/pci-0000:00:14.1-ata-1 -- mkpart primary ext4 1MB 1GB
-parted /dev/disk/by-path/pci-0000:00:14.1-ata-1 -- set 1 boot on
+echo "-----> Create sdb partitions"
+parted -a opt --script /dev/disk/by-path/pci-0000:00:11.0-ata-1 \
+    mklabel gpt \
+    mkpart primary 1GB 100% \
+    set 1 lvm on \
+    name 1 tank1
 
-echo "-----> Create root partition"
-parted /dev/disk/by-path/pci-0000:00:14.1-ata-1 -- mkpart primary ext4 1GB 100%
+echo "-----> Create sdc partitions"
+parted -a opt --script /dev/disk/by-path/pci-0000:00:11.0-ata-2 \
+    mklabel gpt \
+    mkpart primary 1GB 100% \
+    set 1 lvm on \
+    name 1 tank2
 
-echo "-----> Create tank partition"
-sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/disk/by-path/pci-0000:00:11.0-ata-1
-sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/disk/by-path/pci-0000:00:11.0-ata-2
-sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/disk/by-path/pci-0000:00:11.0-ata-3
-sgdisk -n 0:0:0 -t 0:8300 -c 0:tank /dev/disk/by-path/pci-0000:00:11.0-ata-4
+echo "-----> Create sdd partitions"
+parted -a opt --script /dev/disk/by-path/pci-0000:00:11.0-ata-3 \
+    mklabel gpt \
+    mkpart primary 1GB 100% \
+    set 1 lvm on \
+    name 1 tank3
 
-echo "-----> Wait for data"
+echo "-----> Create sde partitions"
+parted -a opt --script /dev/disk/by-path/pci-0000:00:11.0-ata-4 \
+    mklabel gpt \
+    mkpart primary 1GB 100% \
+    set 1 lvm on \
+    name 1 tank4
+
+echo "-----> Reload partition table"
+partprobe
+
+echo "-----> Create raid0 volume"
+echo yes | mdadm --create /dev/md0 --level=10 --raid-devices=4 /dev/disk/by-partlabel/tank1  /dev/disk/by-partlabel/tank2  /dev/disk/by-partlabel/tank3 /dev/disk/by-partlabel/tank4
+
+echo "-----> Wait for raids"
 sleep 3
 sync
 
 echo "-----> Create data pv"
-pvcreate /dev/disk/by-path/pci-0000:00:14.1-ata-1-part2
+pvcreate /dev/disk/by-partlabel/system
 
 echo "-----> Create data vg"
-vgcreate system /dev/disk/by-path/pci-0000:00:14.1-ata-1-part2
+vgcreate system /dev/disk/by-partlabel/system
+
+echo "-----> Create tank pv"
+pvcreate /dev/md0
+
+echo "-----> Create tank vg"
+vgcreate tank /dev/md0
 
 echo "-----> Create swap volume"
-lvcreate -y --size 24G --name swap system
+lvcreate -y --size $(cat /proc/meminfo | grep MemTotal | cut -d':' -f2 | sed 's/ //g') --name swap system
 
 echo "-----> Create root volume"
-lvcreate -y --size 50G --name root system
+lvcreate -y --size 20G --name root system
+
+echo "-----> Create nix volume"
+lvcreate -y --size 50G --name nix system
 
 echo "-----> Create home volume"
 lvcreate -y --size 50G --name home system
@@ -99,42 +136,45 @@ echo "-----> Create root filesystem"
 mkfs.ext4 -L root /dev/system/root
 
 echo "-----> Mount root filesystem"
+mkdir -p /mnt
 mount -t ext4 /dev/system/root /mnt
+
+echo "-----> Create nix filesystem"
+mkfs.ext4 -L nix /dev/system/nix
+
+echo "-----> Mount nix filesystem"
+mkdir -p /mnt/nix
+mount -t ext4 /dev/system/nix /mnt/nix
 
 echo "-----> Create home filesystem"
 mkfs.ext4 -L home /dev/system/home
 
 echo "-----> Mount home filesystem"
-mkdir /mnt/home
+mkdir -p /mnt/home
 mount -t ext4 /dev/system/home /mnt/home
 
 echo "-----> Create boot filesystem"
-mkfs.ext4 -L boot /dev/disk/by-path/pci-0000:00:14.1-ata-1-part1
+mkfs.ext4 -L boot /dev/disk/by-partlabel/boot1
 
 echo "-----> Mount boot filesystem"
-mkdir /mnt/boot
-mount /dev/disk/by-path/pci-0000:00:14.1-ata-1-part1 /mnt/boot
+mkdir -p /mnt/boot
+mount /dev/disk/by-partlabel/boot1 /mnt/boot
 
-echo "-----> Wait for filesystems"
-sleep 3
-sync
+#
+# STORAGE
+#
 
-echo "----> Remove previous MDs"
-if [[ -d /dev/md ]]; then
-    for MD in /dev/md/*; do
-        mdadm --stop $MD
-    done
-fi
+for PARTITION in ; do
+    echo "-----> Create ${PARTITION} volume"
+    lvcreate -y --size 5G --name ${PARTITION} system
 
-echo "-----> Create raid volume"
-echo yes | mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/disk/by-path/pci-0000:00:11.0-ata-1.0-part1 /dev/disk/by-path/pci-0000:00:11.0-ata-2.0-part1
-echo yes | mdadm --create /dev/md1 --level=1 --raid-devices=2 /dev/disk/by-path/pci-0000:00:11.0-ata-3.0-part1 /dev/disk/by-path/pci-0000:00:11.0-ata-4.0-part1
+    echo "-----> Create ${PARTITION} filesystem"
+    mkfs.ext4 -L ${PARTITION} /dev/system/${PARTITION}
 
-echo "-----> Create tank pv"
-pvcreate /dev/md0 /dev/md1
-
-echo "-----> Create tank vg"
-vgcreate tank /dev/md0 /dev/md1
+    echo "-----> Mount ${PARTITION} filesystem"
+    mkdir /mnt/var/lib/${PARTITION}
+    mount -t ext4 /dev/system/${PARTITION} /mnt/var/lib/${PARTITION}
+done
 
 echo "-----> Create shares volume"
 lvcreate -y --size 10G --name shares tank
@@ -143,9 +183,8 @@ echo "-----> Create shares filesystem"
 mkfs.ext4 -L shares /dev/tank/shares
 
 echo "-----> Mount shares filesystem"
-mkdir -p /mnt/var/lib/media/shares
-mount -t ext4 /dev/tank/shares /mnt/var/lib/media/shares
-chown 20000:20000 /mnt/var/lib/media/shares
+mkdir -p /mnt/var/lib/shares
+mount -t ext4 /dev/tank/shares /mnt/var/lib/shares
 
 echo "-----> Create photos volume"
 lvcreate -y --size 100G --name photos tank
@@ -154,9 +193,8 @@ echo "-----> Create photos filesystem"
 mkfs.ext4 -L photos /dev/tank/photos
 
 echo "-----> Mount photos filesystem"
-mkdir -p /mnt/var/lib/media/photos
-mount -t ext4 /dev/tank/photos /mnt/var/lib/media/photos
-chown 20000:20000 /mnt/var/lib/media/photos
+mkdir -p /mnt/var/lib/photos
+mount -t ext4 /dev/tank/photos /mnt/var/lib/photos
 
 echo "-----> Create videos volume"
 lvcreate -y --size 100G --name videos tank
@@ -165,56 +203,11 @@ echo "-----> Create videos filesystem"
 mkfs.ext4 -L videos /dev/tank/videos
 
 echo "-----> Mount videos filesystem"
-mkdir -p /mnt/var/lib/media/videos
-mount -t ext4 /dev/tank/videos /mnt/var/lib/media/videos
-chown 20000:20000 /mnt/var/lib/media/videos
-
-echo "-----> Create movies volume"
-lvcreate -y --size 500G --name movies tank
-
-echo "-----> Create movies filesystem"
-mkfs.ext4 -L movies /dev/tank/movies
-
-echo "-----> Mount movies filesystem"
-mkdir -p /mnt/var/lib/media/movies
-mount -t ext4 /dev/tank/movies /mnt/var/lib/media/movies
-chown 20000:20000 /mnt/var/lib/media/movies
-
-echo "-----> Create shows volume"
-lvcreate -y --size 500G --name shows tank
-
-echo "-----> Create shows filesystem"
-mkfs.ext4 -L shows /dev/tank/shows
-
-echo "-----> Mount shows filesystem"
-mkdir -p /mnt/var/lib/media/shows
-mount -t ext4 /dev/tank/shows /mnt/var/lib/media/shows
-chown 20000:20000 /mnt/var/lib/media/shows
-
-echo "-----> Create books volume"
-lvcreate -y --size 50G --name books tank
-
-echo "-----> Create books filesystem"
-mkfs.ext4 -L books /dev/tank/books
-
-echo "-----> Mount books filesystem"
-mkdir -p /mnt/var/lib/media/books
-mount -t ext4 /dev/tank/books /mnt/var/lib/media/books
-chown 20000:20000 /mnt/var/lib/media/books
-
-echo "-----> Create music volume"
-lvcreate -y --size 50G --name music tank
-
-echo "-----> Create music filesystem"
-mkfs.ext4 -L music /dev/tank/music
-
-echo "-----> Mount music filesystem"
-mkdir -p /mnt/var/lib/media/music
-mount -t ext4 /dev/tank/music /mnt/var/lib/media/music
-chown 20000:20000 /mnt/var/lib/media/music
+mkdir -p /mnt/var/lib/videos
+mount -t ext4 /dev/tank/videos /mnt/var/lib/videos
 
 echo "-----> Create printer volume"
-lvcreate -y --size 5G --name printer tank
+lvcreate -y --size 10G --name printer tank
 
 echo "-----> Create printer filesystem"
 mkfs.ext4 -L printer /dev/tank/printer
@@ -222,10 +215,9 @@ mkfs.ext4 -L printer /dev/tank/printer
 echo "-----> Mount printer filesystem"
 mkdir -p /mnt/var/lib/printer
 mount -t ext4 /dev/tank/printer /mnt/var/lib/printer
-chown 20001:20001 /mnt/var/lib/printer
 
 echo "-----> Create backup volume"
-lvcreate -y --size 50G --name backup tank
+lvcreate -y --size 1000G --name backup tank
 
 echo "-----> Create backup filesystem"
 mkfs.ext4 -L backup /dev/tank/backup

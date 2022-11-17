@@ -32,15 +32,18 @@ for PV in $(pvs --noheadings 2>/dev/null | sed -e 's/^[[:space:]]*//' | cut -d" 
     pvremove -y ${PV} 2>/dev/null
 done
 
+echo "----> Remove previous MDs"
+if [[ -d /dev/md ]]; then
+    for MD in /dev/md/*; do
+        mdadm --stop $MD
+    done
+fi
+
 echo "----> Drop existing partitions"
-sgdisk --zap-all /dev/disk/by-path/pci-0000:00:1f.2-ata-3.0
-sgdisk -og /dev/disk/by-path/pci-0000:00:1f.2-ata-3.0
-sgdisk --zap-all /dev/disk/by-path/pci-0000:00:1f.2-ata-4.0
-sgdisk -og /dev/disk/by-path/pci-0000:00:1f.2-ata-4.0
-sgdisk --zap-all /dev/disk/by-path/pci-0000:00:1f.2-ata-5.0
-sgdisk -og /dev/disk/by-path/pci-0000:00:1f.2-ata-5.0
-sgdisk --zap-all /dev/disk/by-path/pci-0000:00:1f.2-ata-6.0
-sgdisk -og /dev/disk/by-path/pci-0000:00:1f.2-ata-6.0
+for DISK in pci-0000:00:1f.2-ata-3.0 pci-0000:00:1f.2-ata-4.0 pci-0000:00:1f.2-ata-5.0 pci-0000:00:1f.2-ata-6.0; do
+    sgdisk --zap-all /dev/disk/by-path/${DISK}
+    sgdisk -og /dev/disk/by-path/${DISK}
+done
 
 echo "-----> Wait for cleanup"
 sleep 3
@@ -49,47 +52,50 @@ sync
 echo "-----> Create sda partitions"
 parted -a opt --script /dev/disk/by-path/pci-0000:00:1f.2-ata-3.0 \
     mklabel gpt \
-    mkpart primary fat32 0% 1GiB \
-    mkpart primary 1GiB 100% \
-    set 1 esp on \
+    mkpart primary 1MB 1GB \
+    set 1 bios_grub on \
     name 1 boot1 \
+    mkpart primary 1GB 100% \
     set 2 lvm on \
     name 2 tank1
 
 echo "-----> Create sdb partitions"
 parted -a opt --script /dev/disk/by-path/pci-0000:00:1f.2-ata-4.0 \
     mklabel gpt \
-    mkpart primary fat32 0% 1GiB \
-    mkpart primary 1GiB 100% \
-    set 1 esp on \
+    mkpart primary 1MB 1GB \
+    set 1 bios_grub on \
     name 1 boot2 \
+    mkpart primary 1GB 100% \
     set 2 lvm on \
     name 2 tank2
 
 echo "-----> Create sdc partitions"
 parted -a opt --script /dev/disk/by-path/pci-0000:00:1f.2-ata-5.0 \
     mklabel gpt \
-    mkpart primary fat32 0% 1GiB \
-    mkpart primary 1GiB 100% \
-    set 1 esp on \
+    mkpart primary 1MB 1GB \
+    set 1 bios_grub on \
     name 1 boot3 \
+    mkpart primary 1GB 100% \
     set 2 lvm on \
     name 2 tank3
 
 echo "-----> Create sdd partitions"
 parted -a opt --script /dev/disk/by-path/pci-0000:00:1f.2-ata-6.0 \
     mklabel gpt \
-    mkpart primary fat32 0% 1GiB \
-    mkpart primary 1GiB 100% \
-    set 1 esp on \
+    mkpart primary 1MB 1GB \
+    set 1 bios_grub on \
     name 1 boot4 \
+    mkpart primary 1GB 100% \
     set 2 lvm on \
     name 2 tank4
 
-echo "-----> Create raid10 volume"
+echo "-----> Reload partition table"
+partprobe
+
+echo "-----> Create raid0 volume"
 echo yes | mdadm --create /dev/md0 --level=10 --raid-devices=4 /dev/disk/by-partlabel/tank1  /dev/disk/by-partlabel/tank2  /dev/disk/by-partlabel/tank3 /dev/disk/by-partlabel/tank4
 
-echo "-----> Wait for partitions"
+echo "-----> Wait for raids"
 sleep 3
 sync
 
@@ -103,13 +109,13 @@ echo "-----> Create swap volume"
 lvcreate -y --size $(cat /proc/meminfo | grep MemTotal | cut -d':' -f2 | sed 's/ //g') --name swap system
 
 echo "-----> Create root volume"
-lvcreate -y --size 10G --name root system
+lvcreate -y --size 20G --name root system
 
 echo "-----> Create nix volume"
-lvcreate -y --size 45G --name nix system
+lvcreate -y --size 50G --name nix system
 
 echo "-----> Create home volume"
-lvcreate -y --size 1G --name home system
+lvcreate -y --size 50G --name home system
 
 echo "-----> Enable swap partition"
 mkswap -L swap /dev/system/swap
@@ -137,11 +143,27 @@ mkdir -p /mnt/home
 mount -t ext4 /dev/system/home /mnt/home
 
 echo "-----> Create boot filesystem"
-mkfs.vfat -F32 -n boot1 /dev/disk/by-partlabel/boot1
+mkfs.ext4 -L boot /dev/disk/by-partlabel/boot1
 
 echo "-----> Mount boot filesystem"
 mkdir -p /mnt/boot
-mount /dev/disk/by-label/boot1 /mnt/boot
+mount /dev/disk/by-partlabel/boot1 /mnt/boot
+
+#
+# STORAGE
+#
+
+for PARTITION in ; do
+    echo "-----> Create ${PARTITION} volume"
+    lvcreate -y --size 5G --name ${PARTITION} system
+
+    echo "-----> Create ${PARTITION} filesystem"
+    mkfs.ext4 -L ${PARTITION} /dev/system/${PARTITION}
+
+    echo "-----> Mount ${PARTITION} filesystem"
+    mkdir /mnt/var/lib/${PARTITION}
+    mount -t ext4 /dev/system/${PARTITION} /mnt/var/lib/${PARTITION}
+done
 
 echo "-----> Create movies volume"
 lvcreate -y --size 2000G --name movies system

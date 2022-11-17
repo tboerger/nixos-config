@@ -32,11 +32,25 @@ for PV in $(pvs --noheadings 2>/dev/null | sed -e 's/^[[:space:]]*//' | cut -d" 
     pvremove -y ${PV} 2>/dev/null
 done
 
+echo "----> Remove previous MDs"
+if [[ -d /dev/md ]]; then
+    for MD in /dev/md/*; do
+        mdadm --stop $MD
+    done
+fi
+
+echo "----> Remove previous MDs"
+if [[ -d /dev/md ]]; then
+    for MD in /dev/md/*; do
+        mdadm --stop $MD
+    done
+fi
+
 echo "----> Drop existing partitions"
-sgdisk --zap-all /dev/disk/by-path/pci-0000:00:1f.2-ata-1.0
-sgdisk -og /dev/disk/by-path/pci-0000:00:1f.2-ata-1.0
-sgdisk --zap-all /dev/disk/by-path/pci-0000:00:1f.2-ata-2.0
-sgdisk -og /dev/disk/by-path/pci-0000:00:1f.2-ata-2.0
+for DISK in pci-0000:00:1f.2-ata-1.0 pci-0000:00:1f.2-ata-2.0; do
+    sgdisk --zap-all /dev/disk/by-path/${DISK}
+    sgdisk -og /dev/disk/by-path/${DISK}
+done
 
 echo "-----> Wait for cleanup"
 sleep 3
@@ -45,29 +59,34 @@ sync
 echo "-----> Create sda partitions"
 parted -a opt --script /dev/disk/by-path/pci-0000:00:1f.2-ata-1.0 \
     mklabel gpt \
-    mkpart primary fat32 0% 1GiB \
-    mkpart primary 1GiB 100% \
+    mkpart primary fat32 0% 1GB \
     set 1 esp on \
     name 1 boot \
+    mkpart primary 1GB 100% \
     set 2 lvm on \
-    name 2 data
+    name 2 system
 
 echo "-----> Create sdb partitions"
 parted -a opt --script /dev/disk/by-path/pci-0000:00:1f.2-ata-2.0 \
     mklabel gpt \
     mkpart primary 0% 100% \
     set 1 lvm on \
-    name 1 tank1
+    name 1 tank
 
-echo "-----> Wait for partitions"
-sleep 3
-sync
+echo "-----> Reload partition table"
+partprobe
 
 echo "-----> Create data pv"
-pvcreate /dev/disk/by-partlabel/data
+pvcreate /dev/disk/by-partlabel/system
 
 echo "-----> Create data vg"
-vgcreate system /dev/disk/by-partlabel/data
+vgcreate system /dev/disk/by-partlabel/system
+
+echo "-----> Create tank pv"
+pvcreate /dev/disk/by-partlabel/tank
+
+echo "-----> Create tank vg"
+vgcreate tank /dev/disk/by-partlabel/tank
 
 echo "-----> Create swap volume"
 lvcreate -y --size $(cat /proc/meminfo | grep MemTotal | cut -d':' -f2 | sed 's/ //g') --name swap system
@@ -89,54 +108,42 @@ echo "-----> Create root filesystem"
 mkfs.ext4 -L root /dev/system/root
 
 echo "-----> Mount root filesystem"
+mkdir -p /mnt
 mount -t ext4 /dev/system/root /mnt
 
 echo "-----> Create nix filesystem"
 mkfs.ext4 -L nix /dev/system/nix
 
 echo "-----> Mount nix filesystem"
-mkdir /mnt/nix
+mkdir -p /mnt/nix
 mount -t ext4 /dev/system/nix /mnt/nix
 
 echo "-----> Create home filesystem"
 mkfs.ext4 -L home /dev/system/home
 
 echo "-----> Mount home filesystem"
-mkdir /mnt/home
+mkdir -p /mnt/home
 mount -t ext4 /dev/system/home /mnt/home
 
 echo "-----> Create boot filesystem"
 mkfs.vfat -F32 -n boot /dev/disk/by-partlabel/boot
 
 echo "-----> Mount boot filesystem"
-mkdir /mnt/boot
+mkdir -p /mnt/boot
 mount /dev/disk/by-label/boot /mnt/boot
 
-echo "-----> Create tank pv"
-pvcreate /dev/disk/by-partlabel/tank1
+#
+# STORAGE
+#
 
-echo "-----> Create tank vg"
-vgcreate tank /dev/disk/by-partlabel/tank1
-
-echo "-----> Create downloads volume"
-lvcreate -y --size 200G --name downloads tank
-
-echo "-----> Create downloads filesystem"
-mkfs.ext4 -L downloads /dev/tank/downloads
-
-echo "-----> Mount downloads filesystem"
-mkdir -p /mnt/var/lib/downloads
-mount -t ext4 /dev/tank/downloads /mnt/var/lib/downloads
-chown 20000:20000 /mnt/var/lib/downloads
-
-for PARTITION in acme nzbget jellyfin bazarr lidarr prowlarr radarr readarr sonarr hass; do
+for PARTITION in acme hass; do
     echo "-----> Create ${PARTITION} volume"
-    lvcreate -y --size 5G --name ${PARTITION} tank
+    lvcreate -y --size 5G --name ${PARTITION} system
 
     echo "-----> Create ${PARTITION} filesystem"
-    mkfs.ext4 -L ${PARTITION} /dev/tank/${PARTITION}
+    mkfs.ext4 -L ${PARTITION} /dev/system/${PARTITION}
 
     echo "-----> Mount ${PARTITION} filesystem"
     mkdir /mnt/var/lib/${PARTITION}
-    mount -t ext4 /dev/tank/${PARTITION} /mnt/var/lib/${PARTITION}
+    mount -t ext4 /dev/system/${PARTITION} /mnt/var/lib/${PARTITION}
 done
