@@ -16,9 +16,9 @@ with lib;
     ./media
     ./mediang
     ./minecraft
+    ./nextcloud
     ./nixbuild
     ./openssh
-    ./owncloud
     ./shares
     ./tailscale
     ./timesyncd

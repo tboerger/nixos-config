@@ -38,7 +38,7 @@ in
           };
 
           extensions = with pkgs.vscode-extensions; [
-            coenraads.bracket-pair-colorizer-2
+            dzhavat.bracket-pair-toggler
             editorconfig.editorconfig
             golang.go
             hashicorp.terraform
