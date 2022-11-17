@@ -36,6 +36,7 @@ done
 
 echo "----> Remove previous MDs"
 mdadm --stop --scan || true
+mkdir -p /etc/mdadm
 
 echo 'AUTO -all
 ARRAY <ignore> UUID=00000000:00000000:00000000:00000000' > /etc/mdadm/mdadm.conf
