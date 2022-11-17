@@ -66,8 +66,27 @@ use the `deploy #name` command, at least if it's executed from a NixOS desktop.
 ### Niflheim
 
 ```console
-sudo loadkeys de
-sudo nix-shell --packages nixUnstable
+apt install -y sudo
+
+mkdir -p /etc/nix
+echo "build-users-group =" > /etc/nix/nix.conf
+
+curl -L https://nixos.org/nix/install | sh
+. $HOME/.nix-profile/etc/profile.d/nix.sh
+
+nix-env -f https://github.com/nix-community/nixos-generators/archive/master.tar.gz -i -v
+
+cat <<EOF > /root/config.nix
+{
+  services.openssh.enable = true;
+  users.users.root.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINaQYR0/Oj6k1H03kshz2J7rlGCaDSuaGPhhOs9FcZfn"
+  ];
+}
+EOF
+
+nixos-generate -o /root/result  -f kexec-bundle -c /root/config.nix
+/root/result
 
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/scripts/niflheim-partitions)"
 

@@ -23,6 +23,8 @@ while true; do
 done
 
 echo "----> Remove previous VGs"
+vgchange -an
+
 for VG in $(vgs --noheadings 2>/dev/null | sed -e 's/^[[:space:]]*//' | cut -d" " -f 1); do
     vgremove -y ${VG} 2>/dev/null
 done
@@ -33,11 +35,10 @@ for PV in $(pvs --noheadings 2>/dev/null | sed -e 's/^[[:space:]]*//' | cut -d" 
 done
 
 echo "----> Remove previous MDs"
-if [[ -d /dev/md ]]; then
-    for MD in /dev/md/*; do
-        mdadm --stop $MD
-    done
-fi
+mdadm --stop --scan || true
+
+echo 'AUTO -all
+ARRAY <ignore> UUID=00000000:00000000:00000000:00000000' > /etc/mdadm/mdadm.conf
 
 echo "----> Drop existing partitions"
 for DISK in pci-0000:00:1f.2-ata-3.0 pci-0000:00:1f.2-ata-4.0 pci-0000:00:1f.2-ata-5.0 pci-0000:00:1f.2-ata-6.0; do
@@ -93,7 +94,9 @@ echo "-----> Reload partition table"
 partprobe
 
 echo "-----> Create raid0 volume"
-echo yes | mdadm --create /dev/md0 --level=10 --raid-devices=4 /dev/disk/by-partlabel/tank1  /dev/disk/by-partlabel/tank2  /dev/disk/by-partlabel/tank3 /dev/disk/by-partlabel/tank4
+echo yes | mdadm --create /dev/md0 --level=10 --raid-devices=4 --homehost=niflheim --name=md0 /dev/disk/by-partlabel/tank1 /dev/disk/by-partlabel/tank2 /dev/disk/by-partlabel/tank3 /dev/disk/by-partlabel/tank4
+wipefs -a /dev/md0
+echo 0 > /proc/sys/dev/raid/speed_limit_max
 
 echo "-----> Wait for raids"
 sleep 3

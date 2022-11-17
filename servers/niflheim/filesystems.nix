@@ -30,7 +30,7 @@
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-label/boot1";
+    device = "/dev/disk/by-label/boot";
     fsType = "ext4";
     options = [
       "noatime"
