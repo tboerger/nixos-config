@@ -17,116 +17,170 @@ in
   };
 
   config = mkIf cfg.enable {
+    # containers = {
+    #   media =
+    #     let
+    #       passwordFile = config.age.secrets."users/media/password".path;
+    #     in
+    #     {
+    #       autoStart = true;
+    #       privateNetwork = true;
+    #       # hostAddress = "192.168.100.10";
+    #       # localAddress = "192.168.100.11";
+
+    #       config = { config, pkgs, ... }: {
+    #         users = {
+    #           users = {
+    #             media = {
+    #               uid = 20000;
+    #               description = "Media";
+    #               shell = pkgs.zsh;
+    #               isSystemUser = true;
+    #               group = "media";
+    #               home = "/var/lib/media";
+    #               passwordFile = passwordFile;
+    #             };
+    #           };
+
+    #           groups = {
+    #             media = {
+    #               gid = 20000;
+    #             };
+    #           };
+    #         };
+
+    #         services = {
+    #           jellyfin = {
+    #             enable = true;
+    #             user = "media";
+    #             group = "media";
+    #             package = pkgs.jellyfin;
+    #           };
+    #         };
+
+    #         networking.firewall = {
+    #           enable = true;
+    #           allowedTCPPorts = [
+    #             8080
+    #           ];
+    #         };
+
+    #         environment.etc."resolv.conf".text = "nameserver 8.8.8.8";
+    #         system.stateVersion = "22.05";
+    #       };
+    #     };
+    # };
+
     environment = {
       systemPackages = with pkgs; [
-        nur.repos.tboerger.jellyseerr
+        sqlite
       ];
     };
 
-    users = {
-      users = {
-        media = {
-          uid = 20000;
-          description = "Media";
-          shell = pkgs.zsh;
-          isSystemUser = true;
-          group = "media";
-          home = "/var/lib/media";
-          passwordFile = config.age.secrets."users/media/password".path;
-        };
-      };
+    # users = {
+    #   users = {
+    #     media = {
+    #       uid = 20000;
+    #       description = "Media";
+    #       shell = pkgs.zsh;
+    #       isSystemUser = true;
+    #       group = "media";
+    #       home = "/var/lib/media";
+    #       passwordFile = config.age.secrets."users/media/password".path;
+    #     };
+    #   };
 
-      groups = {
-        media = {
-          gid = 20000;
-        };
-      };
-    };
+    #   groups = {
+    #     media = {
+    #       gid = 20000;
+    #     };
+    #   };
+    # };
 
     services = {
-      nzbget = {
-        enable = true;
-        user = "media";
-        group = "media";
+      # nzbget = {
+      #   enable = true;
+      #   user = "media";
+      #   group = "media";
 
-        settings = {
-          MainDir = "/var/lib/downloads";
-          DestDir = "/var/lib/downloads/completed";
-          InterDir = "/var/lib/downloads/intermediate";
-          NzbDir = "/var/lib/downloads/nzb";
-          QueueDir = "/var/lib/downloads/queue";
-          TempDir = "/var/lib/downloads/temp";
-          ScriptDir = "/var/lib/downloads/scripts";
+      #   settings = {
+      #     MainDir = "/var/lib/downloads";
+      #     DestDir = "/var/lib/downloads/completed";
+      #     InterDir = "/var/lib/downloads/intermediate";
+      #     NzbDir = "/var/lib/downloads/nzb";
+      #     QueueDir = "/var/lib/downloads/queue";
+      #     TempDir = "/var/lib/downloads/temp";
+      #     ScriptDir = "/var/lib/downloads/scripts";
 
-          "Category1.Name" = "Movies";
-          "Category1.Unpack" = "yes";
+      #     "Category1.Name" = "Movies";
+      #     "Category1.Unpack" = "yes";
 
-          "Category2.Name" = "Series";
-          "Category2.Unpack" = "yes";
+      #     "Category2.Name" = "Series";
+      #     "Category2.Unpack" = "yes";
 
-          "Category3.Name" = "Music";
-          "Category3.Unpack" = "yes";
+      #     "Category3.Name" = "Music";
+      #     "Category3.Unpack" = "yes";
 
-          "Category4.Name" = "Books";
-          "Category4.Unpack" = "yes";
+      #     "Category4.Name" = "Books";
+      #     "Category4.Unpack" = "yes";
 
-          "Category5.Name" = "Prowlarr";
-          "Category5.Unpack" = "yes";
-        };
-      };
+      #     "Category5.Name" = "Prowlarr";
+      #     "Category5.Unpack" = "yes";
+      #   };
+      # };
 
-      jellyfin = {
-        enable = true;
-        user = "media";
-        group = "media";
-        package = pkgs.jellyfin;
-      };
+      # jellyfin = {
+      #   enable = true;
+      #   user = "media";
+      #   group = "media";
+      #   package = pkgs.jellyfin;
+      # };
 
-      radarr = {
-        enable = true;
-        user = "media";
-        group = "media";
-        package = pkgs.radarr;
-        dataDir = "/var/lib/radarr";
-      };
+      # radarr = {
+      #   enable = true;
+      #   user = "media";
+      #   group = "media";
+      #   package = pkgs.radarr;
+      #   dataDir = "/var/lib/radarr";
+      # };
 
-      sonarr = {
-        enable = true;
-        user = "media";
-        group = "media";
-        package = pkgs.sonarr;
-        dataDir = "/var/lib/sonarr";
-      };
+      # sonarr = {
+      #   enable = true;
+      #   user = "media";
+      #   group = "media";
+      #   package = pkgs.sonarr;
+      #   dataDir = "/var/lib/sonarr";
+      # };
 
-      lidarr = {
-        enable = true;
-        user = "media";
-        group = "media";
-        package = pkgs.lidarr;
-        dataDir = "/var/lib/lidarr";
-      };
+      # lidarr = {
+      #   enable = true;
+      #   user = "media";
+      #   group = "media";
+      #   package = pkgs.lidarr;
+      #   dataDir = "/var/lib/lidarr";
+      # };
 
-      readarr = {
-        enable = true;
-        user = "media";
-        group = "media";
-        package = pkgs.nur.repos.tboerger.readarr;
-        dataDir = "/var/lib/readarr";
-      };
+      # readarr = {
+      #   enable = true;
+      #   user = "media";
+      #   group = "media";
+      #   package = pkgs.nur.repos.tboerger.readarr;
+      #   dataDir = "/var/lib/readarr";
+      # };
 
-      bazarr = {
-        enable = true;
-        user = "media";
-        group = "media";
-        package = pkgs.bazarr;
-      };
+      # bazarr = {
+      #   enable = true;
+      #   user = "media";
+      #   group = "media";
+      #   package = pkgs.bazarr;
+      # };
 
-      prowlarr = {
-        enable = true;
-        user = "media";
-        group = "media";
-        package = pkgs.prowlarr;
-      };
+      # prowlarr = {
+      #   enable = true;
+      #   user = "media";
+      #   group = "media";
+      #   package = pkgs.prowlarr;
+      # };
 
       nginx = {
         virtualHosts =
@@ -159,18 +213,22 @@ in
 
     personal = {
       services = {
+        acme = {
+          enable = true;
+        };
+
         webserver = {
           enable = true;
         };
       };
     };
 
-    networking = {
-      firewall = {
-        allowedTCPPorts = [ 8096 ];
-        allowedUDPPorts = [ 1900 7359 ];
-      };
-    };
+    # networking = {
+    #   firewall = {
+    #     allowedTCPPorts = [ 8096 ];
+    #     allowedUDPPorts = [ 1900 7359 ];
+    #   };
+    # };
 
     age.secrets."users/media/password" = {
       file = ../../../secrets/users/media/password.age;

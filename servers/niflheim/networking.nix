@@ -38,5 +38,11 @@
         };
       };
     };
+
+    nat = {
+      enable = true;
+      externalInterface = "enp3s0";
+      internalInterfaces = [ "ve-*" ];
+    };
   };
 }

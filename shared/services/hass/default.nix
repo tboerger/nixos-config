@@ -64,28 +64,37 @@ in
           default_config = { };
         };
       };
+
+      nginx = {
+        virtualHosts =
+          let
+            base = locations: {
+              inherit locations;
+
+              useACMEHost = "boerger.ws";
+              forceSSL = true;
+            };
+            proxy = port: base {
+              "/" = {
+                proxyPass = "http://127.0.0.1:" + toString (port) + "/";
+                proxyWebsockets = true;
+              };
+            };
+          in
+          {
+            "iot.boerger.ws" = proxy 8123;
+          };
+      };
     };
 
     personal = {
       services = {
+        acme = {
+          enable = true;
+        };
+
         webserver = {
           enable = true;
-
-          hosts = [
-            {
-              domain = "home.boerger.ws";
-              proxy = "http://127.0.0.1:8123";
-
-              proxyOptions = ''
-                proxy_http_version 1.1;
-
-                proxy_set_header Host $host;
-                proxy_set_header X-Forwarded-Ssl on;
-                proxy_set_header Upgrade $http_upgrade;
-                proxy_set_header Connection $connection_upgrade;
-              '';
-            }
-          ];
         };
       };
     };

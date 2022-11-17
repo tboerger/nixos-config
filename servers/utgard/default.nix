@@ -3,6 +3,7 @@
 {
   imports = [
     ../../shared/modules
+    ../../shared/programs
     ../../shared/services
 
     ./filesystems.nix
@@ -13,13 +14,7 @@
 
   personal = {
     services = {
-      acme = {
-        enable = config.personal.services.enable;
-      };
       hass = {
-        enable = config.personal.services.enable;
-      };
-      media = {
         enable = config.personal.services.enable;
       };
       tailscale = {

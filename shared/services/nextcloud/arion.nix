@@ -1,19 +1,4 @@
 { pkgs, lib, config, options, ... }:
+with lib;
 
-{
-  config = {
-    services = {
-      nextcloud = {
-        nixos = {
-          configuration = {
-            services = {
-              nextcloud = {
-                enable = true;
-              };
-            };
-          };
-        };
-      };
-    };
-  };
-}
+{ }

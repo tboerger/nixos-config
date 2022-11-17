@@ -2,15 +2,15 @@
 with lib;
 
 let
-  cfg = config.personal.services.adguard;
+  cfg = config.personal.services.homedns;
 
 in
 {
   options = {
     personal = {
       services = {
-        adguard = {
-          enable = mkEnableOption "Adguard";
+        homedns = {
+          enable = mkEnableOption "HomeDNS";
         };
       };
     };
@@ -47,19 +47,37 @@ in
           }];
         };
       };
+
+      nginx = {
+        virtualHosts =
+          let
+            base = locations: {
+              inherit locations;
+
+              useACMEHost = "boerger.ws";
+              forceSSL = true;
+            };
+            proxy = port: base {
+              "/" = {
+                proxyPass = "http://127.0.0.1:" + toString (port) + "/";
+                proxyWebsockets = true;
+              };
+            };
+          in
+          {
+            "adguard.boerger.ws" = proxy 3000;
+          };
+      };
     };
 
     personal = {
       services = {
+        acme = {
+          enable = true;
+        };
+
         webserver = {
           enable = true;
-
-          hosts = [
-            {
-              domain = "adguard.boerger.ws";
-              proxy = "http://localhost:3000";
-            }
-          ];
         };
       };
     };

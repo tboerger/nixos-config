@@ -161,7 +161,7 @@ mount /dev/disk/by-partlabel/boot1 /mnt/boot
 # STORAGE
 #
 
-for PARTITION in ; do
+for PARTITION in acme nzbget jellyfin radarr sonarr lidarr readarr bazarr prowlarr; do
     echo "-----> Create ${PARTITION} volume"
     lvcreate -y --size 5G --name ${PARTITION} system
 
@@ -172,6 +172,16 @@ for PARTITION in ; do
     mkdir /mnt/var/lib/${PARTITION}
     mount -t ext4 /dev/system/${PARTITION} /mnt/var/lib/${PARTITION}
 done
+
+echo "-----> Create downloads volume"
+lvcreate -y --size 200G --name downloads system
+
+echo "-----> Create downloads filesystem"
+mkfs.ext4 -L downloads /dev/system/downloads
+
+echo "-----> Mount downloads filesystem"
+mkdir -p /mnt/var/lib/downloads
+mount -t ext4 /dev/system/downloads /mnt/var/lib/downloads
 
 echo "-----> Create movies volume"
 lvcreate -y --size 2000G --name movies system
@@ -212,3 +222,23 @@ mkfs.ext4 -L music /dev/system/music
 echo "-----> Mount music filesystem"
 mkdir -p /mnt/var/lib/music
 mount -t ext4 /dev/system/music /mnt/var/lib/music
+
+echo "-----> Create bromance volume"
+lvcreate -y --size 10G --name bromance system
+
+echo "-----> Create bromance filesystem"
+mkfs.ext4 -L bromance /dev/system/bromance
+
+echo "-----> Mount bromance filesystem"
+mkdir -p /mnt/var/lib/bromance
+mount -t ext4 /dev/system/bromance /mnt/var/lib/bromance
+
+echo "-----> Create owntech volume"
+lvcreate -y --size 10G --name owntech system
+
+echo "-----> Create owntech filesystem"
+mkfs.ext4 -L owntech /dev/system/owntech
+
+echo "-----> Mount owntech filesystem"
+mkdir -p /mnt/var/lib/owntech
+mount -t ext4 /dev/system/owntech /mnt/var/lib/owntech

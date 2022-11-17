@@ -14,13 +14,7 @@
 
   personal = {
     services = {
-      acme = {
-        enable = config.personal.services.enable;
-      };
-      adguard = {
-        enable = config.personal.services.enable;
-      };
-      coredns = {
+      homedns = {
         enable = config.personal.services.enable;
       };
       tailscale = {

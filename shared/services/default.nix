@@ -4,17 +4,14 @@ with lib;
 {
   imports = [
     ./acme
-    ./adguard
     ./authentik
-    ./coredns
+    ./homedns
     ./desktop
     ./docker
-    ./dst
     ./hass
     ./haveged
     ./libvirt
     ./media
-    ./mediang
     ./minecraft
     ./nextcloud
     ./nixbuild
