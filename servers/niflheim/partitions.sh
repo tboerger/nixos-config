@@ -161,7 +161,7 @@ mount /dev/disk/by-partlabel/boot1 /mnt/boot
 # STORAGE
 #
 
-for PARTITION in acme nzbget jellyfin radarr sonarr lidarr readarr bazarr prowlarr; do
+for PARTITION in acme nextcloud nzbget jellyfin radarr sonarr lidarr readarr bazarr prowlarr; do
     echo "-----> Create ${PARTITION} volume"
     lvcreate -y --size 5G --name ${PARTITION} system
 

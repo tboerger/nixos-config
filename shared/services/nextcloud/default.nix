@@ -111,6 +111,12 @@ in
     #           #     url = "https://github.com/nextcloud/cookbook/releases/download/v0.10.1/Cookbook-0.10.1.tar.gz";
     #           #     version = "0.10.1";
     #           #   };
+    #           #   drawio = pkgs.fetchNextcloudApp {
+    #           #     name = "drawio";
+    #           #     sha256 = "";
+    #           #     url = "https://github.com/jgraph/drawio-nextcloud/releases/download/v1.0.5/drawio-v1.0.5.tar.gz";
+    #           #     version = "1.0.5";
+    #           #   };
     #           #   guests = pkgs.fetchNextcloudApp {
     #           #     name = "guests";
     #           #     sha256 = "";

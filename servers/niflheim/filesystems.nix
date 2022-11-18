@@ -45,6 +45,14 @@
     ];
   };
 
+  fileSystems."/var/lib/nextcloud" = {
+    device = "/dev/disk/by-label/nextcloud";
+    fsType = "ext4";
+    options = [
+      "noatime"
+    ];
+  };
+
   fileSystems."/var/lib/nzbget" = {
     device = "/dev/disk/by-label/nzbget";
     fsType = "ext4";
