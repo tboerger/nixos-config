@@ -8,7 +8,7 @@
       ];
     };
 
-    kernelPackages = lib.mkDefault pkgs.linuxPackages;
+    kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
     cleanTmpDir = true;
 
     loader = {
@@ -25,10 +25,10 @@
     };
 
     kernelModules = [ ];
-    extraModulePackages = [ ];
+    extraModulePackages = with config.boot.kernelPackages; [ acpi_call ];
 
     initrd = {
-      availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
+      availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" "acpi_call" ];
       kernelModules = [ "dm-snapshot" ];
     };
   };

@@ -14,5 +14,22 @@
         updateMicrocode = lib.mkDefault true;
       };
     };
+
+    nvidia = {
+      prime = {
+        sync = {
+          enable = true;
+        };
+
+        nvidiaBusId = "PCI:3:0:0";
+        intelBusId = "PCI:0:2:0";
+      };
+    };
+  };
+
+  services = {
+    xserver = {
+      videoDrivers = [ "nvidia" ];
+    };
   };
 }
