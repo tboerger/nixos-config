@@ -61,11 +61,17 @@ echo "-----> Wait for partitions"
 sleep 3
 sync
 
+echo "-----> Format encrypted container"
+cryptsetup luksFormat /dev/disk/by-partlabel/system
+
+echo "-----> Open encrypted container"
+cryptsetup luksOpen /dev/disk/by-partlabel/system crypted
+
 echo "-----> Create data pv"
-pvcreate /dev/disk/by-partlabel/system
+pvcreate /dev/mapper/crypted
 
 echo "-----> Create data vg"
-vgcreate system /dev/disk/by-partlabel/system
+vgcreate system /dev/mapper/crypted
 
 echo "-----> Create swap volume"
 lvcreate -y --size $(cat /proc/meminfo | grep MemTotal | cut -d':' -f2 | sed 's/ //g') --name swap system
