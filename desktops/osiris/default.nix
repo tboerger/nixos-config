@@ -13,11 +13,11 @@
   ];
 
   personal = {
-    programs = {
-      citrix = {
-        enable = config.personal.programs.enable;
-      };
-    };
+    # programs = {
+    #   citrix = {
+    #     enable = config.personal.programs.enable;
+    #   };
+    # };
 
     services = {
       desktop = {
