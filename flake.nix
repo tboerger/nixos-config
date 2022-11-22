@@ -77,8 +77,8 @@
     in
     {
       nixosConfigurations = {
-        chnum = mkComputer
-          ./desktops/chnum
+        anubis = mkComputer
+          ./desktops/anubis
           "x86_64-linux"
           [
             ./profiles/thomas
@@ -87,8 +87,8 @@
             # ./profiles/tabea
           ];
 
-        hathor = mkComputer
-          ./desktops/hathor
+        chnum = mkComputer
+          ./desktops/chnum
           "x86_64-linux"
           [
             ./profiles/thomas
@@ -149,8 +149,8 @@
           ];
       };
 
+      anubis = self.nixosConfigurations.anubis.config.system.build.toplevel;
       chnum = self.nixosConfigurations.chnum.config.system.build.toplevel;
-      hathor = self.nixosConfigurations.hathor.config.system.build.toplevel;
       osiris = self.nixosConfigurations.osiris.config.system.build.toplevel;
 
       niflheim = self.nixosConfigurations.niflheim.config.system.build.toplevel;
