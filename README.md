@@ -18,6 +18,19 @@ updates, if this is not the case I can always execute
 `nixos-rebuild switch --flake github:tboerger/nixos-config#name` to get the
 latest changes pulled in.
 
+### Anubis
+
+```console
+sudo loadkeys de
+sudo nix-shell --packages nixUnstable
+
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/desktops/anubis/partitions.sh)"
+
+mkdir -p /mnt/etc/ssh
+cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
+nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#anubis
+```
+
 ### Chnum
 
 ```console
@@ -29,19 +42,6 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/ma
 mkdir -p /mnt/etc/ssh
 cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
 nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#chnum
-```
-
-### Hathor
-
-```console
-sudo loadkeys de
-sudo nix-shell --packages nixUnstable
-
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/desktops/hathor/partitions.sh)"
-
-mkdir -p /mnt/etc/ssh
-cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
-nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#hathor
 ```
 
 ### Osiris

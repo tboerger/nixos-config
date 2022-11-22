@@ -35,7 +35,7 @@ for PV in $(pvs --noheadings 2>/dev/null | sed -e 's/^[[:space:]]*//' | cut -d" 
 done
 
 echo "----> Drop existing partitions"
-for DISK in pci-0000:00:1f.2-ata-1.0; do
+for DISK in pci-0000:02:00.0-nvme-1; do
     sgdisk --zap-all /dev/disk/by-path/${DISK}
     sgdisk -og /dev/disk/by-path/${DISK}
 done
@@ -45,7 +45,7 @@ sleep 3
 sync
 
 echo "-----> Create sda partitions"
-parted -a opt --script /dev/disk/by-path/pci-0000:00:14.1-ata-1 \
+parted -a opt --script /dev/disk/by-path/pci-0000:02:00.0-nvme-1 \
     mklabel gpt \
     mkpart primary fat32 0% 1GB \
     set 1 esp on \

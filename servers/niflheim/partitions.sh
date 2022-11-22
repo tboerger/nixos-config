@@ -169,7 +169,7 @@ for PARTITION in acme nextcloud nzbget jellyfin radarr sonarr lidarr readarr baz
     mkfs.ext4 -L ${PARTITION} /dev/system/${PARTITION}
 
     echo "-----> Mount ${PARTITION} filesystem"
-    mkdir /mnt/var/lib/${PARTITION}
+    mkdir -p /mnt/var/lib/${PARTITION}
     mount -t ext4 /dev/system/${PARTITION} /mnt/var/lib/${PARTITION}
 done
 

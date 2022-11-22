@@ -8,6 +8,7 @@
 * assign windows to right desktop
 * autostart standard tools on desktops
 * ymuse for mpd
+* gnome with https://gvolpe.com/blog/gnome3-on-nixos/
 
 ## server
 

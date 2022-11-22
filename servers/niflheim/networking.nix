@@ -3,6 +3,7 @@
 {
   networking = {
     hostName = "niflheim";
+    useDHCP = false;
 
     defaultGateway = {
       address = "176.9.93.193";

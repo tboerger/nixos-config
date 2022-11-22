@@ -2,7 +2,7 @@
 
 {
   networking = {
-    hostName = "hathor";
+    hostName = "anubis";
 
     networkmanager = {
       enable = true;
