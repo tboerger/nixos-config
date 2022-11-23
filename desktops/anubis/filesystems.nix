@@ -1,21 +1,6 @@
 { config, lib, pkgs, ... }:
 
 {
-  boot = {
-    initrd = {
-      luks = {
-        devices = {
-          luks = {
-            name = "luks";
-            device = "/dev/disk/by-partlabel/system";
-            preLVM = true;
-            allowDiscards = true;
-          };
-        };
-      };
-    };
-  };
-
   swapDevices = [{
     device = "/dev/disk/by-label/swap";
   }];

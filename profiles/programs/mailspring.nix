@@ -2,15 +2,15 @@
 with lib;
 
 let
-  cfg = config.profile.programs.thunderbird;
+  cfg = config.profile.programs.mailspring;
 
 in
 {
   options = {
     profile = {
       programs = {
-        thunderbird = {
-          enable = mkEnableOption "Thunderbird";
+        mailspring = {
+          enable = mkEnableOption "Mailspring";
         };
       };
     };
@@ -19,7 +19,7 @@ in
   config = mkIf cfg.enable {
     environment = {
       systemPackages = with pkgs; [
-        thunderbird-bin
+        mailspring
       ];
     };
   };

@@ -74,7 +74,7 @@ echo "-----> Create root volume"
 lvcreate -y --size 20G --name root system
 
 echo "-----> Create nix volume"
-lvcreate -y --size 50G --name nix system
+lvcreate -y --size 100G --name nix system
 
 echo "-----> Create home volume"
 lvcreate -y --size 50G --name home system

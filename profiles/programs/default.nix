@@ -19,6 +19,7 @@
     ./lens.nix
     ./lsd.nix
     ./lutris.nix
+    ./mailspring.nix
     ./mattermost.nix
     ./minecraft.nix
     ./neovim.nix
@@ -33,7 +34,6 @@
     ./steam.nix
     ./teams.nix
     ./telegram.nix
-    ./thunderbird.nix
     ./tmux.nix
     ./whatsapp.nix
     ./wine.nix

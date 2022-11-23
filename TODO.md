@@ -4,11 +4,8 @@
 
 * clickup (package https://nixos.org/manual/nixpkgs/stable/#sec-pkgs-appimageTools)
 * curseforge (package)
-* mail (thunderbird / mailspring / prospect-mail)
 * assign windows to right desktop
 * autostart standard tools on desktops
-* ymuse for mpd
-* gnome with https://gvolpe.com/blog/gnome3-on-nixos/
 
 ## server
 

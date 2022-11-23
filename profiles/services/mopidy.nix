@@ -17,6 +17,12 @@ in
   };
 
   config = mkIf cfg.enable {
+    environment = {
+      systemPackages = with pkgs; [
+        ymuse
+      ];
+    };
+
     home-manager.users."${config.profile.username}" = { config, ... }: {
       programs = {
         ncmpcpp = {

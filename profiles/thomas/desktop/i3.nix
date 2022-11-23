@@ -30,8 +30,8 @@ let
 
     mail = [
       {
-        exec = "thunderbird";
-        class = "thunderbird";
+        exec = "mailspring";
+        class = "mailspring";
       }
     ];
 

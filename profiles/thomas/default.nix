@@ -71,7 +71,7 @@ in
       lutris = {
         enable = desktop;
       };
-      thunderbird = {
+      mailspring = {
         enable = desktop;
       };
       mattermost = {
@@ -235,7 +235,7 @@ in
         };
       } else { });
 
-      stateVersion = "18.09";
+      stateVersion = "22.11";
     };
   };
 

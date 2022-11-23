@@ -61,17 +61,11 @@ echo "-----> Wait for partitions"
 sleep 3
 sync
 
-echo "-----> Format encrypted container"
-cryptsetup luksFormat /dev/disk/by-partlabel/system
-
-echo "-----> Open encrypted container"
-cryptsetup luksOpen /dev/disk/by-partlabel/system crypted
-
 echo "-----> Create data pv"
-pvcreate /dev/mapper/crypted
+pvcreate /dev/disk/by-partlabel/system
 
 echo "-----> Create data vg"
-vgcreate system /dev/mapper/crypted
+vgcreate system /dev/disk/by-partlabel/system
 
 echo "-----> Create swap volume"
 lvcreate -y --size $(cat /proc/meminfo | grep MemTotal | cut -d':' -f2 | sed 's/ //g') --name swap system
@@ -80,7 +74,7 @@ echo "-----> Create root volume"
 lvcreate -y --size 20G --name root system
 
 echo "-----> Create nix volume"
-lvcreate -y --size 50G --name nix system
+lvcreate -y --size 100G --name nix system
 
 echo "-----> Create home volume"
 lvcreate -y --size 50G --name home system
