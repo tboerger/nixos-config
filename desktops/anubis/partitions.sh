@@ -55,7 +55,7 @@ parted -a opt --script /dev/disk/by-path/pci-0000:02:00.0-nvme-1 \
     name 2 system
 
 echo "-----> Reload partition table"
-partprobe
+partprobe || true
 
 echo "-----> Wait for partitions"
 sleep 3
