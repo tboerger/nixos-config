@@ -16,7 +16,6 @@ with lib;
         hwinfo
         jq
         lsof
-        minio-client
         nix-index
         nmap
         p7zip

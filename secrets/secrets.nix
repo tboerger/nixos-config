@@ -31,4 +31,5 @@ in
   "users/tabea/password.age".publicKeys = users ++ systems;
 
   "users/thomas/hackthebox.age".publicKeys = users ++ systems;
+  "users/thomas/minio.age".publicKeys = users ++ systems;
 }

@@ -13,11 +13,11 @@
   ];
 
   personal = {
-    # programs = {
-    #   citrix = {
-    #     enable = config.personal.programs.enable;
-    #   };
-    # };
+    programs = {
+      citrix = {
+        enable = config.personal.programs.enable;
+      };
+    };
 
     services = {
       desktop = {
@@ -30,6 +30,9 @@
         enable = config.personal.services.enable;
       };
       tailscale = {
+        enable = config.personal.services.enable;
+      };
+      printing = {
         enable = config.personal.services.enable;
       };
     };

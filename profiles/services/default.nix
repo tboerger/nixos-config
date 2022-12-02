@@ -6,8 +6,8 @@
     ./caffeine.nix
     ./flameshot.nix
     ./mopidy.nix
+    ./nextcloud.nix
     ./nmapplet.nix
-    ./owncloud.nix
     ./udiskie.nix
   ];
 

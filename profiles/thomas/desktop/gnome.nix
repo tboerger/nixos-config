@@ -76,32 +76,29 @@ in
         gnome.adwaita-icon-theme
         gnome.gnome-tweaks
 
+        gnomeExtensions.app-icons-taskbar
+        gnomeExtensions.appindicator
         gnomeExtensions.calc
-        gnomeExtensions.clipman
+        gnomeExtensions.custom-hot-corners-extended
         gnomeExtensions.espresso
-        gnomeExtensions.gsnap
         gnomeExtensions.gtile
-        gnomeExtensions.keyman
         gnomeExtensions.vitals
       ];
 
       gnome = {
         excludePackages = with pkgs; [
           gnome-tour
-
-          gnomeExtensions.applications-menu
-          gnomeExtensions.launch-new-instance
-          gnomeExtensions.places-status-indicator
-          gnomeExtensions.screenshot-window-sizer
-          gnomeExtensions.user-themes
-          gnomeExtensions.weather
-          gnomeExtensions.window-list
-          gnomeExtensions.workspace-indicator
         ];
       };
     };
 
     home-manager.users."${config.profile.username}" = { config, ... }: {
+      services = {
+        mpris-proxy = {
+          enable = true;
+        };
+      };
+
       dconf = {
         settings = {
           "org/gnome/desktop/calendar" = {
@@ -127,10 +124,6 @@ in
             button-layout = "appmenu:minimize,maximize,close";
           };
 
-          "org/gnome/login-screen" = {
-            disable-user-list = true;
-          };
-
           "org/gnome/mutter" = {
             attach-modal-dialogs = true;
             dynamic-workspaces = true;
@@ -141,18 +134,102 @@ in
 
           "org/gnome/shell" = {
             enabled-extensions = [
+              "appindicatorsupport@rgcjonas.gmail.com"
               "auto-move-windows@gnome-shell-extensions.gcampax.github.com"
+              "aztaskbar@aztaskbar.gitlab.com"
               "calc@danigm.wadobo.com"
-              "clipman@popov895.ukr.net"
+              "custom-hot-corners-extended@G-dH.github.com"
               "drive-menu@gnome-shell-extensions.gcampax.github.com"
               "espresso@coadmunkee.github.com"
-              "gSnap@micahosborne"
               "gTile@vibou"
-              "keyman@dpoetzsch.github.com"
               "native-window-placement@gnome-shell-extensions.gcampax.github.com"
               "Vitals@CoreCoding.com"
               "windowsNavigator@gnome-shell-extensions.gcampax.github.com"
             ];
+          };
+
+          "org/gnome/shell/extensions/custom-hot-corners-extended/misc" = {
+            show-osd-monitor-indexes = false;
+          };
+
+          "org/gnome/shell/extensions/custom-hot-corners-extended/monitor-0-bottom-left-6" = {
+            ctrl = true;
+          };
+
+          "org/gnome/shell/extensions/custom-hot-corners-extended/monitor-0-bottom-right-6" = {
+            ctrl = true;
+          };
+
+          "org/gnome/shell/extensions/custom-hot-corners-extended/monitor-0-top-left-0" = {
+            action = "toggle-overview";
+          };
+
+          "org/gnome/shell/extensions/custom-hot-corners-extended/monitor-0-top-left-6" = {
+            ctrl = true;
+          };
+
+          "org/gnome/shell/extensions/custom-hot-corners-extended/monitor-0-top-right-0" = {
+            action = "toggle-overview";
+          };
+
+          "org/gnome/shell/extensions/custom-hot-corners-extended/monitor-0-top-right-6" = {
+            ctrl = true;
+          };
+
+          "org/gnome/shell/extensions/custom-hot-corners-extended/monitor-1-top-left-0" = {
+            action = "toggle-overview";
+          };
+
+          "org/gnome/shell/extensions/custom-hot-corners-extended/monitor-1-top-left-6" = {
+            ctrl = true;
+          };
+
+          "org/gnome/shell/extensions/custom-hot-corners-extended/monitor-1-top-right-0" = {
+            action = "toggle-overview";
+          };
+
+          "org/gnome/shell/extensions/custom-hot-corners-extended/monitor-1-top-right-6" = {
+            ctrl = true;
+          };
+
+          "org/gnome/shell/extensions/custom-hot-corners-extended/monitor-2-top-left-0" = {
+            action = "toggle-overview";
+          };
+
+          "org/gnome/shell/extensions/custom-hot-corners-extended/monitor-2-top-left-6" = {
+            ctrl = true;
+          };
+
+          "org/gnome/shell/extensions/custom-hot-corners-extended/monitor-2-top-right-0" = {
+            action = "toggle-overview";
+          };
+
+          "org/gnome/shell/extensions/custom-hot-corners-extended/monitor-2-top-right-6" = {
+            ctrl = true;
+          };
+
+          "org/gnome/shell/extensions/auto-move-windows" = {
+            application-list = [
+              # "org.gnome.Console.desktop:1"
+              # "google-chrome.desktop:2"
+              # "Mailspring.desktop:3"
+              # "com.yktoo.ymuse.desktop:4"
+              # "discord.desktop:5"
+              # "element-desktop.desktop:5"
+              # "Mattermost.desktop:5"
+              # "rocketchat-desktop.desktop:5"
+              # "signal-desktop.desktop:5"
+              # "skypeforlinux.desktop:5"
+              # "slack.desktop:5"
+              # "teams.desktop:5"
+              # "telegramdesktop.desktop:5"
+              # "whatsapp-for-linux.desktop:5"
+            ];
+          };
+
+          "org/gnome/shell/extensions/aztaskbar" = {
+            main-panel-height = (mkTuple [ true 40 ]);
+            show-apps-button = (mkTuple [ true 0 ]);
           };
 
           "org/gnome/shell/extensions/espresso" = {
@@ -166,12 +243,32 @@ in
             show-voltage = true;
           };
 
+          "org/gnome/shell/weather" = {
+            automatic-location = true;
+          };
+
           "org/gnome/tweaks" = {
             show-extensions-notice = false;
           };
 
           "system/locale" = {
             region = "de_DE.UTF-8";
+          };
+        };
+      };
+
+      systemd = {
+        user = {
+          targets = {
+            "tray" = {
+              Unit = {
+                Description = "Tray target";
+                BindsTo = ["gnome-session.target"];
+              };
+              Install = {
+                WantedBy = ["gnome-session.target"];
+              };
+            };
           };
         };
       };

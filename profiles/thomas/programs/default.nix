@@ -7,6 +7,8 @@
     ./dircolors.nix
     ./git.nix
     ./hacking.nix
+    ./kustomize.nix
+    ./minio.nix
     ./ssh.nix
     ./starship.nix
     ./vscode.nix

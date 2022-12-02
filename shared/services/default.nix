@@ -16,6 +16,7 @@ with lib;
     ./nextcloud
     ./nixbuild
     ./openssh
+    ./printing
     ./shares
     ./tailscale
     ./timesyncd

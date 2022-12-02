@@ -92,6 +92,17 @@ in
   };
 
   config = mkIf cfg.enable {
+    profile = {
+      services = {
+        caffeine = {
+          enable = true;
+        };
+        flameshot = {
+          enable = true;
+        };
+      };
+    };
+
     services = {
       xserver = {
         windowManager = {

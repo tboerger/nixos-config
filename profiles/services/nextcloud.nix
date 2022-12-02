@@ -2,15 +2,15 @@
 with lib;
 
 let
-  cfg = config.profile.services.owncloud;
+  cfg = config.profile.services.nextcloud;
 
 in
 {
   options = {
     profile = {
       services = {
-        owncloud = {
-          enable = mkEnableOption "ownCloud";
+        nextcloud = {
+          enable = mkEnableOption "Nextcloud";
         };
       };
     };
@@ -19,7 +19,7 @@ in
   config = mkIf cfg.enable {
     home-manager.users."${config.profile.username}" = { config, ... }: {
       services = {
-        owncloud-client = {
+        nextcloud-client = {
           enable = true;
         };
       };

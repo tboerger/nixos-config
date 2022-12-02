@@ -83,12 +83,9 @@ in
       onepassword = {
         enable = desktop;
       };
-      owncloud = {
+      playonlinux = {
         enable = desktop;
       };
-      # playonlinux = {
-      #   enable = desktop;
-      # };
       rocketchat = {
         enable = desktop;
       };
@@ -132,6 +129,12 @@ in
       hacking = {
         enable = desktop;
       };
+      kustomize = {
+        enable = desktop;
+      };
+      minio = {
+        enable = desktop;
+      };
       ssh = {
         enable = desktop;
       };
@@ -144,22 +147,20 @@ in
       blueman = {
         enable = desktop;
       };
-      caffeine = {
-        enable = desktop;
-      };
-      flameshot = {
-        enable = desktop;
-      };
       mopidy = {
+        enable = desktop;
+      };
+      nextcloud = {
         enable = desktop;
       };
       nmapplet = {
         enable = desktop;
       };
-      owncloud = {
+      udiskie = {
         enable = desktop;
       };
-      udiskie = {
+
+      tailscale = {
         enable = desktop;
       };
     };
@@ -195,6 +196,10 @@ in
     home = {
       homeDirectory = "/home/${username}";
       sessionPath = [ "$HOME/.local/bin" ];
+
+      sessionVariables = {
+        LC_ALL = "en_US.UTF-8";
+      };
 
       file = {
         ".local/bin/git-gh-pages" = {

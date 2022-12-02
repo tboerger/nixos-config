@@ -24,7 +24,6 @@
     ./minecraft.nix
     ./neovim.nix
     ./onepassword.nix
-    ./owncloud.nix
     ./playonlinux.nix
     ./readline.nix
     ./rocketchat.nix
