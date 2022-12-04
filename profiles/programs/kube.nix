@@ -35,7 +35,17 @@ in
         kind
         krew
         kubectl
+        kubectl-images
+        kubectl-ktop
+        kubectl-neat
+        kubectl-oomd
+        kubectl-pexec
+        kubectl-realname-diff
+        kubectl-resource-versions
+        kubectl-view-secret
+        kubectl-whoami
         kubectx
+        kubelogin
         kubernetes-helm
         kustomize
         kustomize-sops

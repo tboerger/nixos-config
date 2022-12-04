@@ -18,6 +18,13 @@ self: super:
     };
   };
 
-  protoc-gen-openapiv2 = super.callPackage ./protoc-gen-openapiv2 { };
+  kubectl-ktop = super.callPackage ./kubectl-ktop { };
+  kubectl-neat = super.callPackage ./kubectl-neat { };
+  kubectl-oomd = super.callPackage ./kubectl-oomd { };
+  kubectl-pexec = super.callPackage ./kubectl-pexec { };
+  kubectl-realname-diff = super.callPackage ./kubectl-realname-diff { };
+  kubectl-resource-versions = super.callPackage ./kubectl-resource-versions { };
+  kubectl-view-secret = super.callPackage ./kubectl-view-secret { };
+  kubectl-whoami = super.callPackage ./kubectl-whoami { };
   tailscale-systray = super.callPackage ./tailscale-systray { };
 }
