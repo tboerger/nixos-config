@@ -7,8 +7,8 @@ let
   programs = {
     term = [
       {
-        exec = "Alacritty";
-        class = "Alacritty";
+        exec = "wezterm";
+        class = "WezTerm";
       }
     ];
 
@@ -94,10 +94,16 @@ in
   config = mkIf cfg.enable {
     profile = {
       services = {
+        blueman = {
+          enable = true;
+        };
         caffeine = {
           enable = true;
         };
         flameshot = {
+          enable = true;
+        };
+        nmapplet = {
           enable = true;
         };
       };
@@ -126,6 +132,7 @@ in
           lxappearance
           playerctl
           scrot
+          xclip
         ];
       };
 
@@ -134,7 +141,7 @@ in
           enable = true;
 
           font = "DejaVu Sans Mono 14";
-          terminal = "alacritty";
+          terminal = "wezterm";
           theme = "solarized";
 
           plugins = with pkgs; [
@@ -575,7 +582,7 @@ in
                 "--release Ctrl+Print" = "exec --no-startup-id scrot -s";
 
                 "Mod4+d" = "exec --no-startup-id rofi -show drun";
-                "Mod4+Return" = "exec alacritty";
+                "Mod4+Return" = "exec wezterm";
                 "Mod4+Shift+q" = "kill";
 
                 "Mod4+Left" = "focus left";

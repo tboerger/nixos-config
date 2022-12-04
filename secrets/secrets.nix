@@ -30,6 +30,8 @@ in
   "users/adrian/password.age".publicKeys = users ++ systems;
   "users/tabea/password.age".publicKeys = users ++ systems;
 
+  "users/thomas/ghtoken.age".publicKeys = users ++ systems;
   "users/thomas/hackthebox.age".publicKeys = users ++ systems;
   "users/thomas/minio.age".publicKeys = users ++ systems;
+  "users/thomas/netrc.age".publicKeys = users ++ systems;
 }

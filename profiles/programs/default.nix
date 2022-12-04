@@ -4,6 +4,7 @@
   imports = [
     ./authy.nix
     ./browser.nix
+    ./clickup.nix
     ./clockify.nix
     ./develop.nix
     ./direnv.nix

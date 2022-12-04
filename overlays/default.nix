@@ -26,5 +26,7 @@ self: super:
   kubectl-resource-versions = super.callPackage ./kubectl-resource-versions { };
   kubectl-view-secret = super.callPackage ./kubectl-view-secret { };
   kubectl-whoami = super.callPackage ./kubectl-whoami { };
+
+  clickup = super.callPackage ./clickup { };
   tailscale-systray = super.callPackage ./tailscale-systray { };
 }

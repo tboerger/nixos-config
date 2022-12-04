@@ -35,6 +35,9 @@ in
       browser = {
         enable = desktop;
       };
+      clickup = {
+        enable = desktop;
+      };
       clockify = {
         enable = desktop;
       };
@@ -120,19 +123,22 @@ in
         enable = desktop;
       };
 
-      alacritty = {
-        enable = desktop;
-      };
       autorandr = {
         enable = desktop;
       };
       hacking = {
         enable = desktop;
       };
+      ghtoken = {
+        enable = desktop;
+      };
       kustomize = {
         enable = desktop;
       };
       minio = {
+        enable = desktop;
+      };
+      netrc = {
         enable = desktop;
       };
       ssh = {
@@ -144,16 +150,10 @@ in
     };
 
     services = {
-      blueman = {
-        enable = desktop;
-      };
       mopidy = {
         enable = desktop;
       };
       nextcloud = {
-        enable = desktop;
-      };
-      nmapplet = {
         enable = desktop;
       };
       udiskie = {

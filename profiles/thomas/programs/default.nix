@@ -2,13 +2,14 @@
 
 {
   imports = [
-    ./alacritty.nix
     ./autorandr.nix
     ./dircolors.nix
+    ./ghtoken.nix
     ./git.nix
     ./hacking.nix
     ./kustomize.nix
     ./minio.nix
+    ./netrc.nix
     ./ssh.nix
     ./starship.nix
     ./vscode.nix

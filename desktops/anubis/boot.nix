@@ -24,12 +24,28 @@
       };
     };
 
-    kernelModules = [ ];
+    kernelModules = [ "coretemp" "thinkpad_acpi" ];
     extraModulePackages = with config.boot.kernelPackages; [ acpi_call ];
 
     initrd = {
       availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" "acpi_call" ];
       kernelModules = [ "dm-snapshot" ];
+    };
+  };
+
+  services = {
+    thinkfan = {
+      enable = true;
+    };
+  };
+
+  systemd = {
+    services = {
+      thinkfan = {
+        preStart = "
+          /run/current-system/sw/bin/modprobe  -r thinkpad_acpi && /run/current-system/sw/bin/modprobe thinkpad_acpi
+        ";
+      };
     };
   };
 }

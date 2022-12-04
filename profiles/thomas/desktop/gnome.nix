@@ -75,6 +75,7 @@ in
       systemPackages = with pkgs; [
         gnome.adwaita-icon-theme
         gnome.gnome-tweaks
+        xclip
 
         gnomeExtensions.app-icons-taskbar
         gnomeExtensions.appindicator
