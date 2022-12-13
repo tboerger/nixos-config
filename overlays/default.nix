@@ -28,5 +28,6 @@ self: super:
   kubectl-whoami = super.callPackage ./kubectl-whoami { };
 
   clickup = super.callPackage ./clickup { };
+  clockify = super.callPackage ./clockify { };
   tailscale-systray = super.callPackage ./tailscale-systray { };
 }

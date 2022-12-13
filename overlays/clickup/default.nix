@@ -5,7 +5,7 @@ appimageTools.wrapType2 rec {
   version = "3.1.2";
 
   src = fetchurl {
-    url = "https://desktop.clickup.com/linux";
+    url = "https://web.archive.org/web/20221027054240/https://desktop.clickup.com/linux";
     sha256 = "sha256-Qkvs01L9qfvZ5E9BnLdw2oWYaL5tYR3faFjlv6pAY2Y=";
   };
 
