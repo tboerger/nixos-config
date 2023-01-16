@@ -56,6 +56,9 @@ in
       golang = {
         enable = desktop;
       };
+      irc = {
+        enable = desktop;
+      };
       joplin = {
         enable = desktop;
       };

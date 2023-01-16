@@ -13,6 +13,7 @@
     ./fzf.nix
     ./gnupg.nix
     ./golang.nix
+    ./irc.nix
     ./joplin.nix
     ./kube.nix
     ./lastpass.nix
