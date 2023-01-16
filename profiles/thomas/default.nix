@@ -74,7 +74,7 @@ in
       lutris = {
         enable = desktop;
       };
-      mailspring = {
+      mail = {
         enable = desktop;
       };
       mattermost = {

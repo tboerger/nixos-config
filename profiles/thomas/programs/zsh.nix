@@ -19,6 +19,12 @@ in
   };
 
   config = mkIf cfg.enable {
+    programs = {
+      zsh = {
+        enable = true;
+      };
+    };
+
     home-manager.users."${config.profile.username}" = { config, ... }: {
       programs = {
         zsh = {
@@ -74,6 +80,8 @@ in
             hgrep = "fc -El 0 | grep";
             history = "fc -l 1";
             sha256sum = "shasum -a 256";
+
+            molecule = "docker run -ti --rm -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):$(pwd) -w $(pwd) toolhippie/molecule:latest molecule";
           };
 
           sessionVariables = {

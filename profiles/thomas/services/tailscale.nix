@@ -24,7 +24,7 @@ in
   config = mkIf cfg.enable {
     environment = {
       systemPackages = with pkgs; [
-        tailscale-systray
+        nur.repos.tboerger.tailscale-systray
       ];
     };
 
@@ -38,7 +38,7 @@ in
               };
               Service = {
                 ExecStartPre = "${pkgs.coreutils-full}/bin/sleep 5";
-                ExecStart = "${pkgs.tailscale-systray}/bin/tailscale-systray";
+                ExecStart = "${pkgs.nur.repos.tboerger.tailscale-systray}/bin/tailscale-systray";
               };
             };
           };

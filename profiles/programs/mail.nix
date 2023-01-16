@@ -2,15 +2,15 @@
 with lib;
 
 let
-  cfg = config.profile.programs.mailspring;
+  cfg = config.profile.programs.mail;
 
 in
 {
   options = {
     profile = {
       programs = {
-        mailspring = {
-          enable = mkEnableOption "Mailspring";
+        mail = {
+          enable = mkEnableOption "Mail";
         };
       };
     };
@@ -19,6 +19,7 @@ in
   config = mkIf cfg.enable {
     environment = {
       systemPackages = with pkgs; [
+        nur.repos.tboerger.freelook
         mailspring
       ];
     };

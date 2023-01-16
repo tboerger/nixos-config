@@ -30,14 +30,14 @@ in
         krew
         kubectl
         kubectl-images
-        kubectl-ktop
-        kubectl-neat
-        kubectl-oomd
-        kubectl-pexec
-        kubectl-realname-diff
-        kubectl-resource-versions
-        kubectl-view-secret
-        kubectl-whoami
+        nur.repos.tboerger.kubectl-ktop
+        nur.repos.tboerger.kubectl-neat
+        nur.repos.tboerger.kubectl-oomd
+        nur.repos.tboerger.kubectl-pexec
+        nur.repos.tboerger.kubectl-realname-diff
+        nur.repos.tboerger.kubectl-resource-versions
+        nur.repos.tboerger.kubectl-view-secret
+        nur.repos.tboerger.kubectl-whoami
         kubectx
         kubelogin
         kubernetes-helm

@@ -20,7 +20,7 @@
     ./lens.nix
     ./lsd.nix
     ./lutris.nix
-    ./mailspring.nix
+    ./mail.nix
     ./mattermost.nix
     ./minecraft.nix
     ./neovim.nix

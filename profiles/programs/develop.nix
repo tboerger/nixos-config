@@ -28,13 +28,6 @@ let
 
   python310 = pkgs.python310.withPackages (p: with p; [
     ansible-core
-    ansible-doctor
-    ansible-later
-    ansible-lint
-
-    hcloud
-    yamllint
-
     boto3
     botocore
     passlib
@@ -58,12 +51,18 @@ in
       systemPackages = with pkgs; [
         python310
 
+        ansible
+        ansible-doctor
+        ansible-later
+        ansible-lint
+
         act
         awscli2
         eksctl
         git-chglog
         gopass
         graphviz
+        hcloud
         httpie
         ipcalc
         ngrok
@@ -72,6 +71,7 @@ in
         shellcheck
         sops
         upx
+        yamllint
 
         checkov
         terraform
