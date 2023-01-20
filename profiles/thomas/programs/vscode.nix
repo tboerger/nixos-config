@@ -35,6 +35,9 @@ in
             "[vue]" = {
               "editor.defaultFormatter" = "octref.vetur";
             };
+            "[python]" = {
+              "editor.formatOnType" = true;
+            };
           };
 
           extensions = with pkgs.vscode-extensions; [
