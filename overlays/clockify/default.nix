@@ -5,7 +5,7 @@ stdenv.mkDerivation rec {
   version = "2.0.3";
 
   src = fetchurl {
-    url = "https://web.archive.org/web/20211118160803/https://clockify-resources.s3.eu-central-1.amazonaws.com/downloads/Clockify_Setup.deb";
+    url = "https://web.archive.org/web/20221108104754/https://clockify.me/downloads/Clockify_Setup.deb";
     sha256 = "sha256-eVZ3OqM1eoWfST7Qu9o8VmLm8ntD+ETf/0aes6RY4Y8=";
   };
 
