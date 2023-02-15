@@ -44,19 +44,10 @@ in
       develop = {
         enable = desktop;
       };
-      discord = {
-        enable = desktop;
-      };
-      element = {
-        enable = desktop;
-      };
       gnupg = {
         enable = desktop;
       };
       golang = {
-        enable = desktop;
-      };
-      irc = {
         enable = desktop;
       };
       joplin = {
@@ -80,7 +71,7 @@ in
       mail = {
         enable = desktop;
       };
-      mattermost = {
+      messages = {
         enable = desktop;
       };
       minecraft = {
@@ -92,28 +83,7 @@ in
       playonlinux = {
         enable = desktop;
       };
-      rocketchat = {
-        enable = desktop;
-      };
-      signal = {
-        enable = desktop;
-      };
-      skype = {
-        enable = desktop;
-      };
-      slack = {
-        enable = desktop;
-      };
       steam = {
-        enable = desktop;
-      };
-      teams = {
-        enable = desktop;
-      };
-      telegram = {
-        enable = desktop;
-      };
-      whatsapp = {
         enable = desktop;
       };
       wine = {

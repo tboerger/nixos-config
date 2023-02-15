@@ -2,15 +2,15 @@
 with lib;
 
 let
-  cfg = config.profile.programs.mattermost;
+  cfg = config.profile.programs.messages;
 
 in
 {
   options = {
     profile = {
       programs = {
-        mattermost = {
-          enable = mkEnableOption "Mattermost";
+        messages = {
+          enable = mkEnableOption "Messages";
         };
       };
     };
@@ -19,7 +19,11 @@ in
   config = mkIf cfg.enable {
     environment = {
       systemPackages = with pkgs; [
-        mattermost-desktop
+        discord
+        ferdium
+        signal-desktop
+        slack
+        teams
       ];
     };
   };
