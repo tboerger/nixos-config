@@ -43,6 +43,7 @@ in
           extensions = with pkgs.vscode-extensions; [
             dzhavat.bracket-pair-toggler
             editorconfig.editorconfig
+            elixir-lsp.vscode-elixir-ls
             golang.go
             hashicorp.terraform
             jnoortheen.nix-ide
