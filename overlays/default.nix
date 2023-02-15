@@ -1,6 +1,13 @@
 self: super:
 
 {
+  discord = super.discord.overrideAttrs (old: {
+    src = super.fetchurl {
+      url = "https://dl.discordapp.net/apps/linux/0.0.25/discord-0.0.25.tar.gz";
+      hash = "sha256-WBcmy9fwGPq3Vs1+7lIOR7OiW/d0kZNIKp4Q5NRYBCw=";
+    };
+  });
+
   citrix_workspace = super.citrix_workspace.overrideAttrs (old: {
     src = super.fetchurl {
       name = "linuxx64-22.12.0.12.tar.gz";
