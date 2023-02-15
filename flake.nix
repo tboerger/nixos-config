@@ -24,22 +24,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    deployrs = {
-      url = "github:serokell/deploy-rs";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    arion = {
-      url = "github:hercules-ci/arion";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     hardware = {
       url = "github:nixos/nixos-hardware";
     };
   };
 
-  outputs = { self, nixpkgs, nur, utils, agenix, homemanager, deployrs, arion, hardware, ... }@inputs:
+  outputs = { self, nixpkgs, nur, utils, agenix, homemanager, hardware, ... }@inputs:
     let
       mkComputer = configurationNix: systemName: extraModules: nixpkgs.lib.nixosSystem {
         system = systemName;
@@ -64,8 +54,7 @@
               };
             })
           homemanager.nixosModules.home-manager
-          agenix.nixosModules.age
-          arion.nixosModules.arion
+          agenix.nixosModules.default
           configurationNix
         ] ++ extraModules;
 
@@ -146,50 +135,6 @@
       asgard = self.nixosConfigurations.asgard.config.system.build.toplevel;
       utgard = self.nixosConfigurations.utgard.config.system.build.toplevel;
       midgard = self.nixosConfigurations.midgard.config.system.build.toplevel;
-
-      deploy = {
-        nodes = {
-          asgard = {
-            sshOpts = [ "-p" "22" ];
-            hostname = "192.168.1.10";
-            fastConnection = true;
-
-            profiles.system = {
-              sshUser = "admin";
-              user = "root";
-              path = deployrs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.asgard;
-            };
-          };
-
-          utgard = {
-            sshOpts = [ "-p" "22" ];
-            hostname = "192.168.1.11";
-            fastConnection = true;
-
-            profiles.system = {
-              sshUser = "admin";
-              user = "root";
-              path = deployrs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.utgard;
-            };
-          };
-
-          midgard = {
-            sshOpts = [ "-p" "22" ];
-            hostname = "192.168.1.5";
-            fastConnection = true;
-
-            profiles.system = {
-              sshUser = "admin";
-              user = "root";
-              path = deployrs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.midgard;
-            };
-          };
-        };
-      };
-
-      checks = builtins.mapAttrs
-        (system: deployLib: deployLib.deployChecks self.deploy)
-        deployrs.lib;
     } // utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
@@ -198,8 +143,7 @@
       {
         devShell = pkgs.mkShell {
           buildInputs = with pkgs; [
-            agenix.defaultPackage.${system}
-            deployrs.defaultPackage.${system}
+            agenix.packages.${system}.default
             nixpkgs-fmt
             gnumake
             nixUnstable
