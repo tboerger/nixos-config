@@ -2,6 +2,10 @@
 
 {
   boot = {
+    supportedFilesystems = [
+      "ntfs"
+    ];
+
     binfmt = {
       emulatedSystems = [
         "aarch64-linux"
