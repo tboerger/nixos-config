@@ -34,6 +34,13 @@ cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
 nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#anubis
 ```
 
+After a reboot of the system it should be fully provisioned with the regular
+flake which includes all defined services:
+
+```console
+nixos-rebuild switch --flake github:tboerger/nixos-config#anubis
+```
+
 ### Chnum
 
 ```console
@@ -45,6 +52,13 @@ nix --experimental-features "nix-command flakes" run github:nix-community/disko 
 mkdir -p /mnt/etc/ssh
 cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
 nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#chnum
+```
+
+After a reboot of the system it should be fully provisioned with the regular
+flake which includes all defined services:
+
+```console
+nixos-rebuild switch --flake github:tboerger/nixos-config#chnum
 ```
 
 ## Servers
@@ -70,6 +84,13 @@ cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
 nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#asgard
 ```
 
+After a reboot of the system it should be fully provisioned with the regular
+flake which includes all defined services:
+
+```console
+nix run github:serokell/deploy-rs github:tboerger/nixos-config#asgard
+```
+
 ### Utgard
 
 ```console
@@ -81,6 +102,13 @@ nix --experimental-features "nix-command flakes" run github:nix-community/disko 
 mkdir -p /mnt/etc/ssh
 cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
 nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#utgard
+```
+
+After a reboot of the system it should be fully provisioned with the regular
+flake which includes all defined services:
+
+```console
+nix run github:serokell/deploy-rs github:tboerger/nixos-config#utgard
 ```
 
 ### Vanaheim
@@ -96,6 +124,13 @@ cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
 nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#vanaheim
 ```
 
+After a reboot of the system it should be fully provisioned with the regular
+flake which includes all defined services:
+
+```console
+nix run github:serokell/deploy-rs github:tboerger/nixos-config#vanaheim
+```
+
 ### Yggdrasil
 
 ```console
@@ -107,6 +142,13 @@ mount /dev/disk/by-label/NIXOS_SD /mnt
 mkdir -p /mnt/etc/ssh
 cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
 nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#yggdrasil
+```
+
+After a reboot of the system it should be fully provisioned with the regular
+flake which includes all defined services:
+
+```console
+nix run github:serokell/deploy-rs github:tboerger/nixos-config#yggdrasil
 ```
 
 ## Finish

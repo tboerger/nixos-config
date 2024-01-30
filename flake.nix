@@ -274,12 +274,6 @@
         #   ];
       };
 
-      # anubis = self.nixosConfigurations.anubis.config.system.build.toplevel;
-      # chnum = self.nixosConfigurations.chnum.config.system.build.toplevel;
-      # asgard = self.nixosConfigurations.asgard.config.system.build.toplevel;
-      # utgard = self.nixosConfigurations.utgard.config.system.build.toplevel;
-      # yggdrasil = self.nixosConfigurations.yggdrasil.config.system.build.toplevel;
-
       deploy = {
         nodes = {
           asgard = {
@@ -288,7 +282,7 @@
             fastConnection = true;
             profiles = {
               system = {
-                sshUser = "root";
+                sshUser = "thomas";
                 path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.asgard;
                 user = "root";
               };
@@ -300,7 +294,7 @@
             fastConnection = true;
             profiles = {
               system = {
-                sshUser = "root";
+                sshUser = "thomas";
                 path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.utgard;
                 user = "root";
               };
@@ -312,7 +306,7 @@
             fastConnection = true;
             profiles = {
               system = {
-                sshUser = "root";
+                sshUser = "thomas";
                 path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.vanaheim;
                 user = "root";
               };
@@ -324,7 +318,7 @@
           #   fastConnection = true;
           #   profiles = {
           #     system = {
-          #       sshUser = "root";
+          #       sshUser = "thomas";
           #       path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.yggdrasil;
           #       user = "root";
           #     };
