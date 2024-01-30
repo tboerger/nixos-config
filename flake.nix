@@ -6,8 +6,8 @@
       url = "github:nixos/nixpkgs/nixos-unstable";
     };
 
-    pre-commit-hooks = {
-      url = "github:cachix/pre-commit-hooks.nix";
+    utils = {
+      url = "github:numtide/flake-utils";
     };
 
     devshell = {
@@ -43,7 +43,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-parts, deploy-rs, disko, homemanager, homeage, agenix, hardware, ... }@inputs:
+  outputs = { self, nixpkgs, utils, devshell, deploy-rs, disko, homemanager, homeage, agenix, hardware, ... }@inputs:
     let
       inherit (self) outputs;
 
@@ -72,6 +72,14 @@
 
     in
     {
+      diskoConfigurations = {
+        anubis = import ./desktops/anubis/disko.nix;
+        chnum = import ./desktops/chnum/disko.nix;
+        asgard = import ./servers/asgard/disko.nix;
+        utgard = import ./servers/utgard/disko.nix;
+        vanaheim = import ./servers/vanaheim/disko.nix;
+      };
+
       nixosConfigurations = {
         anubis = mkComputer
           ./desktops/anubis
@@ -266,18 +274,10 @@
         #   ];
       };
 
-      diskoConfigurations = {
-        anubis = import ./desktops/anubis/disko.nix;
-        chnum = import ./desktops/chnum/disko.nix;
-        asgard = import ./servers/asgard/disko.nix;
-        utgard = import ./servers/utgard/disko.nix;
-        vanaheim = import ./servers/vanaheim/disko.nix;
-      };
-
-      anubis = self.nixosConfigurations.anubis.config.system.build.toplevel;
-      chnum = self.nixosConfigurations.chnum.config.system.build.toplevel;
-      asgard = self.nixosConfigurations.asgard.config.system.build.toplevel;
-      utgard = self.nixosConfigurations.utgard.config.system.build.toplevel;
+      # anubis = self.nixosConfigurations.anubis.config.system.build.toplevel;
+      # chnum = self.nixosConfigurations.chnum.config.system.build.toplevel;
+      # asgard = self.nixosConfigurations.asgard.config.system.build.toplevel;
+      # utgard = self.nixosConfigurations.utgard.config.system.build.toplevel;
       # yggdrasil = self.nixosConfigurations.yggdrasil.config.system.build.toplevel;
 
       deploy = {
@@ -334,28 +334,17 @@
       };
 
       checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
-    } // flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [
-        inputs.pre-commit-hooks.flakeModule
-        inputs.devshell.flakeModule
-      ];
-
-      systems = [
-        "x86_64-linux"
-        "aarch64-linux"
-        "x86_64-darwin"
-        "aarch64-darwin"
-      ];
-
-      perSystem = { config, self', inputs', pkgs, system, ... }: {
-        pre-commit = {
-          check = {
-            enable = true;
+    } // utils.lib.eachDefaultSystem
+      (system:
+        let
+          pkgs = import nixpkgs {
+            inherit system;
+            overlays = [ devshell.overlays.default ];
           };
-        };
 
-        devshells = {
-          default = {
+        in
+        {
+          devShells.default = pkgs.devshell.mkShell {
             commands = [
               {
                 name = "age-encrypt";
@@ -383,7 +372,8 @@
             ];
 
             packages = with pkgs; [
-              agenix.packages.${system}.default
+              inputs.agenix.packages.${system}.default
+              inputs.deploy-rs.packages.${system}.default
               git
               gnumake
               home-manager
@@ -392,7 +382,6 @@
               rage
             ];
           };
-        };
-      };
-    };
+        }
+      );
 }

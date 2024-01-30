@@ -49,14 +49,12 @@ nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-confi
 
 ## Servers
 
-Currently I'm applying the updates manually by cloning the repository into the
-machine and executing `make switch`, but on longterm it should also just work to
-use the `deploy #name` command, at least if it's executed from a NixOS desktop.
-If this is not the case I can always execute the following command to get the
-latest changes pulled in:
+To apply updates for servers this repository should be updated to the latest
+version, after that it is possible to use `deploy-rs` to upgrade the deployment
+with a command like this:
 
 ```console
-nixos-rebuild switch --flake github:tboerger/nixos-config#hostname
+nix run github:serokell/deploy-rs github:tboerger/nixos-config#hostname
 ```
 
 ### Asgard
