@@ -6,7 +6,7 @@
       disk = {
         disk1 = {
           type = "disk";
-          device = "/dev/disk/by-id/";
+          device = "/dev/disk/by-id/ata-TOSHIBA_THNSNH512GCST_14DS100ATBAY";
 
           content = {
             type = "gpt";
