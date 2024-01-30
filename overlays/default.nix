@@ -1,30 +1,70 @@
 self: super:
 
 {
-  discord = super.discord.overrideAttrs (old: {
-    src = super.fetchurl {
-      url = "https://dl.discordapp.net/apps/linux/0.0.25/discord-0.0.25.tar.gz";
-      hash = "sha256-WBcmy9fwGPq3Vs1+7lIOR7OiW/d0kZNIKp4Q5NRYBCw=";
-    };
-  });
-
-  citrix_workspace = super.citrix_workspace.overrideAttrs (old: {
-    src = super.fetchurl {
-      name = "linuxx64-22.12.0.12.tar.gz";
-      url = "https://dl.webhippie.de/misc/citrix-workspace-x64-22.12.0.12.tar.gz";
-      hash = "sha256-PsWj1VJqa6wXu5d7FzVC9b3VNaU7qm3KgMg6DWEinXQ=";
-    };
-  });
-
   vscode-extensions = self.lib.recursiveUpdate super.vscode-extensions {
     dzhavat.bracket-pair-toggler = self.vscode-utils.extensionFromVscodeMarketplace {
       name = "bracket-pair-toggler";
       publisher = "dzhavat";
-      version = "0.0.2";
-      sha256 = "sha256-2u+bdXU9nU1C8X3hpi7FfI2en4mlgWRPIVzcZrgGzPo=";
+      version = "0.0.3";
+      sha256 = "sha256-mjsh+jwr1ygtOEiZ3juaEuxPZQxdM3QOHxO/e2ht4Ho=";
+    };
+    shakram02.bash-beautify = self.vscode-utils.extensionFromVscodeMarketplace {
+      name = "bash-beautify";
+      publisher = "shakram02";
+      version = "0.1.1";
+      sha256 = "sha256-pg1nGEk+cn7VlmJeDifXkXeZJLRrEFOyW0bK9W6VGfc=";
+    };
+    signageos.signageos-vscode-sops = self.vscode-utils.extensionFromVscodeMarketplace {
+      name = "signageos-vscode-sops";
+      publisher = "signageos";
+      version = "0.8.0";
+      sha256 = "sha256-LcbbKvYQxob2zKnmAlylIedQkJ1INl/i9DSK7MemW9Y=";
     };
   };
 
+  vimPlugins = self.lib.recursiveUpdate super.vimPlugins {
+    dockerfile-vim = self.vimUtils.buildVimPlugin {
+      pname = "dockerfile-vim";
+      version = "2021-09-06";
+      src = self.fetchFromGitHub {
+        owner = "ekalinin";
+        repo = "Dockerfile.vim";
+        rev = "2a31e6bcea5977209c05c728c4253d82fd873c82";
+        sha256 = "sha256-MiSGZ5MJ5g37szUuo8XCbuzuAcNBSqYY6hVa/WJwLDY=";
+      };
+    };
+    vim-vividchalk = self.vimUtils.buildVimPlugin {
+      pname = "vim-vividchalk";
+      version = "2019-11-13";
+      src = self.fetchFromGitHub {
+        owner = "tpope";
+        repo = "vim-vividchalk";
+        rev = "be5c6251279bfcfa55cdea8c9a8ccd7a56c8a642";
+        sha256 = "sha256-G7wFjIqhHJtUDuXPIlC34C4kRJz85ytHXpVmazrN1/I=";
+      };
+    };
+  };
+
+  gh-dash = super.callPackage ./gh-dash { };
+  gh-markdown-preview = super.callPackage ./gh-markdown-preview { };
+  gh-poi = super.callPackage ./gh-poi { };
+
+  kubectl-get-all = super.callPackage ./kubectl-get-all { };
+  kubectl-images = super.callPackage ./kubectl-images { };
+  kubectl-ktop = super.callPackage ./kubectl-ktop { };
+  kubectl-neat = super.callPackage ./kubectl-neat { };
+  kubectl-oomd = super.callPackage ./kubectl-oomd { };
+  kubectl-pexec = super.callPackage ./kubectl-pexec { };
+  kubectl-realname-diff = super.callPackage ./kubectl-realname-diff { };
+  kubectl-resource-versions = super.callPackage ./kubectl-resource-versions { };
+  kubectl-split-yaml = super.callPackage ./kubectl-split-yaml { };
+  kubectl-view-secret = super.callPackage ./kubectl-view-secret { };
+  kubectl-whoami = super.callPackage ./kubectl-whoami { };
+
+  khelm = super.callPackage ./khelm { };
+  ksops = super.callPackage ./ksops { };
+
+  zcustom = super.callPackage ./zcustom { };
+
   clickup = super.callPackage ./clickup { };
-  clockify = super.callPackage ./clockify { };
 }

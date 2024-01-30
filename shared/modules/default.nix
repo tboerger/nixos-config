@@ -2,12 +2,11 @@
 
 {
   imports = [
-    ./global
-    ./network
-    ./nixpkgs
-    ./shells
-    ./sudo
-    ./tools
-    ./users
+    ./global.nix
+    ./network.nix
+    ./nixpkgs.nix
+    ./shells.nix
+    ./sudo.nix
+    ./users.nix
   ];
 }

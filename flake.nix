@@ -6,16 +6,20 @@
       url = "github:nixos/nixpkgs/nixos-unstable";
     };
 
-    nur = {
-      url = "github:nix-community/NUR";
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
     };
 
-    utils = {
-      url = "github:numtide/flake-utils";
+    devshell = {
+      url = "github:numtide/devshell";
     };
 
-    agenix = {
-      url = "github:ryantm/agenix";
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+    };
+
+    disko = {
+      url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -24,35 +28,38 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    homeage = {
+      url = "github:jordanisaacs/homeage";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     hardware = {
       url = "github:nixos/nixos-hardware";
     };
   };
 
-  outputs = { self, nixpkgs, nur, utils, agenix, homemanager, hardware, ... }@inputs:
+  outputs = { self, nixpkgs, flake-parts, deploy-rs, disko, homemanager, homeage, agenix, hardware, ... }@inputs:
     let
+      inherit (self) outputs;
+
       mkComputer = configurationNix: systemName: extraModules: nixpkgs.lib.nixosSystem {
         system = systemName;
 
         modules = [
           ({ pkgs, ... }:
-            let
-              nur-no-pkgs = import nur {
-                nurpkgs = import nixpkgs { system = systemName; };
-              };
-            in
             {
-              imports = [
-                nur-no-pkgs.repos.tboerger.modules
-              ];
-
               nixpkgs = {
                 overlays = [
                   (import ./overlays)
-                  nur.overlay
                 ];
               };
-            })
+            }
+          )
           homemanager.nixosModules.home-manager
           agenix.nixosModules.default
           configurationNix
@@ -70,85 +77,322 @@
           ./desktops/anubis
           "x86_64-linux"
           [
-            ./profiles/thomas
-            # ./profiles/anna
-            # ./profiles/adrian
-            # ./profiles/tabea
+            disko.nixosModules.disko
+            ./home/thomas/user.nix
+            ./home/anna/user.nix
+            ./home/adrian/user.nix
+            ./home/tabea/user.nix
+
+            {
+              home-manager = {
+                extraSpecialArgs = {
+                  desktopSystem = true;
+                };
+
+                users = {
+                  thomas = {
+                    imports = [
+                      homeage.homeManagerModules.homeage
+                      ./home/thomas
+                    ];
+                  };
+                  anna = {
+                    imports = [
+                      homeage.homeManagerModules.homeage
+                      ./home/anna
+                    ];
+                  };
+                  adrian = {
+                    imports = [
+                      homeage.homeManagerModules.homeage
+                      ./home/adrian
+                    ];
+                  };
+                  tabea = {
+                    imports = [
+                      homeage.homeManagerModules.homeage
+                      ./home/tabea
+                    ];
+                  };
+                };
+              };
+            }
           ];
 
         chnum = mkComputer
           ./desktops/chnum
           "x86_64-linux"
           [
-            ./profiles/thomas
-            # ./profiles/anna
-            # ./profiles/adrian
-            # ./profiles/tabea
-          ];
+            disko.nixosModules.disko
+            ./home/thomas/user.nix
+            ./home/anna/user.nix
+            ./home/adrian/user.nix
+            ./home/tabea/user.nix
 
-        osiris = mkComputer
-          ./desktops/osiris
-          "x86_64-linux"
-          [
-            ./profiles/thomas
-            # ./profiles/anna
-            # ./profiles/adrian
-            # ./profiles/tabea
+            {
+              home-manager = {
+                extraSpecialArgs = {
+                  desktopSystem = true;
+                };
+
+                users = {
+                  thomas = {
+                    imports = [
+                      homeage.homeManagerModules.homeage
+                      ./home/thomas
+                    ];
+                  };
+                  anna = {
+                    imports = [
+                      homeage.homeManagerModules.homeage
+                      ./home/anna
+                    ];
+                  };
+                  adrian = {
+                    imports = [
+                      homeage.homeManagerModules.homeage
+                      ./home/adrian
+                    ];
+                  };
+                  tabea = {
+                    imports = [
+                      homeage.homeManagerModules.homeage
+                      ./home/tabea
+                    ];
+                  };
+                };
+              };
+            }
           ];
 
         asgard = mkComputer
           ./servers/asgard
           "x86_64-linux"
           [
-            ./profiles/thomas
-            # ./profiles/anna
-            # ./profiles/adrian
-            # ./profiles/tabea
+            disko.nixosModules.disko
+            ./home/thomas/user.nix
+
+            {
+              home-manager = {
+                extraSpecialArgs = {
+                  desktopSystem = false;
+                };
+
+                users = {
+                  thomas = {
+                    imports = [
+                      homeage.homeManagerModules.homeage
+                      ./home/thomas
+                    ];
+                  };
+                };
+              };
+            }
           ];
 
         utgard = mkComputer
           ./servers/utgard
           "x86_64-linux"
           [
-            ./profiles/thomas
-            # ./profiles/anna
-            # ./profiles/adrian
-            # ./profiles/tabea
+            disko.nixosModules.disko
+            ./home/thomas/user.nix
+
+            {
+              home-manager = {
+                extraSpecialArgs = {
+                  desktopSystem = false;
+                };
+
+                users = {
+                  thomas = {
+                    imports = [
+                      homeage.homeManagerModules.homeage
+                      ./home/thomas
+                    ];
+                  };
+                };
+              };
+            }
           ];
 
-        midgard = mkComputer
-          ./servers/midgard
-          "aarch64-linux"
+        vanaheim = mkComputer
+          ./servers/vanaheim
+          "x86_64-linux"
           [
-            hardware.nixosModules.raspberry-pi-4
-            ./profiles/thomas
-            # ./profiles/anna
-            # ./profiles/adrian
-            # ./profiles/tabea
+            disko.nixosModules.disko
+            ./home/thomas/user.nix
+
+            {
+              home-manager = {
+                extraSpecialArgs = {
+                  desktopSystem = false;
+                };
+
+                users = {
+                  thomas = {
+                    imports = [
+                      homeage.homeManagerModules.homeage
+                      ./home/thomas
+                    ];
+                  };
+                };
+              };
+            }
           ];
+
+        # yggdrasil = mkComputer
+        #   ./servers/yggdrasil
+        #   "aarch64-linux"
+        #   [
+        #     hardware.nixosModules.raspberry-pi-4
+        #     ./home/thomas/user.nix
+
+        #     {
+        #       home-manager = {
+        #         extraSpecialArgs = {
+        #           desktopSystem = false;
+        #         };
+
+        #         users = {
+        #           thomas = {
+        #             imports = [
+        #               homeage.homeManagerModules.homeage
+        #               ./home/thomas
+        #             ];
+        #           };
+        #         };
+        #       };
+        #     }
+        #   ];
+      };
+
+      diskoConfigurations = {
+        anubis = import ./desktops/anubis/disko.nix;
+        chnum = import ./desktops/chnum/disko.nix;
+        asgard = import ./servers/asgard/disko.nix;
+        utgard = import ./servers/utgard/disko.nix;
+        vanaheim = import ./servers/vanaheim/disko.nix;
       };
 
       anubis = self.nixosConfigurations.anubis.config.system.build.toplevel;
       chnum = self.nixosConfigurations.chnum.config.system.build.toplevel;
-      osiris = self.nixosConfigurations.osiris.config.system.build.toplevel;
-
       asgard = self.nixosConfigurations.asgard.config.system.build.toplevel;
       utgard = self.nixosConfigurations.utgard.config.system.build.toplevel;
-      midgard = self.nixosConfigurations.midgard.config.system.build.toplevel;
-    } // utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = nixpkgs.legacyPackages.${system};
+      # yggdrasil = self.nixosConfigurations.yggdrasil.config.system.build.toplevel;
 
-      in
-      {
-        devShell = pkgs.mkShell {
-          buildInputs = with pkgs; [
-            agenix.packages.${system}.default
-            nixpkgs-fmt
-            gnumake
-            nixUnstable
-          ];
+      deploy = {
+        nodes = {
+          asgard = {
+            sshOpts = [ "-p" "22" ];
+            hostname = "asgard.boerger.ws";
+            fastConnection = true;
+            profiles = {
+              system = {
+                sshUser = "root";
+                path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.asgard;
+                user = "root";
+              };
+            };
+          };
+          utgard = {
+            sshOpts = [ "-p" "22" ];
+            hostname = "utgard.boerger.ws";
+            fastConnection = true;
+            profiles = {
+              system = {
+                sshUser = "root";
+                path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.utgard;
+                user = "root";
+              };
+            };
+          };
+          vanaheim = {
+            sshOpts = [ "-p" "22" ];
+            hostname = "vanaheim.boerger.ws";
+            fastConnection = true;
+            profiles = {
+              system = {
+                sshUser = "root";
+                path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.vanaheim;
+                user = "root";
+              };
+            };
+          };
+          # yggdrasil = {
+          #   sshOpts = [ "-p" "22" ];
+          #   hostname = "yggdrasil.boerger.ws";
+          #   fastConnection = true;
+          #   profiles = {
+          #     system = {
+          #       sshUser = "root";
+          #       path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.yggdrasil;
+          #       user = "root";
+          #     };
+          #   };
+          # };
         };
-      }
-    );
+      };
+
+      checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
+    } // flake-parts.lib.mkFlake { inherit inputs; } {
+      imports = [
+        inputs.pre-commit-hooks.flakeModule
+        inputs.devshell.flakeModule
+      ];
+
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "x86_64-darwin"
+        "aarch64-darwin"
+      ];
+
+      perSystem = { config, self', inputs', pkgs, system, ... }: {
+        pre-commit = {
+          check = {
+            enable = true;
+          };
+        };
+
+        devshells = {
+          default = {
+            commands = [
+              {
+                name = "age-encrypt";
+                category = "secrets commands";
+                help = "Encrypt secret with age";
+                command = "${pkgs.rage}/bin/rage -e -a -i ~/.ssh/id_ed25519";
+              }
+              {
+                name = "age-decrypt";
+                category = "secrets commands";
+                help = "Decrypt secret with age";
+                command = "${pkgs.rage}/bin/rage -d -i ~/.ssh/id_ed25519";
+              }
+              {
+                name = "agenix-rekey";
+                category = "secrets commands";
+                help = "Rekey agenix secrets";
+                command = "cd secrets && agenix -r";
+              }
+
+              {
+                package = "nixpkgs-fmt";
+                category = "formatter commands";
+              }
+            ];
+
+            packages = with pkgs; [
+              agenix.packages.${system}.default
+              git
+              gnumake
+              home-manager
+              nixpkgs-fmt
+              nixUnstable
+              rage
+            ];
+          };
+        };
+      };
+    };
 }

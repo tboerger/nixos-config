@@ -1,0 +1,201 @@
+{ pkgs, lib, config, options, ... }:
+with lib;
+
+let
+  cfg = config.personal.services.desktop;
+
+in
+{
+  options = {
+    personal = {
+      services = {
+        desktop = {
+          enable = mkEnableOption "Desktop";
+        };
+      };
+    };
+  };
+
+  config = mkIf cfg.enable {
+    environment = {
+      pathsToLink = [
+        "/libexec"
+      ];
+
+      gnome = {
+        excludePackages = with pkgs; [
+          gnome-tour
+        ];
+      };
+
+      systemPackages = with pkgs; [
+        gnome.adwaita-icon-theme
+        gnome.gnome-tweaks
+      ];
+    };
+
+    boot = {
+      plymouth = {
+        enable = true;
+      };
+    };
+
+    security = {
+      polkit = {
+        enable = true;
+      };
+    };
+
+    programs = {
+      dconf = {
+        enable = true;
+      };
+
+      light = {
+        enable = true;
+      };
+    };
+
+    hardware = {
+      opengl = {
+        enable = true;
+      };
+
+      bluetooth = {
+        enable = true;
+      };
+
+      pulseaudio = {
+        enable = true;
+      };
+    };
+
+    sound = {
+      enable = true;
+
+      mediaKeys = {
+        enable = true;
+      };
+    };
+
+    powerManagement = {
+      enable = true;
+      cpuFreqGovernor = "powersave";
+    };
+
+    fonts = {
+      enableDefaultPackages = true;
+
+      fontDir = {
+        enable = true;
+      };
+
+      packages = with pkgs; [
+        corefonts
+        fira-code
+        font-awesome
+        nerdfonts
+        noto-fonts
+        noto-fonts-emoji
+        noto-fonts-extra
+        roboto
+      ];
+    };
+
+    # TODO:
+    # - org.gnome.Calendar
+    # - org.gnome.Contacts
+    # - org.gnome.eog
+    # - org.gnome.Evince
+    # - org.gnome.Lollypop
+    # - org.gnome.TextEditor
+    # - org.gnome.Totem
+
+    services = {
+      # gnome = {
+      #   core-utilities = {
+      #     enable = true;
+      #   };
+
+      #   evolution-data-server = {
+      #     enable = true;
+      #   };
+
+      #   gnome-keyring = {
+      #     enable = true;
+      #   };
+
+      #   gnome-online-accounts = {
+      #     enable = true;
+      #   };
+
+      #   gnome-remote-desktop = {
+      #     enable = true;
+      #   };
+
+      #   gnome-settings-daemon = {
+      #     enable = true;
+      #   };
+
+      #   sushi = {
+      #     enable = true;
+      #   };
+      # };
+
+      # udev = {
+      #   packages = with pkgs; [
+      #     gnome.gnome-settings-daemon
+      #   ];
+      # };
+
+      avahi = {
+        enable = true;
+        nssmdns4 = true;
+      };
+
+      fstrim = {
+        enable = true;
+      };
+
+      fwupd = {
+        enable = true;
+      };
+
+      thermald = {
+        enable = true;
+      };
+
+      xserver = {
+        enable = true;
+        autorun = true;
+        layout = "de";
+        xkbOptions = "eurosign:e";
+
+        libinput = {
+          enable = true;
+
+          touchpad = {
+            disableWhileTyping = false;
+            tapping = true;
+            tappingDragLock = false;
+            middleEmulation = true;
+            naturalScrolling = true;
+            scrollMethod = "twofinger";
+          };
+        };
+
+        displayManager = {
+          gdm = {
+            enable = true;
+          };
+        };
+
+        desktopManager = {
+          gnome = {
+            enable = true;
+          };
+        };
+      };
+    };
+  };
+}

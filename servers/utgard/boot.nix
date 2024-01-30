@@ -8,8 +8,11 @@
       ];
     };
 
-    kernelPackages = lib.mkDefault pkgs.linuxPackages;
-    cleanTmpDir = true;
+    kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
+
+    tmp = {
+      cleanOnBoot = true;
+    };
 
     loader = {
       efi = {
@@ -25,7 +28,7 @@
     };
 
     kernelModules = [ "kvm-intel" "wl" ];
-    extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
+    extraModulePackages = with config.boot.kernelPackages; [ broadcom_sta ];
 
     initrd = {
       availableKernelModules = [ "uhci_hcd" "ehci_pci" "ahci" "firewire_ohci" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];

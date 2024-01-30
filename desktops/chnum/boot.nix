@@ -2,14 +2,21 @@
 
 {
   boot = {
+    supportedFilesystems = [
+      "ntfs"
+    ];
+
     binfmt = {
       emulatedSystems = [
         "aarch64-linux"
       ];
     };
 
-    kernelPackages = lib.mkDefault pkgs.linuxPackages;
-    cleanTmpDir = true;
+    kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
+
+    tmp = {
+      cleanOnBoot = true;
+    };
 
     loader = {
       efi = {
@@ -25,7 +32,7 @@
     };
 
     kernelModules = [ "kvm-intel" ];
-    extraModulePackages = [ ];
+    extraModulePackages = with config.boot.kernelPackages; [ ];
 
     initrd = {
       availableKernelModules = [ "ahci" "atkbd" "rtsx_pci_sdmmc" "sd_mod" "usb_storage" "xhci_pci" ];

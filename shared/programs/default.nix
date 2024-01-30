@@ -3,7 +3,10 @@ with lib;
 
 {
   imports = [
-    ./citrix
+    ./browser.nix
+    ./mail.nix
+    ./password.nix
+    ./steam.nix
   ];
 
   options = {

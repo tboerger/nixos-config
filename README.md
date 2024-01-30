@@ -14,9 +14,12 @@ execute the commands below.
 
 Generally after the installation I'm cloning this repository somewhere onto the
 desktop machine and just execute `make switch` within that repository to apply
-updates, if this is not the case I can always execute
-`nixos-rebuild switch --flake github:tboerger/nixos-config#name` to get the
-latest changes pulled in.
+updates, if this is not the case I can always execute the following command to
+get the latest changes pulled in:
+
+```console
+nixos-rebuild switch --flake github:tboerger/nixos-config#hostname
+```
 
 ### Anubis
 
@@ -24,7 +27,7 @@ latest changes pulled in.
 sudo loadkeys de
 sudo nix-shell --packages nixUnstable
 
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/desktops/anubis/partitions.sh)"
+nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko --flake github:tboerger/nixos-config#anubis
 
 mkdir -p /mnt/etc/ssh
 cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
@@ -37,24 +40,11 @@ nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-confi
 sudo loadkeys de
 sudo nix-shell --packages nixUnstable
 
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/desktops/chnum/partitions.sh)"
+nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko --flake github:tboerger/nixos-config#chnum
 
 mkdir -p /mnt/etc/ssh
 cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
 nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#chnum
-```
-
-### Osiris
-
-```console
-sudo loadkeys de
-sudo nix-shell --packages nixUnstable
-
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/desktops/osiris/partitions.sh)"
-
-mkdir -p /mnt/etc/ssh
-cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
-nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#osiris
 ```
 
 ## Servers
@@ -62,6 +52,12 @@ nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-confi
 Currently I'm applying the updates manually by cloning the repository into the
 machine and executing `make switch`, but on longterm it should also just work to
 use the `deploy #name` command, at least if it's executed from a NixOS desktop.
+If this is not the case I can always execute the following command to get the
+latest changes pulled in:
+
+```console
+nixos-rebuild switch --flake github:tboerger/nixos-config#hostname
+```
 
 ### Asgard
 
@@ -69,7 +65,7 @@ use the `deploy #name` command, at least if it's executed from a NixOS desktop.
 sudo loadkeys de
 sudo nix-shell --packages nixUnstable
 
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/servers/asgard/partitions.sh)"
+nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko --flake github:tboerger/nixos-config#asgard
 
 mkdir -p /mnt/etc/ssh
 cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
@@ -82,14 +78,27 @@ nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-confi
 sudo loadkeys de
 sudo nix-shell --packages nixUnstable
 
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/tboerger/nixos-config/master/servers/utgard/partitions.sh)"
+nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko --flake github:tboerger/nixos-config#utgard
 
 mkdir -p /mnt/etc/ssh
 cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
 nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#utgard
 ```
 
-### Midgard
+### Vanaheim
+
+```console
+sudo loadkeys de
+sudo nix-shell --packages nixUnstable
+
+nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko --flake github:tboerger/nixos-config#vanaheim
+
+mkdir -p /mnt/etc/ssh
+cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
+nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#vanaheim
+```
+
+### Yggdrasil
 
 ```console
 sudo loadkeys de
@@ -99,7 +108,31 @@ mount /dev/disk/by-label/NIXOS_SD /mnt
 
 mkdir -p /mnt/etc/ssh
 cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
-nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#midgard
+nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#yggdrasil
+```
+
+## Finish
+
+Finally after I have setup the whole system I usually copy the remaining
+credentials from my securely stored USB stick to get access to my SSH keys and
+Gnupg keys if this is required on the machine. It should not be required for
+servers.
+
+### SSH
+
+```console
+mkdir -p ${HOME}/.ssh/
+cp /media/$(whoami)/secrets/ssh/id_* ${HOME}/.ssh/
+chown -R $(id -u):$(id -g) ${HOME}/.ssh
+chmod u=rw,g=,o= ${HOME}/.ssh/id_*
+```
+
+### Gnupg
+
+```console
+for FILE in /media/$(whoami)/secrets/gpg/*.asc; do
+    gpg --import ${FILE}
+done
 ```
 
 ## Security

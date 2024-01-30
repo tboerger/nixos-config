@@ -8,24 +8,22 @@
       ];
     };
 
-    kernelPackages = lib.mkDefault pkgs.linuxPackages;
-    cleanTmpDir = true;
+    kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
+
+    tmp = {
+      cleanOnBoot = true;
+    };
 
     loader = {
       grub = {
         enable = true;
-        version = 2;
         efiSupport = false;
         copyKernels = true;
-
-        devices = [
-          "/dev/disk/by-path/pci-0000:00:14.1-ata-1"
-        ];
       };
     };
 
     kernelModules = [ "kvm-amd" ];
-    extraModulePackages = [ ];
+    extraModulePackages = with config.boot.kernelPackages; [ ];
 
     initrd = {
       availableKernelModules = [ "ahci" "ehci_pci" "ohci_pci" "pata_atiixp" "sd_mod" "usb_storage" "usbhid" ];

@@ -6,19 +6,15 @@
     ../../shared/programs
     ../../shared/services
 
-    ./filesystems.nix
+    ./disko.nix
     ./boot.nix
     ./networking.nix
+    ./graphics.nix
     ./hardware.nix
+    ./extras.nix
   ];
 
   personal = {
-    programs = {
-      citrix = {
-        enable = config.personal.programs.enable;
-      };
-    };
-
     services = {
       desktop = {
         enable = config.personal.services.enable;
@@ -36,9 +32,24 @@
         enable = config.personal.services.enable;
       };
     };
+
+    programs = {
+      mail = {
+        enable = config.personal.programs.enable;
+      };
+      browser = {
+        enable = config.personal.programs.enable;
+      };
+      steam = {
+        enable = config.personal.programs.enable;
+      };
+      password = {
+        enable = config.personal.programs.enable;
+      };
+    };
   };
 
   system = {
-    stateVersion = "21.11";
+    stateVersion = "23.11";
   };
 }

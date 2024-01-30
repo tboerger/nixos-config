@@ -3,24 +3,23 @@ with lib;
 
 {
   imports = [
-    ./acme
-    ./authentik
-    ./homedns
-    ./desktop
-    ./docker
-    ./hass
-    ./haveged
-    ./libvirt
-    ./media
-    ./minecraft
-    ./nextcloud
-    ./nixbuild
-    ./openssh
-    ./printing
-    ./shares
-    ./tailscale
-    ./timesyncd
-    ./webserver
+    ./acme.nix
+    ./auth.nix
+    ./desktop.nix
+    ./docker.nix
+    ./gallery.nix
+    ./hass.nix
+    ./haveged.nix
+    ./homedns.nix
+    ./libvirt.nix
+    ./media.nix
+    ./minecraft.nix
+    ./openssh.nix
+    ./printing.nix
+    ./shares.nix
+    ./tailscale.nix
+    ./timesyncd.nix
+    ./webserver.nix
   ];
 
   options = {

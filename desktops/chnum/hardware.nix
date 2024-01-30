@@ -14,11 +14,5 @@
         updateMicrocode = lib.mkDefault true;
       };
     };
-
-    video = {
-      hidpi = {
-        enable = lib.mkDefault true;
-      };
-    };
   };
 }

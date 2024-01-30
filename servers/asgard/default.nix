@@ -6,10 +6,11 @@
     ../../shared/programs
     ../../shared/services
 
-    ./filesystems.nix
+    ./disko.nix
     ./boot.nix
     ./networking.nix
     ./hardware.nix
+    ./extras.nix
   ];
 
   personal = {
@@ -24,6 +25,6 @@
   };
 
   system = {
-    stateVersion = "21.11";
+    stateVersion = "23.11";
   };
 }
