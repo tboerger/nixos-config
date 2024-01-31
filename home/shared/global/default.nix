@@ -14,7 +14,7 @@
 
   homeage = {
     identityPaths = [ "~/.ssh/id_ed25519" ];
-    installationType = "systemd";
+    installationType = "activation";
   };
 
   programs = {
