@@ -40,7 +40,7 @@ in
         source = ../secrets/gh.age;
         symlinks = [ "${config.home.homeDirectory}/.ghtoken" ];
         owner = "thomas";
-        group = "thomas";
+        group = "users";
         mode = "0600";
       };
     };

@@ -28,7 +28,7 @@ in
         source = ../secrets/minio.age;
         symlinks = [ "${config.home.homeDirectory}/.mc/config.json" ];
         owner = "thomas";
-        group = "thomas";
+        group = "users";
         mode = "0600";
       };
     };

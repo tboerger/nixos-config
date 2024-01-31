@@ -22,7 +22,7 @@ in
         source = ../secrets/netrc.age;
         symlinks = [ "${config.home.homeDirectory}/.netrc" ];
         owner = "thomas";
-        group = "thomas";
+        group = "users";
         mode = "0600";
       };
     };
