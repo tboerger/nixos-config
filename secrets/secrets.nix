@@ -3,7 +3,7 @@ let
   users = [ thomas ];
 
   anubis = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII8giHHf/baGidSc0GR0IUDEm2ym/EZVbtA7p2RkQ7In";
-  chnum = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFmxTCjjLZL+pFZU1A8ylZbMPF8SD5NtkJ001z2mx0i4";
+  chnum = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHKFHDzfYlfsmmL+jBsTJ96WM5ijXaFPxjR6LFz04dpZ";
   asgard = "";
   utgard = "";
   vanaheim = "";
