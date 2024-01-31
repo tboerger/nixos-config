@@ -19,8 +19,6 @@ in
   config = mkIf cfg.enable {
     home = {
       packages = with pkgs; [
-        temurin-bin-8
-        temurin-bin-17
         mcrcon
         packwiz
         ferium

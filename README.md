@@ -7,8 +7,9 @@ Provisioning for my NixOS systems based on [Nix][nix].
 ## Prepare
 
 Copy `/etc/ssh/ssh_host_ed25519_key.pub` into [secrets](./secrets/secrets.nix)
-and rekey the secrets via [agenix][agenix]. After pushing the rekeyed secrets
-execute the commands below.
+and rekey the secrets via [agenix][agenix], you could also just execute
+`ssh-keyscan ip_or_fqdn` to fetch the current public keys. After pushing the
+rekeyed secrets execute the commands below.
 
 ## Desktops
 
