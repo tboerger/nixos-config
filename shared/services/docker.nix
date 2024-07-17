@@ -17,6 +17,12 @@ in
   };
 
   config = mkIf cfg.enable {
+    environment = {
+      systemPackages = with pkgs; [
+        lazydocker
+      ];
+    };
+
     virtualisation = {
       docker = {
         enable = true;
@@ -25,6 +31,10 @@ in
           enable = true;
           dates = "weekly";
         };
+      };
+
+      oci-containers = {
+        backend = "docker";
       };
     };
   };

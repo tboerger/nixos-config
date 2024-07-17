@@ -66,6 +66,10 @@ in
   };
 
   config = mkIf cfg.enable {
+    networking.firewall = {
+      allowedTCPPorts = [ 80 443 ];
+    };
+
     services = {
       nginx = {
         enable = true;
@@ -119,8 +123,12 @@ in
       };
     };
 
-    networking.firewall = {
-      allowedTCPPorts = [ 80 443 ];
+    personal = {
+      services = {
+        acme = {
+          enable = true;
+        };
+      };
     };
   };
 }

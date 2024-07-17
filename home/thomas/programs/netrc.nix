@@ -17,13 +17,13 @@ in
   };
 
   config = mkIf cfg.enable {
-    homeage = {
-      file."netrc" = {
-        source = ../secrets/netrc.age;
-        symlinks = [ "${config.home.homeDirectory}/.netrc" ];
-        owner = "thomas";
-        group = "users";
-        mode = "0600";
+    age = {
+      secrets = {
+        netrc = {
+          file = ../secrets/netrc.age;
+          path = "${config.home.homeDirectory}/.netrc";
+          mode = "0600";
+        };
       };
     };
   };

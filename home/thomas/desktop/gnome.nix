@@ -20,6 +20,7 @@ in
     home = {
       packages = with pkgs; [
         xclip
+        gnome.adwaita-icon-theme
 
         gnomeExtensions.alphabetical-app-grid
         gnomeExtensions.app-icons-taskbar
@@ -37,10 +38,6 @@ in
         # gnomeExtensions.appindicator
       ];
     };
-
-    programs = { };
-
-    services = { };
 
     dconf = {
       settings = {
@@ -70,17 +67,17 @@ in
         "org/gnome/desktop/background" = {
           color-shading-type = "solid";
           picture-options = "zoom";
-          picture-uri = "file://${config.home.homeDirectory}/.wallpapers/tower.jpg";
-          picture-uri-dark = "file://${home.homedirectory}/.wallpapers/tower.jpg";
+          picture-uri = "file:///home/thomas/.wallpapers/tower.jpg";
+          picture-uri-dark = "file:///home/thomas/.wallpapers/tower.jpg";
           show-desktop-icons = true;
         };
 
         "org/gnome/desktop/screensaver" = {
           color-shading-type = "solid";
           picture-options = "zoom";
-          picture-uri = "file://${config.home.homeDirectory}/.wallpapers/tower.jpg";
-          picture-uri-dark = "file://${home.homedirectory}/.wallpapers/tower.jpg";
-          lock-delay = mkUint32 0;
+          picture-uri = "file:///home/thomas/.wallpapers/tower.jpg";
+          picture-uri-dark = "file:///home/thomas/.wallpapers/tower.jpg";
+          lock-delay = lib.hm.gvariant.mkUint32 0;
         };
 
         "org/gnome/desktop/notifications" = {
@@ -88,7 +85,7 @@ in
         };
 
         "org/gnome/desktop/privacy" = {
-          old-files-age = mkUint32 1;
+          old-files-age = lib.hm.gvariant.mkUint32 1;
           remember-recent-files = false;
           remove-old-temp-files = true;
           remove-old-trash-files = true;
@@ -116,22 +113,42 @@ in
             "org.gnome.Nautilus.desktop"
           ];
 
-          enabled-extensions = with pkgs; [
-            gnomeExtensions.alphabetical-app-grid.uuid # AlphabeticalAppGrid@stuarthayhurst
-            gnomeExtensions.app-icons-taskbar.uuid # "aztaskbar@aztaskbar.gitlab.com"
-            gnomeExtensions.auto-move-windows.uuid # "auto-move-windows@gnome-shell-extensions.gcampax.github.com"
-            gnomeExtensions.calc.uuid # "calc@danigm.wadobo.com"
-            gnomeExtensions.clipboard-indicator # "clipboard-indicator@tudmotu.com"
-            gnomeExtensions.custom-hot-corners-extended.uuid # "custom-hot-corners-extended@G-dH.github.com"
-            gnomeExtensions.espresso.uuid # "espresso@coadmunkee.github.com"
-            gnomeExtensions.gtile.uuid # "gTile@vibou"
-            gnomeExtensions.removable-drive-menu.uuid # "drive-menu@gnome-shell-extensions.gcampax.github.com"
-            gnomeExtensions.tailscale-status.uuid # "tailscale-status@maxgallup.github.com"
-            gnomeExtensions.tray-icons-reloaded.uuid # "trayIconsReloaded@selfmade.pl"
-            gnomeExtensions.vitals # "Vitals@CoreCoding.com"
+          enabled-extensions = [
+            "AlphabeticalAppGrid@stuarthayhurst" # gnomeExtensions.alphabetical-app-grid
+            "auto-move-windows@gnome-shell-extensions.gcampax.github.com" # gnomeExtensions.auto-move-windows
+            "aztaskbar@aztaskbar.gitlab.com" # gnomeExtensions.app-icons-taskbar
+            "calc@danigm.wadobo.com" # gnomeExtensions.calc
+            "clipboard-indicator@tudmotu.com" # gnomeExtensions.clipboard-indicator
+            "custom-hot-corners-extended@G-dH.github.com" # gnomeExtensions.custom-hot-corners-extended
+            "drive-menu@gnome-shell-extensions.gcampax.github.com" # gnomeExtensions.removable-drive-menu
+            "espresso@coadmunkee.github.com" # gnomeExtensions.espresso
+            "gTile@vibou" # gnomeExtensions.gtile
+            "tailscale-status@maxgallup.github.com" # gnomeExtensions.tailscale-status
+            "trayIconsReloaded@selfmade.pl" # gnomeExtensions.tray-icons-reloaded
+            "Vitals@CoreCoding.com" # gnomeExtensions.vitals
 
-            # gnomeExtensions.appindicator.uuid # "appindicatorsupport@rgcjonas.gmail.com"
+            # "appindicatorsupport@rgcjonas.gmail.com" # gnomeExtensions.appindicator
           ];
+        };
+
+        "org/gnome/shell/extensions/aztaskbar" = {
+          main-panel-height = (lib.hm.gvariant.mkTuple [ true 40 ]);
+          show-apps-button = (lib.hm.gvariant.mkTuple [ true 0 ]);
+        };
+
+        "org/gnome/shell/extensions/espresso" = {
+          has-battery = true;
+        };
+
+        "org/gnome/shell/extensions/vitals" = {
+          show-fan = true;
+          show-storage = false;
+          show-temperature = true;
+          show-voltage = true;
+        };
+
+        "org/gnome/shell/weather" = {
+          automatic-location = true;
         };
 
         "org/gnome/shell/extensions/custom-hot-corners-extended/misc" = {
@@ -200,26 +217,6 @@ in
 
         "org/gnome/shell/extensions/custom-hot-corners-extended/monitor-3-top-right-0" = {
           action = "toggle-overview";
-        };
-
-        "org/gnome/shell/extensions/aztaskbar" = {
-          main-panel-height = (lib.hm.gvariant.mkTuple [ true 40 ]);
-          show-apps-button = (lib.hm.gvariant.mkTuple [ true 0 ]);
-        };
-
-        "org/gnome/shell/extensions/espresso" = {
-          has-battery = true;
-        };
-
-        "org/gnome/shell/extensions/vitals" = {
-          show-fan = true;
-          show-storage = false;
-          show-temperature = true;
-          show-voltage = true;
-        };
-
-        "org/gnome/shell/weather" = {
-          automatic-location = true;
         };
 
         "system/locale" = {

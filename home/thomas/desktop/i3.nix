@@ -68,10 +68,6 @@ in
         enable = true;
       };
 
-      autorandr = {
-        enable = true;
-      };
-
       rofi = {
         enable = true;
 
@@ -117,9 +113,6 @@ in
         enable = true;
       };
 
-      autorandr = {
-        enable = true;
-      };
       betterlockscreen = {
         enable = true;
         arguments = [ "--update ${home.homeDirectory}/.wallpapers/tower.jpg" ];

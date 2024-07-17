@@ -21,7 +21,6 @@ in
       packages = with pkgs; [
         mcrcon
         packwiz
-        ferium
         prismlauncher
       ];
     };

@@ -22,7 +22,7 @@ in
 
   profile = {
     desktop = {
-      sway = {
+      gnome = {
         enable = desktop;
       };
     };
@@ -31,10 +31,10 @@ in
       act = {
         enable = desktop;
       };
-      authy = {
+      banking = {
         enable = desktop;
       };
-      banking = {
+      citrix = {
         enable = desktop;
       };
       clouds = {
@@ -43,25 +43,25 @@ in
       develop = {
         enable = desktop;
       };
-      git = {
-        enable = desktop;
-      };
-      github = {
-        enable = desktop;
-      };
       gnupg = {
         enable = desktop;
       };
       golang = {
         enable = desktop;
       };
-      gopass = {
+      gomplate = {
+        enable = desktop;
+      };
+      graphics = {
         enable = desktop;
       };
       helm = {
         enable = desktop;
       };
       joplin = {
+        enable = desktop;
+      };
+      jq = {
         enable = desktop;
       };
       jsonnet = {
@@ -85,10 +85,7 @@ in
       minecraft = {
         enable = desktop;
       };
-      minio = {
-        enable = desktop;
-      };
-      netrc = {
+      network = {
         enable = desktop;
       };
       ngrok = {
@@ -103,7 +100,7 @@ in
       shortwave = {
         enable = desktop;
       };
-      ssh = {
+      streaming = {
         enable = desktop;
       };
       terminal = {
@@ -112,27 +109,39 @@ in
       terraform = {
         enable = desktop;
       };
-      vscode = {
-        enable = desktop;
-      };
       wine = {
         enable = desktop;
       };
-      yed = {
+      yq = {
         enable = desktop;
       };
       zathura = {
         enable = desktop;
       };
 
-      jq = {
-        enable = true;
+      autorandr = {
+        enable = desktop;
       };
-      network = {
-        enable = true;
+      git = {
+        enable = desktop;
       };
-      yq = {
-        enable = true;
+      github = {
+        enable = desktop;
+      };
+      gopass = {
+        enable = desktop;
+      };
+      minio = {
+        enable = desktop;
+      };
+      netrc = {
+        enable = desktop;
+      };
+      ssh = {
+        enable = desktop;
+      };
+      vscode = {
+        enable = desktop;
       };
     };
 
@@ -140,10 +149,10 @@ in
       nextcloud = {
         enable = desktop;
       };
-      udiskie = {
+      syncthing = {
         enable = desktop;
       };
-      syncthing = {
+      udiskie = {
         enable = desktop;
       };
     };
@@ -156,6 +165,20 @@ in
 
     sessionVariables = {
       LC_ALL = "en_US.UTF-8";
+    };
+
+    shellAliases = {
+      ".." = "cd ..";
+      "..." = "cd ../..";
+
+      netstat = "sudo netstat -tulpen";
+
+      rgrep = "grep -Rn";
+      hgrep = "fc -El 0 | grep";
+      history = "fc -l 1";
+      sha256sum = "shasum -a 256";
+
+      # molecule = "docker run -ti --rm -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):$(pwd) -w $(pwd) toolhippie/molecule:latest molecule";
     };
 
     file = {
@@ -218,5 +241,80 @@ in
     } else { });
 
     stateVersion = "23.11";
+  };
+
+  programs = {
+    bash = {
+      enable = true;
+      enableCompletion = true;
+
+      profileExtra = ''
+        [ -r ~/.nix-profile/etc/profile.d/nix.sh ] && source  ~/.nix-profile/etc/profile.d/nix.sh
+      '';
+
+      logoutExtra = ''
+
+      '';
+
+      sessionVariables = {
+        EDITOR = "vim";
+        PAGER = "less";
+        CLICOLOR = "1";
+        GREP_COLOR = "mt=1;33";
+        IGNOREEOF = "1";
+      };
+    };
+
+    zsh = {
+      enable = true;
+      enableCompletion = true;
+
+      autosuggestion = {
+        enable = true;
+      };
+
+      syntaxHighlighting = {
+        enable = true;
+      };
+
+      profileExtra = ''
+        [ -r ~/.nix-profile/etc/profile.d/nix.sh ] && source  ~/.nix-profile/etc/profile.d/nix.sh
+      '';
+
+      history = {
+        size = 10000000;
+        save = 10000000;
+        extended = true;
+        path = "${config.home.homeDirectory}/.zhistory";
+      };
+
+      sessionVariables = {
+        EDITOR = "vim";
+        PAGER = "less";
+        CLICOLOR = "1";
+        GREP_COLOR = "mt=1;33";
+        IGNOREEOF = "1";
+      };
+
+      oh-my-zsh = {
+        enable = true;
+        custom = "${pkgs.zcustom}";
+        theme = "tboerger";
+
+        plugins = [
+          "direnv"
+          "encode64"
+          "git-prompt"
+          "history-substring-search"
+          "kube-ps1"
+          "rsync"
+          "sudo"
+          "systemd"
+          "tfenv"
+          "tmux"
+          "transfer"
+        ];
+      };
+    };
   };
 }

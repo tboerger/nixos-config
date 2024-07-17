@@ -23,13 +23,13 @@ in
       ];
     };
 
-    homeage = {
-      file."minio" = {
-        source = ../secrets/minio.age;
-        symlinks = [ "${config.home.homeDirectory}/.mc/config.json" ];
-        owner = "thomas";
-        group = "users";
-        mode = "0600";
+    age = {
+      secrets = {
+        minio = {
+          file = ../secrets/minio.age;
+          path = "${config.home.homeDirectory}/.mc/config.json";
+          mode = "0600";
+        };
       };
     };
   };

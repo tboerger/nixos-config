@@ -12,13 +12,14 @@ let
 in
 {
   "services/acme/credentials.age".publicKeys = users ++ systems;
-
+  "services/cloud/password.age".publicKeys = users ++ systems;
+  "services/gallery/password.age".publicKeys = users ++ systems;
   "services/tailscale/authkey.age".publicKeys = users ++ systems;
 
-  "services/shares/printer.age".publicKeys = users ++ systems;
-  "services/shares/media.age".publicKeys = users ++ systems;
-
   "users/root/password.age".publicKeys = users ++ systems;
+  "users/printer/password.age".publicKeys = users ++ systems;
+  "users/media/password.age".publicKeys = users ++ systems;
+
   "users/thomas/password.age".publicKeys = users ++ systems;
   "users/anna/password.age".publicKeys = users ++ systems;
   "users/adrian/password.age".publicKeys = users ++ systems;

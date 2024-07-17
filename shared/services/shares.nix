@@ -26,7 +26,7 @@ in
           isSystemUser = true;
           group = "media";
           home = "/var/lib/media";
-          hashedPasswordFile = config.age.secrets."services/shares/media".path;
+          hashedPasswordFile = config.age.secrets."users/media/password".path;
         };
         printer = {
           uid = 20001;
@@ -35,7 +35,7 @@ in
           isSystemUser = true;
           group = "printer";
           home = "/var/lib/printer";
-          hashedPasswordFile = config.age.secrets."services/shares/printer".path;
+          hashedPasswordFile = config.age.secrets."users/printer/password".path;
         };
       };
 
@@ -130,12 +130,12 @@ in
       };
     };
 
-    age.secrets."services/shares/printer" = {
-      file = ../../secrets/services/shares/printer.age;
+    age.secrets."users/media/password" = {
+      file = ../../secrets/users/media/password.age;
     };
 
-    age.secrets."services/shares/media" = {
-      file = ../../secrets/services/shares/media.age;
+    age.secrets."users/printer/password" = {
+      file = ../../secrets/users/printer/password.age;
     };
   };
 }

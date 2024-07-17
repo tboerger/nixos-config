@@ -34,8 +34,11 @@ in
         ansible-later
 
         cfssl
+        gettext
         graphviz
+        ipcalc
         mediainfo
+        mediawriter
         neofetch
         reflex
         shellcheck

@@ -18,6 +18,10 @@ in
 
   config = mkIf cfg.enable {
     home = {
+      packages = with pkgs; [
+        lazygit
+      ];
+
       shellAliases = {
         gs = "git status";
         gc = "git commit";
@@ -36,7 +40,7 @@ in
         enable = true;
         enableBashIntegration = true;
         enableZshIntegration = true;
-        pinentryFlavor = "gnome3";
+        pinentryPackage = pkgs.pinentry-gnome3;
       };
     };
 
@@ -73,6 +77,10 @@ in
           remotes = "remote -v";
 
           fap = "fetch --all --prune";
+
+          sma = "submodule add";
+          smi = "submodule init";
+          smu = "submodule update --init --recursive";
 
           hist = "log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short";
 

@@ -4,6 +4,7 @@ with lib;
 {
   imports = [
     ./browser.nix
+    ./lutris.nix
     ./mail.nix
     ./password.nix
     ./steam.nix

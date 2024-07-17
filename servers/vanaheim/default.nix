@@ -15,16 +15,19 @@
 
   personal = {
     services = {
+      cloud = {
+        enable = config.personal.services.enable;
+      };
       gallery = {
         enable = config.personal.services.enable;
       };
-      media = {
-        enable = config.personal.services.enable;
-      };
-      minecraft = {
+      archive = {
         enable = config.personal.services.enable;
       };
       auth = {
+        enable = config.personal.services.enable;
+      };
+      minecraft = {
         enable = config.personal.services.enable;
       };
       tailscale = {

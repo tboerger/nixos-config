@@ -3,6 +3,7 @@
 {
   imports = [
     ../../shared/modules
+    ../../shared/global
     ../../shared/programs
     ../../shared/services
 
@@ -25,25 +26,28 @@
       libvirt = {
         enable = config.personal.services.enable;
       };
-      tailscale = {
+      printing = {
         enable = config.personal.services.enable;
       };
-      printing = {
+      tailscale = {
         enable = config.personal.services.enable;
       };
     };
 
     programs = {
-      mail = {
-        enable = config.personal.programs.enable;
-      };
       browser = {
         enable = config.personal.programs.enable;
       };
-      steam = {
+      lutris = {
+        enable = config.personal.programs.enable;
+      };
+      mail = {
         enable = config.personal.programs.enable;
       };
       password = {
+        enable = config.personal.programs.enable;
+      };
+      steam = {
         enable = config.personal.programs.enable;
       };
     };

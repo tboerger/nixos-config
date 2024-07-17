@@ -21,5 +21,12 @@
         };
       };
     };
+
+    nat = {
+      enable = true;
+      enableIPv6 = true;
+      internalInterfaces = [ "ve-+" ];
+      externalInterface = "eth0";
+    };
   };
 }

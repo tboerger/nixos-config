@@ -35,13 +35,13 @@ in
       };
     };
 
-    homeage = {
-      file."ghtoken" = {
-        source = ../secrets/gh.age;
-        symlinks = [ "${config.home.homeDirectory}/.ghtoken" ];
-        owner = "thomas";
-        group = "users";
-        mode = "0600";
+    age = {
+      secrets = {
+        github = {
+          file = ../secrets/github.age;
+          path = "${config.home.homeDirectory}/.ghtoken";
+          mode = "0600";
+        };
       };
     };
   };

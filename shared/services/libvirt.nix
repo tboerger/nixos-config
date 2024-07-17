@@ -17,6 +17,15 @@ in
   };
 
   config = mkIf cfg.enable {
+    environment = {
+      systemPackages = with pkgs; [
+        cdrkit
+        cloud-utils
+        guestfs-tools
+        virt-viewer
+      ];
+    };
+
     virtualisation = {
       libvirtd = {
         enable = true;

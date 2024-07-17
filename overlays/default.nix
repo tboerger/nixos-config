@@ -1,6 +1,14 @@
 self: super:
 
 {
+  citrix_workspace = super.citrix_workspace.overrideAttrs (old: {
+    src = super.fetchurl {
+      name = "linuxx64-24.2.0.65.tar.gz";
+      url = "https://dl.webhippie.de/misc/citrix-workspace-x64-24.2.0.65.tar.gz";
+      hash = "sha256-6utdO9B51OXJcH2mf196Jct2XhnDbQGGEpBlXb8qruQ=";
+    };
+  });
+
   vscode-extensions = self.lib.recursiveUpdate super.vscode-extensions {
     dzhavat.bracket-pair-toggler = self.vscode-utils.extensionFromVscodeMarketplace {
       name = "bracket-pair-toggler";
@@ -17,8 +25,14 @@ self: super:
     signageos.signageos-vscode-sops = self.vscode-utils.extensionFromVscodeMarketplace {
       name = "signageos-vscode-sops";
       publisher = "signageos";
-      version = "0.8.0";
-      sha256 = "sha256-LcbbKvYQxob2zKnmAlylIedQkJ1INl/i9DSK7MemW9Y=";
+      version = "0.9.1";
+      sha256 = "sha256-b1Gp+tL5/e97xMuqkz4EvN0PxI7cJOObusEkcp+qKfM=";
+    };
+    Vue.volar = self.vscode-utils.extensionFromVscodeMarketplace {
+      name = "volar";
+      publisher = "Vue";
+      version = "2.0.11";
+      sha256 = "sha256-EyULg2yS/aqf0ipUQKFjW1WJIHECr26/JIQ+UuTPSLk=";
     };
   };
 
@@ -49,16 +63,23 @@ self: super:
   gh-markdown-preview = super.callPackage ./gh-markdown-preview { };
   gh-poi = super.callPackage ./gh-poi { };
 
+  kubectl-deprecations = super.callPackage ./kubectl-deprecations { };
   kubectl-get-all = super.callPackage ./kubectl-get-all { };
   kubectl-images = super.callPackage ./kubectl-images { };
   kubectl-ktop = super.callPackage ./kubectl-ktop { };
+  kubectl-moco = super.callPackage ./kubectl-moco { };
   kubectl-neat = super.callPackage ./kubectl-neat { };
   kubectl-oomd = super.callPackage ./kubectl-oomd { };
+  kubectl-outdated = super.callPackage ./kubectl-outdated { };
   kubectl-pexec = super.callPackage ./kubectl-pexec { };
+  kubectl-pod-lens = super.callPackage ./kubectl-pod-lens { };
+  kubectl-rakkess = super.callPackage ./kubectl-rakkess { };
   kubectl-realname-diff = super.callPackage ./kubectl-realname-diff { };
   kubectl-resource-versions = super.callPackage ./kubectl-resource-versions { };
+  kubectl-rolesum = super.callPackage ./kubectl-rolesum { };
   kubectl-split-yaml = super.callPackage ./kubectl-split-yaml { };
   kubectl-view-secret = super.callPackage ./kubectl-view-secret { };
+  kubectl-who-can = super.callPackage ./kubectl-who-can { };
   kubectl-whoami = super.callPackage ./kubectl-whoami { };
 
   khelm = super.callPackage ./khelm { };

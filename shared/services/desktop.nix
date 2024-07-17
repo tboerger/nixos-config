@@ -57,7 +57,7 @@ in
     };
 
     hardware = {
-      opengl = {
+      graphics = {
         enable = true;
       };
 
@@ -110,6 +110,7 @@ in
     # - org.gnome.Lollypop
     # - org.gnome.TextEditor
     # - org.gnome.Totem
+    # - org.gnome.Geary
 
     services = {
       # gnome = {
@@ -165,23 +166,26 @@ in
         enable = true;
       };
 
+      libinput = {
+        enable = true;
+
+        touchpad = {
+          disableWhileTyping = false;
+          tapping = true;
+          tappingDragLock = false;
+          middleEmulation = true;
+          naturalScrolling = true;
+          scrollMethod = "twofinger";
+        };
+      };
+
       xserver = {
         enable = true;
         autorun = true;
-        layout = "de";
-        xkbOptions = "eurosign:e";
 
-        libinput = {
-          enable = true;
-
-          touchpad = {
-            disableWhileTyping = false;
-            tapping = true;
-            tappingDragLock = false;
-            middleEmulation = true;
-            naturalScrolling = true;
-            scrollMethod = "twofinger";
-          };
+        xkb = {
+          options = "eurosign:e";
+          layout = "de";
         };
 
         displayManager = {

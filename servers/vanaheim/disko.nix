@@ -147,6 +147,21 @@
               };
             };
 
+            nextcloud = {
+              size = "100G";
+              content = {
+                type = "filesystem";
+                format = "ext4";
+                mountpoint = "/var/lib/nextcloud";
+              };
+            };
+
+
+
+
+
+
+
             kanidm = {
               size = "5G";
               content = {
@@ -327,14 +342,7 @@
               };
             };
 
-            nextcloud = {
-              size = "1G";
-              content = {
-                type = "filesystem";
-                format = "ext4";
-                mountpoint = "/var/lib/nextcloud";
-              };
-            };
+
 
             minecraft = {
               size = "1G";

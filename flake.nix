@@ -28,11 +28,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    homeage = {
-      url = "github:jordanisaacs/homeage";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -43,7 +38,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, utils, devshell, deploy-rs, disko, homemanager, homeage, agenix, hardware, ... }@inputs:
+  outputs = { self, nixpkgs, utils, devshell, deploy-rs, disko, homemanager, agenix, hardware, ... }@inputs:
     let
       inherit (self) outputs;
 
@@ -100,25 +95,25 @@
                 users = {
                   thomas = {
                     imports = [
-                      homeage.homeManagerModules.homeage
+                      agenix.homeManagerModules.default
                       ./home/thomas
                     ];
                   };
                   anna = {
                     imports = [
-                      homeage.homeManagerModules.homeage
+                      agenix.homeManagerModules.default
                       ./home/anna
                     ];
                   };
                   adrian = {
                     imports = [
-                      homeage.homeManagerModules.homeage
+                      agenix.homeManagerModules.default
                       ./home/adrian
                     ];
                   };
                   tabea = {
                     imports = [
-                      homeage.homeManagerModules.homeage
+                      agenix.homeManagerModules.default
                       ./home/tabea
                     ];
                   };
@@ -146,25 +141,25 @@
                 users = {
                   thomas = {
                     imports = [
-                      homeage.homeManagerModules.homeage
+                      agenix.homeManagerModules.default
                       ./home/thomas
                     ];
                   };
                   anna = {
                     imports = [
-                      homeage.homeManagerModules.homeage
+                      agenix.homeManagerModules.default
                       ./home/anna
                     ];
                   };
                   adrian = {
                     imports = [
-                      homeage.homeManagerModules.homeage
+                      agenix.homeManagerModules.default
                       ./home/adrian
                     ];
                   };
                   tabea = {
                     imports = [
-                      homeage.homeManagerModules.homeage
+                      agenix.homeManagerModules.default
                       ./home/tabea
                     ];
                   };
@@ -189,7 +184,7 @@
                 users = {
                   thomas = {
                     imports = [
-                      homeage.homeManagerModules.homeage
+                      agenix.homeManagerModules.default
                       ./home/thomas
                     ];
                   };
@@ -214,7 +209,7 @@
                 users = {
                   thomas = {
                     imports = [
-                      homeage.homeManagerModules.homeage
+                      agenix.homeManagerModules.default
                       ./home/thomas
                     ];
                   };
@@ -239,7 +234,7 @@
                 users = {
                   thomas = {
                     imports = [
-                      homeage.homeManagerModules.homeage
+                      agenix.homeManagerModules.default
                       ./home/thomas
                     ];
                   };
@@ -264,7 +259,7 @@
         #         users = {
         #           thomas = {
         #             imports = [
-        #               homeage.homeManagerModules.homeage
+        #               agenix.homeManagerModules.default
         #               ./home/thomas
         #             ];
         #           };
@@ -276,6 +271,30 @@
 
       deploy = {
         nodes = {
+          anubis = {
+            sshOpts = [ "-p" "22" ];
+            hostname = "anubis";
+            fastConnection = true;
+            profiles = {
+              system = {
+                sshUser = "thomas";
+                path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.anubis;
+                user = "root";
+              };
+            };
+          };
+          chnum = {
+            sshOpts = [ "-p" "22" ];
+            hostname = "chnum";
+            fastConnection = true;
+            profiles = {
+              system = {
+                sshUser = "thomas";
+                path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.chnum;
+                user = "root";
+              };
+            };
+          };
           asgard = {
             sshOpts = [ "-p" "22" ];
             hostname = "asgard.boerger.ws";
@@ -368,11 +387,11 @@
             packages = with pkgs; [
               inputs.agenix.packages.${system}.default
               inputs.deploy-rs.packages.${system}.default
+
               git
               gnumake
               home-manager
               nixpkgs-fmt
-              nixUnstable
               rage
             ];
           };

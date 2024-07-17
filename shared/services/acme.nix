@@ -17,6 +17,22 @@ in
   };
 
   config = mkIf cfg.enable {
+    ids.uids = {
+      acme = 400;
+    };
+
+    ids.gids = {
+      acme = 400;
+    };
+
+    users.users.acme = {
+      uid = config.ids.uids.acme;
+    };
+
+    users.groups.acme = {
+      gid = config.ids.gids.acme;
+    };
+
     security = {
       acme = {
         acceptTerms = true;

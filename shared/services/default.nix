@@ -7,19 +7,18 @@ with lib;
     ./auth.nix
     ./desktop.nix
     ./docker.nix
-    ./gallery.nix
     ./hass.nix
-    ./haveged.nix
     ./homedns.nix
     ./libvirt.nix
-    ./media.nix
     ./minecraft.nix
-    ./openssh.nix
     ./printing.nix
     ./shares.nix
     ./tailscale.nix
-    ./timesyncd.nix
     ./webserver.nix
+
+    ./archive
+    ./cloud
+    ./gallery
   ];
 
   options = {
