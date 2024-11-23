@@ -91,9 +91,6 @@ in
     };
 
     services = {
-      gnome-keyring = {
-        enable = true;
-      };
       caffeine = {
         enable = true;
       };

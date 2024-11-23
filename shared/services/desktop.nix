@@ -30,6 +30,8 @@ in
 
       systemPackages = with pkgs; [
         gnome.adwaita-icon-theme
+        gnome.eog
+        gnome.geary
         gnome.gnome-tweaks
       ];
     };
@@ -48,6 +50,14 @@ in
 
     programs = {
       dconf = {
+        enable = true;
+      };
+
+      evince = {
+        enable = true;
+      };
+
+      geary = {
         enable = true;
       };
 
@@ -102,52 +112,32 @@ in
       ];
     };
 
-    # TODO:
-    # - org.gnome.Calendar
-    # - org.gnome.Contacts
-    # - org.gnome.eog
-    # - org.gnome.Evince
-    # - org.gnome.Lollypop
-    # - org.gnome.TextEditor
-    # - org.gnome.Totem
-    # - org.gnome.Geary
-
     services = {
-      # gnome = {
-      #   core-utilities = {
-      #     enable = true;
-      #   };
+      gnome = {
+        core-utilities = {
+          enable = true;
+        };
 
-      #   evolution-data-server = {
-      #     enable = true;
-      #   };
+        gnome-keyring = {
+          enable = true;
+        };
 
-      #   gnome-keyring = {
-      #     enable = true;
-      #   };
+        gnome-online-accounts = {
+          enable = true;
+        };
 
-      #   gnome-online-accounts = {
-      #     enable = true;
-      #   };
+        gnome-remote-desktop = {
+          enable = true;
+        };
 
-      #   gnome-remote-desktop = {
-      #     enable = true;
-      #   };
+        gnome-settings-daemon = {
+          enable = true;
+        };
 
-      #   gnome-settings-daemon = {
-      #     enable = true;
-      #   };
-
-      #   sushi = {
-      #     enable = true;
-      #   };
-      # };
-
-      # udev = {
-      #   packages = with pkgs; [
-      #     gnome.gnome-settings-daemon
-      #   ];
-      # };
+        sushi = {
+          enable = true;
+        };
+      };
 
       avahi = {
         enable = true;

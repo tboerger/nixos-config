@@ -10,7 +10,9 @@ in
     profile = {
       programs = {
         gopass = {
-          enable = mkEnableOption "Gopass";
+          enable = mkEnableOption "Gopass" // {
+            default = true;
+          };
         };
       };
     };

@@ -14,15 +14,6 @@
       url = "github:numtide/devshell";
     };
 
-    deploy-rs = {
-      url = "github:serokell/deploy-rs";
-    };
-
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     homemanager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -33,12 +24,21 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+    };
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     hardware = {
       url = "github:nixos/nixos-hardware";
     };
   };
 
-  outputs = { self, nixpkgs, utils, devshell, deploy-rs, disko, homemanager, agenix, hardware, ... }@inputs:
+  outputs = { self, nixpkgs, utils, devshell, homemanager, agenix, deploy-rs, disko, hardware, ... }@inputs:
     let
       inherit (self) outputs;
 
