@@ -8,13 +8,11 @@
 
       plugins = with pkgs.vimPlugins; [
         delimitMate
-        dockerfile-vim
         supertab
         vim-airline
         vim-better-whitespace
         vim-easy-align
         vim-nix
-        vim-vividchalk
       ];
 
       extraConfig = ''

@@ -2,6 +2,12 @@
 with lib;
 
 {
+  programs = {
+    zsh = {
+      enable = true;
+    };
+  };
+
   users = {
     users = {
       tabea = {
