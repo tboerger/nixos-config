@@ -68,112 +68,18 @@
     in
     {
       diskoConfigurations = {
-        anubis = import ./desktops/anubis/disko.nix;
-        chnum = import ./desktops/chnum/disko.nix;
-        asgard = import ./servers/asgard/disko.nix;
-        utgard = import ./servers/utgard/disko.nix;
-        vanaheim = import ./servers/vanaheim/disko.nix;
+        asgard = import ./machines/asgard/disko.nix;
+        utgard = import ./machines/utgard/disko.nix;
+        vanaheim = import ./machines/vanaheim/disko.nix;
       };
 
       nixosConfigurations = {
-        anubis = mkComputer
-          ./desktops/anubis
-          "x86_64-linux"
-          [
-            disko.nixosModules.disko
-            ./home/thomas/user.nix
-            ./home/anna/user.nix
-            ./home/adrian/user.nix
-            ./home/tabea/user.nix
-
-            {
-              home-manager = {
-                extraSpecialArgs = {
-                  desktopSystem = true;
-                };
-
-                users = {
-                  thomas = {
-                    imports = [
-                      agenix.homeManagerModules.default
-                      ./home/thomas
-                    ];
-                  };
-                  anna = {
-                    imports = [
-                      agenix.homeManagerModules.default
-                      ./home/anna
-                    ];
-                  };
-                  adrian = {
-                    imports = [
-                      agenix.homeManagerModules.default
-                      ./home/adrian
-                    ];
-                  };
-                  tabea = {
-                    imports = [
-                      agenix.homeManagerModules.default
-                      ./home/tabea
-                    ];
-                  };
-                };
-              };
-            }
-          ];
-
-        chnum = mkComputer
-          ./desktops/chnum
-          "x86_64-linux"
-          [
-            disko.nixosModules.disko
-            ./home/thomas/user.nix
-            ./home/anna/user.nix
-            ./home/adrian/user.nix
-            ./home/tabea/user.nix
-
-            {
-              home-manager = {
-                extraSpecialArgs = {
-                  desktopSystem = true;
-                };
-
-                users = {
-                  thomas = {
-                    imports = [
-                      agenix.homeManagerModules.default
-                      ./home/thomas
-                    ];
-                  };
-                  anna = {
-                    imports = [
-                      agenix.homeManagerModules.default
-                      ./home/anna
-                    ];
-                  };
-                  adrian = {
-                    imports = [
-                      agenix.homeManagerModules.default
-                      ./home/adrian
-                    ];
-                  };
-                  tabea = {
-                    imports = [
-                      agenix.homeManagerModules.default
-                      ./home/tabea
-                    ];
-                  };
-                };
-              };
-            }
-          ];
-
         asgard = mkComputer
-          ./servers/asgard
+          ./machines/asgard
           "x86_64-linux"
           [
             disko.nixosModules.disko
-            ./home/thomas/user.nix
+            ./profiles/thomas/user.nix
 
             {
               home-manager = {
@@ -184,8 +90,8 @@
                 users = {
                   thomas = {
                     imports = [
-                      agenix.homeManagerModules.default
-                      ./home/thomas
+                      # agenix.homeManagerModules.default
+                      ./profiles/thomas
                     ];
                   };
                 };
@@ -194,11 +100,11 @@
           ];
 
         utgard = mkComputer
-          ./servers/utgard
+          ./machines/utgard
           "x86_64-linux"
           [
             disko.nixosModules.disko
-            ./home/thomas/user.nix
+            ./profiles/thomas/user.nix
 
             {
               home-manager = {
@@ -209,8 +115,8 @@
                 users = {
                   thomas = {
                     imports = [
-                      agenix.homeManagerModules.default
-                      ./home/thomas
+                      # agenix.homeManagerModules.default
+                      ./profiles/thomas
                     ];
                   };
                 };
@@ -219,11 +125,11 @@
           ];
 
         vanaheim = mkComputer
-          ./servers/vanaheim
+          ./machines/vanaheim
           "x86_64-linux"
           [
             disko.nixosModules.disko
-            ./home/thomas/user.nix
+            ./profiles/thomas/user.nix
 
             {
               home-manager = {
@@ -234,8 +140,8 @@
                 users = {
                   thomas = {
                     imports = [
-                      agenix.homeManagerModules.default
-                      ./home/thomas
+                      # agenix.homeManagerModules.default
+                      ./profiles/thomas
                     ];
                   };
                 };
@@ -244,11 +150,11 @@
           ];
 
         # yggdrasil = mkComputer
-        #   ./servers/yggdrasil
+        #   ./machines/yggdrasil
         #   "aarch64-linux"
         #   [
         #     hardware.nixosModules.raspberry-pi-4
-        #     ./home/thomas/user.nix
+        #     ./profiles/thomas/user.nix
 
         #     {
         #       home-manager = {
@@ -260,7 +166,7 @@
         #           thomas = {
         #             imports = [
         #               agenix.homeManagerModules.default
-        #               ./home/thomas
+        #               ./profiles/thomas
         #             ];
         #           };
         #         };
@@ -271,30 +177,6 @@
 
       deploy = {
         nodes = {
-          anubis = {
-            sshOpts = [ "-p" "22" ];
-            hostname = "anubis";
-            fastConnection = true;
-            profiles = {
-              system = {
-                sshUser = "thomas";
-                path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.anubis;
-                user = "root";
-              };
-            };
-          };
-          chnum = {
-            sshOpts = [ "-p" "22" ];
-            hostname = "chnum";
-            fastConnection = true;
-            profiles = {
-              system = {
-                sshUser = "thomas";
-                path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.chnum;
-                user = "root";
-              };
-            };
-          };
           asgard = {
             sshOpts = [ "-p" "22" ];
             hostname = "asgard.boerger.ws";
@@ -389,7 +271,6 @@
               inputs.deploy-rs.packages.${system}.default
 
               git
-              gnumake
               home-manager
               nixpkgs-fmt
               rage

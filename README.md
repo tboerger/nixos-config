@@ -11,68 +11,9 @@ and rekey the secrets via [agenix][agenix], you could also just execute
 `ssh-keyscan ip_or_fqdn` to fetch the current public keys. After pushing the
 rekeyed secrets execute the commands below.
 
-## Desktops
+## Asgard
 
-Generally after the installation I'm cloning this repository somewhere onto the
-desktop machine and just execute `make switch` within that repository to apply
-updates, if this is not the case I can always execute the following command to
-get the latest changes pulled in:
-
-```console
-nixos-rebuild switch --flake github:tboerger/nixos-config#hostname
-```
-
-### Anubis
-
-```console
-sudo loadkeys de
-sudo nix-shell --packages nixUnstable
-
-nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko --flake github:tboerger/nixos-config#anubis
-
-mkdir -p /mnt/etc/ssh
-cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
-nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#anubis
-```
-
-After a reboot of the system it should be fully provisioned with the regular
-flake which includes all defined services:
-
-```console
-nixos-rebuild switch --flake github:tboerger/nixos-config#anubis
-```
-
-### Chnum
-
-```console
-sudo loadkeys de
-sudo nix-shell --packages nixUnstable
-
-nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko --flake github:tboerger/nixos-config#chnum
-
-mkdir -p /mnt/etc/ssh
-cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
-nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#chnum
-```
-
-After a reboot of the system it should be fully provisioned with the regular
-flake which includes all defined services:
-
-```console
-nixos-rebuild switch --flake github:tboerger/nixos-config#chnum
-```
-
-## Servers
-
-To apply updates for servers this repository should be updated to the latest
-version, after that it is possible to use `deploy-rs` to upgrade the deployment
-with a command like this:
-
-```console
-nix run github:serokell/deploy-rs github:tboerger/nixos-config#hostname
-```
-
-### Asgard
+### Bootstrap
 
 ```console
 sudo loadkeys de
@@ -85,14 +26,15 @@ cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
 nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#asgard
 ```
 
-After a reboot of the system it should be fully provisioned with the regular
-flake which includes all defined services:
+### Updates
 
 ```console
 nix run github:serokell/deploy-rs github:tboerger/nixos-config#asgard
 ```
 
-### Utgard
+## Utgard
+
+### Bootstrap
 
 ```console
 sudo loadkeys de
@@ -105,14 +47,15 @@ cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
 nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#utgard
 ```
 
-After a reboot of the system it should be fully provisioned with the regular
-flake which includes all defined services:
+### Updates
 
 ```console
 nix run github:serokell/deploy-rs github:tboerger/nixos-config#utgard
 ```
 
-### Vanaheim
+## Vanaheim
+
+### Bootstrap
 
 ```console
 sudo loadkeys de
@@ -125,14 +68,15 @@ cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
 nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#vanaheim
 ```
 
-After a reboot of the system it should be fully provisioned with the regular
-flake which includes all defined services:
+### Updates
 
 ```console
 nix run github:serokell/deploy-rs github:tboerger/nixos-config#vanaheim
 ```
 
-### Yggdrasil
+## Yggdrasil
+
+### Bootstrap
 
 ```console
 sudo loadkeys de
@@ -145,35 +89,10 @@ cp /etc/ssh/ssh_host_* /mnt/etc/ssh/
 nixos-install --no-root-password --root /mnt --flake github:tboerger/nixos-config#yggdrasil
 ```
 
-After a reboot of the system it should be fully provisioned with the regular
-flake which includes all defined services:
+### Updates
 
 ```console
 nix run github:serokell/deploy-rs github:tboerger/nixos-config#yggdrasil
-```
-
-## Finish
-
-Finally after I have setup the whole system I usually copy the remaining
-credentials from my securely stored USB stick to get access to my SSH keys and
-Gnupg keys if this is required on the machine. It should not be required for
-servers.
-
-### SSH
-
-```console
-mkdir -p ${HOME}/.ssh/
-cp /media/$(whoami)/secrets/ssh/id_* ${HOME}/.ssh/
-chown -R $(id -u):$(id -g) ${HOME}/.ssh
-chmod u=rw,g=,o= ${HOME}/.ssh/id_*
-```
-
-### Gnupg
-
-```console
-for FILE in /media/$(whoami)/secrets/gpg/*.asc; do
-    gpg --import ${FILE}
-done
 ```
 
 ## Security
