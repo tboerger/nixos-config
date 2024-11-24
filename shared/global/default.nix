@@ -5,7 +5,6 @@
     ./general.nix
     ./haveged.nix
     ./network.nix
-    ./nixpkgs.nix
     ./openssh.nix
     ./shells.nix
     ./sudo.nix
