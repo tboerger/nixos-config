@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.0](https://github.com/tboerger/nixos-config/compare/v1.0.0...v1.1.0) (2024-11-25)
+
+
+### Features
+
+* renamed forlders to machines and profiles ([d530b95](https://github.com/tboerger/nixos-config/commit/d530b951064c212356722c2339c90cf8f4aeaf00))
+
+
+### Bugfixes
+
+* try to make check happy again ([c038ddc](https://github.com/tboerger/nixos-config/commit/c038ddc461efc5bf0bf0120469dbad2e344a6fe6))
+
 ## 1.0.0 (2024-11-24)
 
 
