@@ -53,76 +53,76 @@ in
       samba = {
         enable = true;
         openFirewall = true;
-        securityType = "user";
+        # securityType = "user";
 
-        extraConfig = ''
-          workgroup = WORKGROUP
-          server string = Server
-          netbios name = Server
-          guest account = nobody
-          map to guest = bad user
-          server min protocol = SMB2
-        '';
+        # extraConfig = ''
+        #   workgroup = WORKGROUP
+        #   server string = Server
+        #   netbios name = Server
+        #   guest account = nobody
+        #   map to guest = bad user
+        #   server min protocol = SMB2
+        # '';
 
-        shares = {
-          shares = {
-            comment = "General shares";
-            path = "/var/lib/shares";
+        # shares = {
+        #   shares = {
+        #     comment = "General shares";
+        #     path = "/var/lib/shares";
 
-            "browseable" = "yes";
-            "read only" = "no";
-            "writeable" = "yes";
-            "guest ok" = "yes";
-            "force user" = "media";
-            "force group" = "media";
-          };
+        #     "browseable" = "yes";
+        #     "read only" = "no";
+        #     "writeable" = "yes";
+        #     "guest ok" = "yes";
+        #     "force user" = "media";
+        #     "force group" = "media";
+        #   };
 
-          photos = {
-            comment = "Shared photos";
-            path = "/var/lib/photos";
+        #   photos = {
+        #     comment = "Shared photos";
+        #     path = "/var/lib/photos";
 
-            "browseable" = "yes";
-            "read only" = "no";
-            "writeable" = "yes";
-            "guest ok" = "yes";
-            "force user" = "media";
-            "force group" = "media";
-          };
+        #     "browseable" = "yes";
+        #     "read only" = "no";
+        #     "writeable" = "yes";
+        #     "guest ok" = "yes";
+        #     "force user" = "media";
+        #     "force group" = "media";
+        #   };
 
-          videos = {
-            comment = "Shared videos";
-            path = "/var/lib/videos";
+        #   videos = {
+        #     comment = "Shared videos";
+        #     path = "/var/lib/videos";
 
-            "browseable" = "yes";
-            "read only" = "no";
-            "writeable" = "yes";
-            "guest ok" = "yes";
-            "force user" = "media";
-            "force group" = "media";
-          };
+        #     "browseable" = "yes";
+        #     "read only" = "no";
+        #     "writeable" = "yes";
+        #     "guest ok" = "yes";
+        #     "force user" = "media";
+        #     "force group" = "media";
+        #   };
 
-          printer = {
-            comment = "Shared printer";
-            path = "/var/lib/printer";
+        #   printer = {
+        #     comment = "Shared printer";
+        #     path = "/var/lib/printer";
 
-            "browseable" = "yes";
-            "read only" = "no";
-            "writeable" = "yes";
-            "guest ok" = "yes";
-            "force user" = "printer";
-            "force group" = "printer";
-          };
+        #     "browseable" = "yes";
+        #     "read only" = "no";
+        #     "writeable" = "yes";
+        #     "guest ok" = "yes";
+        #     "force user" = "printer";
+        #     "force group" = "printer";
+        #   };
 
-          backup = {
-            comment = "Shared backup";
-            path = "/var/lib/backup/%u";
+        #   backup = {
+        #     comment = "Shared backup";
+        #     path = "/var/lib/backup/%u";
 
-            "browseable" = "yes";
-            "read only" = "no";
-            "writeable" = "yes";
-            "guest ok" = "no";
-          };
-        };
+        #     "browseable" = "yes";
+        #     "read only" = "no";
+        #     "writeable" = "yes";
+        #     "guest ok" = "no";
+        #   };
+        # };
       };
 
       samba-wsdd = {
