@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/tboerger/nixos-config/compare/v1.1.0...v1.1.1) (2025-03-31)
+
+
+### Bugfixes
+
+* comment out deprecated options ([564e9e9](https://github.com/tboerger/nixos-config/commit/564e9e91759be6b276122dbae522fa3f41489b20))
+
 ## [1.1.0](https://github.com/tboerger/nixos-config/compare/v1.0.0...v1.1.0) (2024-11-25)
 
 
