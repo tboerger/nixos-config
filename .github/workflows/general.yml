@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://www.schemastore.org/github-workflow.json
 name: general
 
 "on":
@@ -7,8 +8,11 @@ name: general
     branches:
       - master
 
+permissions:
+  contents: read
+
 jobs:
-  check:
+  general:
     runs-on: ubuntu-latest
 
     steps:

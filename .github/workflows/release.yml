@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://www.schemastore.org/github-workflow.json
 name: release
 
 "on":
@@ -15,6 +16,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Setup nodejs
+        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6
+        with:
+          node-version: lts/*
+
       - name: Checkout source
         uses: actions/checkout@v6
         with:
@@ -28,10 +34,11 @@ jobs:
       - name: Install releaser
         run: |
           npm install -g \
-            conventional-changelog-conventionalcommits@6.1.0 \
-            semantic-release@23.1.1 \
+            semantic-release@25.0.2 \
             @semantic-release/changelog \
-            @semantic-release/git
+            @semantic-release/git \
+            @semantic-release/github \
+            conventional-changelog-conventionalcommits
 
       - name: Run releaser
         env:
