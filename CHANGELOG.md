@@ -1,5 +1,58 @@
 # Changelog
 
+## [1.2.0](https://github.com/tboerger/nixos-config/compare/v1.1.1...v1.2.0) (2026-01-26)
+
+### Features
+
+* add more files to editorconfig ([537e828](https://github.com/tboerger/nixos-config/commit/537e8282ecaf49b596d0580de14ac597988fd3b1))
+* do not pin github actions anymore ([80bf2e6](https://github.com/tboerger/nixos-config/commit/80bf2e66bad78d646e76199b84bf9c6d7230142c))
+
+### Miscellaneous
+
+* **flake:** updated lockfile [skip ci] ([1653c09](https://github.com/tboerger/nixos-config/commit/1653c097b9d2f10b9852e74b147e8985b8fec587))
+* **flake:** updated lockfile [skip ci] ([07e096b](https://github.com/tboerger/nixos-config/commit/07e096bd405d9c3ad75a867453331e8c95b4876a))
+* **flake:** updated lockfile [skip ci] ([782f582](https://github.com/tboerger/nixos-config/commit/782f582eec3758e4982ae4a8a3284f85e55de45f))
+* **flake:** updated lockfile [skip ci] ([69d9ee6](https://github.com/tboerger/nixos-config/commit/69d9ee6944fdb83a27a92be1f546e6cd2a0d0218))
+* **flake:** updated lockfile [skip ci] ([daa7a89](https://github.com/tboerger/nixos-config/commit/daa7a899035ce6d87cea39e8965babd8f856f05b))
+* **flake:** updated lockfile [skip ci] ([31f55ad](https://github.com/tboerger/nixos-config/commit/31f55ad3921b9c34ffb32a43530cbed7411060e5))
+* **flake:** updated lockfile [skip ci] ([6136fac](https://github.com/tboerger/nixos-config/commit/6136facf533a89edb0889bd6986b9428c26a1134))
+* **flake:** updated lockfile [skip ci] ([84ba507](https://github.com/tboerger/nixos-config/commit/84ba507058ea709f4548b4c02d581affee134abf))
+* **flake:** updated lockfile [skip ci] ([301250e](https://github.com/tboerger/nixos-config/commit/301250e17f8855fbdd32c989ff7a8f66420b88af))
+* **flake:** updated lockfile [skip ci] ([e1733a9](https://github.com/tboerger/nixos-config/commit/e1733a9a3d9ceb931ddd14311cccda0eaad411ee))
+* **flake:** updated lockfile [skip ci] ([d434d48](https://github.com/tboerger/nixos-config/commit/d434d48ab19aa60a214b4a11896cb2f7e4b07b4c))
+* **flake:** updated lockfile [skip ci] ([7acee3d](https://github.com/tboerger/nixos-config/commit/7acee3d175db5b17400846065fd43c9049f13887))
+* **flake:** updated lockfile [skip ci] ([43830c9](https://github.com/tboerger/nixos-config/commit/43830c91d8780360ac1d0ab9e9581179a8ca0a43))
+* **flake:** updated lockfile [skip ci] ([f5fa2a2](https://github.com/tboerger/nixos-config/commit/f5fa2a2e4480a441ddda3177a02b983a752abf8d))
+* **flake:** updated lockfile [skip ci] ([2afcdf4](https://github.com/tboerger/nixos-config/commit/2afcdf4aaee26f0e2d35f3fd2950361160ef8f9f))
+* **flake:** updated lockfile [skip ci] ([30f0527](https://github.com/tboerger/nixos-config/commit/30f05270363ffa3164fce46a1e0d6d3d90e61616))
+* **flake:** updated lockfile [skip ci] ([be8ceab](https://github.com/tboerger/nixos-config/commit/be8ceab66ecab6c388b92debf9a721dff0dc0af6))
+* **flake:** updated lockfile [skip ci] ([c5c5720](https://github.com/tboerger/nixos-config/commit/c5c5720aaeaa612792a6d8b1d1fe736fb0312360))
+* **flake:** updated lockfile [skip ci] ([aa12ec8](https://github.com/tboerger/nixos-config/commit/aa12ec8e12e7f71b0f19782ec57bdf5da14d3395))
+* **flake:** updated lockfile [skip ci] ([420fa99](https://github.com/tboerger/nixos-config/commit/420fa99f176c85f1a6cc2d0ad604904438f825ad))
+* **flake:** updated lockfile [skip ci] ([127b255](https://github.com/tboerger/nixos-config/commit/127b255f5966e074102f6f9cae0e75b347662d54))
+* **flake:** updated lockfile [skip ci] ([8f48afc](https://github.com/tboerger/nixos-config/commit/8f48afcfb462fc5cececc7e0310ed4af6167f4a2))
+* **flake:** updated lockfile [skip ci] ([655b05b](https://github.com/tboerger/nixos-config/commit/655b05be715263dc349a07508ea077de7ec70714))
+* **flake:** updated lockfile [skip ci] ([e8a45f5](https://github.com/tboerger/nixos-config/commit/e8a45f54827fed03ec9445f14439b8c09cce6b4c))
+* **flake:** updated lockfile [skip ci] ([92b67f1](https://github.com/tboerger/nixos-config/commit/92b67f192d77bc4ebfe7fc7c3cd6320ec779c159))
+* **flake:** updated lockfile [skip ci] ([366c8f0](https://github.com/tboerger/nixos-config/commit/366c8f0347d189f49be9d0bf1615ea321e01ae9c))
+* **flake:** updated lockfile [skip ci] ([ab9375b](https://github.com/tboerger/nixos-config/commit/ab9375b736c917b00501b33635f750f710808c72))
+* **flake:** updated lockfile [skip ci] ([209d01c](https://github.com/tboerger/nixos-config/commit/209d01c97b9f94cb724552d228ddaed7da332ed4))
+* **flake:** updated lockfile [skip ci] ([59916a9](https://github.com/tboerger/nixos-config/commit/59916a938c012e4be9c86b9092b501ae2c340218))
+* **flake:** updated lockfile [skip ci] ([328a214](https://github.com/tboerger/nixos-config/commit/328a214e190b71e946c0b4a8ba7114533afdfe17))
+* **flake:** updated lockfile [skip ci] ([70fa350](https://github.com/tboerger/nixos-config/commit/70fa3503c34b19a011e17f04a77bf861e98a6d31))
+* **flake:** updated lockfile [skip ci] ([2283130](https://github.com/tboerger/nixos-config/commit/22831303ebc6966ce95caae0256d9181b62121d4))
+* **flake:** updated lockfile [skip ci] ([4ff07b6](https://github.com/tboerger/nixos-config/commit/4ff07b64f00f721f6339a065393496a21698012b))
+* **flake:** updated lockfile [skip ci] ([7102fd3](https://github.com/tboerger/nixos-config/commit/7102fd3206c94bd3349239b3bdc786c61da7be4a))
+* **flake:** updated lockfile [skip ci] ([85b9e12](https://github.com/tboerger/nixos-config/commit/85b9e12397e4f8d1d0c3c3b9b48b69e57cc2c865))
+* **flake:** updated lockfile [skip ci] ([28f00fd](https://github.com/tboerger/nixos-config/commit/28f00fd7902714def2309557b657e2765efc9728))
+* **flake:** updated lockfile [skip ci] ([4634dd1](https://github.com/tboerger/nixos-config/commit/4634dd1922941687f3805c28568767f03ad14cd6))
+* **flake:** updated lockfile [skip ci] ([d600ef8](https://github.com/tboerger/nixos-config/commit/d600ef8056e5fa8e6721249f99c295d0f233d244))
+* **flake:** updated lockfile [skip ci] ([16b593e](https://github.com/tboerger/nixos-config/commit/16b593e0f34420b92c400cbc7d055e55abf1d134))
+* **flake:** updated lockfile [skip ci] ([1cf541c](https://github.com/tboerger/nixos-config/commit/1cf541c25fc749aa070f47911852f3e315f3f7c6))
+* **flake:** updated lockfile [skip ci] ([9fb31cd](https://github.com/tboerger/nixos-config/commit/9fb31cd055f6b5594dc4b0918c512ae84c47502b))
+* **flake:** updated lockfile [skip ci] ([43a787e](https://github.com/tboerger/nixos-config/commit/43a787e5dd5faf58377d830baa5c0f510dcf47dc))
+* **flake:** updated lockfile [skip ci] ([5625f89](https://github.com/tboerger/nixos-config/commit/5625f899d462601e30f76ae5f0d3adc7563e95bc))
+
 ## [1.1.1](https://github.com/tboerger/nixos-config/compare/v1.1.0...v1.1.1) (2025-03-31)
 
 
