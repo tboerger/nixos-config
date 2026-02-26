@@ -1,4 +1,11 @@
-{ pkgs, lib, config, options, fetchurl, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  options,
+  fetchurl,
+  ...
+}:
 with lib;
 
 let
@@ -38,8 +45,6 @@ in
 
         bindMounts = {
 
-
-
           "/var/lib/sabnzbd" = {
             hostPath = "/var/lib/sabnzbd";
             isReadOnly = false;
@@ -73,29 +78,29 @@ in
             isReadOnly = false;
           };
 
-
-
         };
 
-        config = { config, pkgs, ... }: {
-          system = {
-            stateVersion = "23.11";
+        config =
+          { config, pkgs, ... }:
+          {
+            system = {
+              stateVersion = "23.11";
+            };
+
+            imports = [
+              ./networking.nix
+              ./tmpfiles.nix
+              ./jellyfin.nix
+              ./jellyseer.nix
+              ./sabnzbd.nix
+              ./radarr.nix
+              ./sonarr.nix
+              ./lidarr.nix
+              ./prowlarr.nix
+              ./bazarr.nix
+              ./filebrowser.nix
+            ];
           };
-
-          imports = [
-            ./networking.nix
-            ./tmpfiles.nix
-            ./jellyfin.nix
-            ./jellyseer.nix
-            ./sabnzbd.nix
-            ./radarr.nix
-            ./sonarr.nix
-            ./lidarr.nix
-            ./prowlarr.nix
-            ./bazarr.nix
-            ./filebrowser.nix
-          ];
-        };
       };
     };
 

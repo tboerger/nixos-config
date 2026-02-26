@@ -1,12 +1,15 @@
-{ pkgs, config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 with lib;
 
 {
   systemd = {
     tmpfiles = {
       rules = [
-
-
 
         "d /var/lib/sabnzbd 0700 media users"
         "d /var/lib/radarr 0700 media users"
@@ -17,8 +20,6 @@ with lib;
         "d /var/lib/filebrowser 0700 media users"
 
         "d /var/lib/music 0700 media users"
-
-
 
       ];
     };

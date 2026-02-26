@@ -1,4 +1,9 @@
-{ pkgs, config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 with lib;
 
 {
@@ -20,10 +25,12 @@ with lib;
         "nextcloud"
       ];
 
-      ensureUsers = [{
-        name = "nextcloud";
-        ensureDBOwnership = true;
-      }];
+      ensureUsers = [
+        {
+          name = "nextcloud";
+          ensureDBOwnership = true;
+        }
+      ];
     };
 
     postgresqlBackup = {

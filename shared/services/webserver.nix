@@ -1,4 +1,10 @@
-{ pkgs, lib, config, options, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  options,
+  ...
+}:
 with lib;
 
 let
@@ -16,41 +22,45 @@ in
             description = ''
               List of hosts to configure
             '';
-            type = types.listOf (types.submodule {
-              options = {
-                domain = mkOption {
-                  type = types.str;
-                  description = "Name of the domain";
+            type = types.listOf (
+              types.submodule {
+                options = {
+                  domain = mkOption {
+                    type = types.str;
+                    description = "Name of the domain";
+                  };
+                  domainOptions = mkOption {
+                    type = types.attrs;
+                    default = { };
+                    description = "Custom options for domain";
+                  };
+                  proxy = mkOption {
+                    type = types.nullOr types.str;
+                    default = null;
+                    description = "Optional proxy target";
+                  };
+                  proxyOptions = mkOption {
+                    type = types.str;
+                    default = "";
+                    description = "Custom options for proxy";
+                  };
                 };
-                domainOptions = mkOption {
-                  type = types.attrs;
-                  default = { };
-                  description = "Custom options for domain";
-                };
-                proxy = mkOption {
-                  type = types.nullOr types.str;
-                  default = null;
-                  description = "Optional proxy target";
-                };
-                proxyOptions = mkOption {
-                  type = types.str;
-                  default = "";
-                  description = "Custom options for proxy";
-                };
-              };
-            });
+              }
+            );
             default = [ ];
-            example = [{
-              domain = "dummy.boerger.ws";
-              proxy = "http://localhost:8080";
-              options = {
-                locations = {
-                  "/".extraConfig = ''
-                    autoindex on;
-                  '';
+            example = [
+              {
+                domain = "dummy.boerger.ws";
+                proxy = "http://localhost:8080";
+                options = {
+                  locations = {
+                    "/".extraConfig = ''
+                      autoindex on;
+                    '';
+                  };
                 };
-              };
-            }];
+              }
+            ];
           };
 
           acmeHost = mkOption {
@@ -67,7 +77,10 @@ in
 
   config = mkIf cfg.enable {
     networking.firewall = {
-      allowedTCPPorts = [ 80 443 ];
+      allowedTCPPorts = [
+        80
+        443
+      ];
     };
 
     services = {
@@ -79,9 +92,9 @@ in
         recommendedOptimisation = true;
         recommendedProxySettings = true;
 
-        virtualHosts = builtins.listToAttrs
-          (map
-            (elem: {
+        virtualHosts =
+          builtins.listToAttrs (
+            map (elem: {
               name = elem.domain;
               value = {
                 useACMEHost = cfg.acmeHost;
@@ -99,17 +112,19 @@ in
                     );
                   };
                 };
-              } // (elem.domainOptions or { });
-            })
-            config.personal.services.webserver.hosts) // {
-          "boerger.ws" = {
-            useACMEHost = cfg.acmeHost;
-            addSSL = true;
-            forceSSL = false;
-            default = true;
-            root = "/var/empty";
+              }
+              // (elem.domainOptions or { });
+            }) config.personal.services.webserver.hosts
+          )
+          // {
+            "boerger.ws" = {
+              useACMEHost = cfg.acmeHost;
+              addSSL = true;
+              forceSSL = false;
+              default = true;
+              root = "/var/empty";
+            };
           };
-        };
       };
     };
 

@@ -1,4 +1,10 @@
-{ pkgs, lib, config, options, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  options,
+  ...
+}:
 with lib;
 
 let
@@ -244,7 +250,13 @@ in
                 command = "systemctl --user restart blueman-applet";
                 always = true;
               }
-            ] ++ (map (i: { command = i.exec; }) programs.term) ++ (map (i: { command = i.exec; }) programs.editor) ++ (map (i: { command = i.exec; }) programs.browser) ++ (map (i: { command = i.exec; }) programs.mail) ++ (map (i: { command = i.exec; }) programs.music) ++ (map (i: { command = i.exec; }) programs.chat);
+            ]
+            ++ (map (i: { command = i.exec; }) programs.term)
+            ++ (map (i: { command = i.exec; }) programs.editor)
+            ++ (map (i: { command = i.exec; }) programs.browser)
+            ++ (map (i: { command = i.exec; }) programs.mail)
+            ++ (map (i: { command = i.exec; }) programs.music)
+            ++ (map (i: { command = i.exec; }) programs.chat);
 
             gaps = {
               smartGaps = true;

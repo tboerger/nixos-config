@@ -8,7 +8,10 @@ let
   utgard = "";
   vanaheim = "";
   yggdrasil = "";
-  systems = [ anubis chnum ];
+  systems = [
+    anubis
+    chnum
+  ];
 in
 {
   "services/acme/credentials.age".publicKeys = users ++ systems;

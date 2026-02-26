@@ -1,4 +1,11 @@
-{ pkgs, lib, config, options, desktopSystem, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  options,
+  desktopSystem,
+  ...
+}:
 with lib;
 
 let
@@ -47,11 +54,18 @@ in
       LC_ALL = "de_DE.UTF-8";
     };
 
-    file = { } // (if desktop then {
-      ".face" = {
-        source = ./face.jpg;
-      };
-    } else { });
+    file =
+      { }
+      // (
+        if desktop then
+          {
+            ".face" = {
+              source = ./face.jpg;
+            };
+          }
+        else
+          { }
+      );
 
     stateVersion = "23.11";
   };

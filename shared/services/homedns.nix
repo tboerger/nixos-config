@@ -1,4 +1,11 @@
-{ pkgs, lib, config, options, fetchurl, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  options,
+  fetchurl,
+  ...
+}:
 with lib;
 
 let
@@ -45,10 +52,12 @@ in
             ];
           };
 
-          users = [{
-            name = "admin";
-            password = "$2y$05$wzuDDF0NaP0zX.gguP8EyuBJ1wlyTPjLvXf.LCK8VCBKIUq4PnR62";
-          }];
+          users = [
+            {
+              name = "admin";
+              password = "$2y$05$wzuDDF0NaP0zX.gguP8EyuBJ1wlyTPjLvXf.LCK8VCBKIUq4PnR62";
+            }
+          ];
         };
       };
 
@@ -61,12 +70,14 @@ in
               useACMEHost = "boerger.ws";
               forceSSL = true;
             };
-            proxy = port: base {
-              "/" = {
-                proxyPass = "http://127.0.0.1:" + toString (port) + "/";
-                proxyWebsockets = true;
+            proxy =
+              port:
+              base {
+                "/" = {
+                  proxyPass = "http://127.0.0.1:" + toString (port) + "/";
+                  proxyWebsockets = true;
+                };
               };
-            };
           in
           {
             "adguard.boerger.ws" = proxy 3000;

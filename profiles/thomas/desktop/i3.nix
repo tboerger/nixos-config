@@ -1,4 +1,10 @@
-{ pkgs, lib, config, options, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  options,
+  ...
+}:
 with lib;
 
 let
@@ -455,7 +461,31 @@ in
                 always = true;
                 notification = false;
               }
-            ] ++ (map (i: { command = i.exec; notification = false; }) programs.term) ++ (map (i: { command = i.exec; notification = false; }) programs.editor) ++ (map (i: { command = i.exec; notification = false; }) programs.browser) ++ (map (i: { command = i.exec; notification = false; }) programs.mail) ++ (map (i: { command = i.exec; notification = false; }) programs.music) ++ (map (i: { command = i.exec; notification = false; }) programs.chat);
+            ]
+            ++ (map (i: {
+              command = i.exec;
+              notification = false;
+            }) programs.term)
+            ++ (map (i: {
+              command = i.exec;
+              notification = false;
+            }) programs.editor)
+            ++ (map (i: {
+              command = i.exec;
+              notification = false;
+            }) programs.browser)
+            ++ (map (i: {
+              command = i.exec;
+              notification = false;
+            }) programs.mail)
+            ++ (map (i: {
+              command = i.exec;
+              notification = false;
+            }) programs.music)
+            ++ (map (i: {
+              command = i.exec;
+              notification = false;
+            }) programs.chat);
 
             gaps = {
               smartGaps = true;

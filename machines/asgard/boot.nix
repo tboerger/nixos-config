@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   boot = {
@@ -26,7 +31,15 @@
     extraModulePackages = with config.boot.kernelPackages; [ ];
 
     initrd = {
-      availableKernelModules = [ "ahci" "ehci_pci" "ohci_pci" "pata_atiixp" "sd_mod" "usb_storage" "usbhid" ];
+      availableKernelModules = [
+        "ahci"
+        "ehci_pci"
+        "ohci_pci"
+        "pata_atiixp"
+        "sd_mod"
+        "usb_storage"
+        "usbhid"
+      ];
       kernelModules = [ "dm-snapshot" ];
     };
   };

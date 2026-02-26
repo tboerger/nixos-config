@@ -1,4 +1,11 @@
-{ pkgs, lib, config, options, fetchurl, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  options,
+  fetchurl,
+  ...
+}:
 with lib;
 
 let
@@ -32,11 +39,13 @@ in
         hostAddress = hostAddress;
         localAddress = containerAddress;
 
-        forwardPorts = [{
-          protocol = "tcp";
-          hostPort = 636;
-          containerPort = 636;
-        }];
+        forwardPorts = [
+          {
+            protocol = "tcp";
+            hostPort = 636;
+            containerPort = 636;
+          }
+        ];
 
         bindMounts = {
           "/var/lib/acme" = {
@@ -49,89 +58,94 @@ in
           };
         };
 
-        config = { config, pkgs, ... }: {
-          system = {
-            stateVersion = "23.11";
-          };
-
-          systemd = {
-            tmpfiles = {
-              rules = [ "d /var/lib/kanidm 0700 kanidm kanidm" ];
-            };
-          };
-
-          environment = {
-            systemPackages = with pkgs; [
-              sqlite
-            ];
-          };
-
-          services = {
-            resolved = {
-              enable = true;
+        config =
+          { config, pkgs, ... }:
+          {
+            system = {
+              stateVersion = "23.11";
             };
 
-            kanidm = {
-              enableServer = true;
-
-              serverSettings = {
-                bindaddress = "0.0.0.0:8443";
-                ldapbindaddress = "0.0.0.0:636";
-                domain = "auth.boerger.ws";
-                origin = "https://auth.boerger.ws";
-                log_level = "info";
-                tls_key = "/var/lib/acme/boerger.ws/key.pem";
-                tls_chain = "/var/lib/acme/boerger.ws/fullchain.pem";
-              };
-
-              enableClient = true;
-
-              clientSettings = {
-                uri = "https://auth.boerger.ws";
+            systemd = {
+              tmpfiles = {
+                rules = [ "d /var/lib/kanidm 0700 kanidm kanidm" ];
               };
             };
-          };
 
-          networking = {
-            useHostResolvConf = mkForce false;
-
-            firewall = {
-              enable = true;
-              allowedTCPPorts = [ 636 8443 ];
+            environment = {
+              systemPackages = with pkgs; [
+                sqlite
+              ];
             };
-          };
 
-          ids.uids = {
-            acme = 400;
-          };
-
-          ids.gids = {
-            acme = 400;
-          };
-
-          users = {
-            users = {
-              acme = {
-                home = "/var/lib/acme";
-                group = "acme";
-                isSystemUser = true;
-                uid = config.ids.uids.acme;
+            services = {
+              resolved = {
+                enable = true;
               };
 
               kanidm = {
-                extraGroups = [
-                  "acme"
+                enableServer = true;
+
+                serverSettings = {
+                  bindaddress = "0.0.0.0:8443";
+                  ldapbindaddress = "0.0.0.0:636";
+                  domain = "auth.boerger.ws";
+                  origin = "https://auth.boerger.ws";
+                  log_level = "info";
+                  tls_key = "/var/lib/acme/boerger.ws/key.pem";
+                  tls_chain = "/var/lib/acme/boerger.ws/fullchain.pem";
+                };
+
+                enableClient = true;
+
+                clientSettings = {
+                  uri = "https://auth.boerger.ws";
+                };
+              };
+            };
+
+            networking = {
+              useHostResolvConf = mkForce false;
+
+              firewall = {
+                enable = true;
+                allowedTCPPorts = [
+                  636
+                  8443
                 ];
               };
             };
-          };
 
-          users.groups = {
-            acme = {
-              gid = config.ids.gids.acme;
+            ids.uids = {
+              acme = 400;
+            };
+
+            ids.gids = {
+              acme = 400;
+            };
+
+            users = {
+              users = {
+                acme = {
+                  home = "/var/lib/acme";
+                  group = "acme";
+                  isSystemUser = true;
+                  uid = config.ids.uids.acme;
+                };
+
+                kanidm = {
+                  extraGroups = [
+                    "acme"
+                  ];
+                };
+              };
+            };
+
+            users.groups = {
+              acme = {
+                gid = config.ids.gids.acme;
+              };
             };
           };
-        };
       };
     };
 

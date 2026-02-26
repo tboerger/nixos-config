@@ -1,4 +1,10 @@
-{ pkgs, lib, config, options, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  options,
+  ...
+}:
 with lib;
 
 let
@@ -42,7 +48,12 @@ in
     dconf = {
       settings = {
         "org/gnome/desktop/input-sources" = {
-          sources = [ (lib.hm.gvariant.mkTuple [ "xkb" "de" ]) ];
+          sources = [
+            (lib.hm.gvariant.mkTuple [
+              "xkb"
+              "de"
+            ])
+          ];
           xkb-options = [ "eurosign:e" ];
         };
 
@@ -132,8 +143,18 @@ in
         };
 
         "org/gnome/shell/extensions/aztaskbar" = {
-          main-panel-height = (lib.hm.gvariant.mkTuple [ true 40 ]);
-          show-apps-button = (lib.hm.gvariant.mkTuple [ true 0 ]);
+          main-panel-height = (
+            lib.hm.gvariant.mkTuple [
+              true
+              40
+            ]
+          );
+          show-apps-button = (
+            lib.hm.gvariant.mkTuple [
+              true
+              0
+            ]
+          );
         };
 
         "org/gnome/shell/extensions/espresso" = {

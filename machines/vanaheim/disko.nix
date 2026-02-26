@@ -156,12 +156,6 @@
               };
             };
 
-
-
-
-
-
-
             kanidm = {
               size = "5G";
               content = {
@@ -341,8 +335,6 @@
                 mountpoint = "/var/lib/videos";
               };
             };
-
-
 
             minecraft = {
               size = "1G";

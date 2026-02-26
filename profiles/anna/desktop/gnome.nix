@@ -1,4 +1,10 @@
-{ pkgs, lib, config, options, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  options,
+  ...
+}:
 with lib;
 
 let
@@ -33,7 +39,12 @@ in
     dconf = {
       settings = {
         "org/gnome/desktop/input-sources" = {
-          sources = [ (lib.hm.gvariant.mkTuple [ "xkb" "de" ]) ];
+          sources = [
+            (lib.hm.gvariant.mkTuple [
+              "xkb"
+              "de"
+            ])
+          ];
           xkb-options = [ "eurosign:e" ];
         };
 

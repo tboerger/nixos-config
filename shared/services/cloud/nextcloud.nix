@@ -1,4 +1,9 @@
-{ pkgs, config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 with lib;
 
 {
@@ -60,7 +65,15 @@ with lib;
       };
 
       extraApps = {
-        inherit (pkgs.nextcloud28Packages.apps) calendar contacts cookbook groupfolders impersonate notify_push polls;
+        inherit (pkgs.nextcloud28Packages.apps)
+          calendar
+          contacts
+          cookbook
+          groupfolders
+          impersonate
+          notify_push
+          polls
+          ;
       };
     };
   };

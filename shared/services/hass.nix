@@ -1,4 +1,11 @@
-{ pkgs, lib, config, options, fetchurl, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  options,
+  fetchurl,
+  ...
+}:
 with lib;
 
 let

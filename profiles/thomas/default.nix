@@ -1,4 +1,11 @@
-{ pkgs, lib, config, options, desktopSystem, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  options,
+  desktopSystem,
+  ...
+}:
 with lib;
 
 let
@@ -205,46 +212,52 @@ in
         executable = true;
         source = ./scripts/each-dir.sh;
       };
-    } // (if desktop then {
-      ".local/bin/secrets-encrypt" = {
-        executable = true;
-        text = ''
-          #!/usr/bin/env bash
-          for FOLDER in $(find . -iname secrets -type d); do
-              for FILE in $(find $FOLDER -type f -iname \*.txt); do
-                  echo "-> encrypting $FILE"
-                  echo bin/vault encrypt $FILE
+    }
+    // (
+      if desktop then
+        {
+          ".local/bin/secrets-encrypt" = {
+            executable = true;
+            text = ''
+              #!/usr/bin/env bash
+              for FOLDER in $(find . -iname secrets -type d); do
+                  for FILE in $(find $FOLDER -type f -iname \*.txt); do
+                      echo "-> encrypting $FILE"
+                      echo bin/vault encrypt $FILE
+                  done
               done
-          done
-        '';
-      };
-      ".local/bin/secrets-decrypt" = {
-        executable = true;
-        text = ''
-          #!/usr/bin/env bash
-          for FOLDER in $(find . -iname secrets -type d); do
-              for FILE in $(find $FOLDER -type f -iname \*.txt); do
-                  echo "-> decrypting $FILE"
-                  echo bin/vault decrypt $FILE
+            '';
+          };
+          ".local/bin/secrets-decrypt" = {
+            executable = true;
+            text = ''
+              #!/usr/bin/env bash
+              for FOLDER in $(find . -iname secrets -type d); do
+                  for FILE in $(find $FOLDER -type f -iname \*.txt); do
+                      echo "-> decrypting $FILE"
+                      echo bin/vault decrypt $FILE
+                  done
               done
-          done
-        '';
-      };
+            '';
+          };
 
-      ".wallpapers/dark.jpg" = {
-        source = ./wallpapers/dark.jpg;
-      };
-      ".wallpapers/light.jpg" = {
-        source = ./wallpapers/light.jpg;
-      };
-      ".wallpapers/tower.jpg" = {
-        source = ./wallpapers/tower.jpg;
-      };
+          ".wallpapers/dark.jpg" = {
+            source = ./wallpapers/dark.jpg;
+          };
+          ".wallpapers/light.jpg" = {
+            source = ./wallpapers/light.jpg;
+          };
+          ".wallpapers/tower.jpg" = {
+            source = ./wallpapers/tower.jpg;
+          };
 
-      ".face" = {
-        source = ./face.jpg;
-      };
-    } else { });
+          ".face" = {
+            source = ./face.jpg;
+          };
+        }
+      else
+        { }
+    );
 
     stateVersion = "23.11";
   };

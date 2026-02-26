@@ -38,72 +38,90 @@
     };
   };
 
-  outputs = { self, nixpkgs, utils, devshell, homemanager, agenix, deploy-rs, disko, hardware, ... }@inputs:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      utils,
+      devshell,
+      homemanager,
+      agenix,
+      deploy-rs,
+      disko,
+      hardware,
+      ...
+    }@inputs:
     let
       inherit (self) outputs;
 
-      sharedConfiguration = { config, pkgs, ... }: {
-        nix = {
-          package = pkgs.nixVersions.stable;
+      sharedConfiguration =
+        { config, pkgs, ... }:
+        {
+          nix = {
+            package = pkgs.nixVersions.stable;
 
-          extraOptions = ''
-            experimental-features = nix-command flakes
-          '';
+            extraOptions = ''
+              experimental-features = nix-command flakes
+            '';
 
-          settings = {
-            substituters = [
-              "https://cache.nixos.org"
-              "https://nix-community.cachix.org"
-              "https://nixpkgs.cachix.org"
-              "https://tboerger.cachix.org"
-            ];
+            settings = {
+              substituters = [
+                "https://cache.nixos.org"
+                "https://nix-community.cachix.org"
+                "https://nixpkgs.cachix.org"
+                "https://tboerger.cachix.org"
+              ];
 
-            trusted-public-keys = [
-              "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-              "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-              "nixpkgs.cachix.org-1:q91R6hxbwFvDqTSDKwDAV4T5PxqXGxswD8vhONFMeOE="
-              "tboerger.cachix.org-1:3Q1gyqgA9NsOshOgknDvc6fhA8gw0PFAf2qs5vJpeLU="
-            ];
+              trusted-public-keys = [
+                "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+                "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+                "nixpkgs.cachix.org-1:q91R6hxbwFvDqTSDKwDAV4T5PxqXGxswD8vhONFMeOE="
+                "tboerger.cachix.org-1:3Q1gyqgA9NsOshOgknDvc6fhA8gw0PFAf2qs5vJpeLU="
+              ];
+            };
+
+            gc = {
+              automatic = true;
+              persistent = true;
+              dates = "weekly";
+              options = "--delete-older-than 2w";
+            };
           };
 
-          gc = {
-            automatic = true;
-            persistent = true;
-            dates = "weekly";
-            options = "--delete-older-than 2w";
+          nixpkgs = {
+            config = {
+              allowUnfree = true;
+            };
           };
         };
 
-        nixpkgs = {
-          config = {
-            allowUnfree = true;
+      mkComputer =
+        configurationNix: systemName: extraModules:
+        nixpkgs.lib.nixosSystem {
+          system = systemName;
+
+          modules = [
+            (
+              { pkgs, ... }:
+              {
+                nixpkgs = {
+                  overlays = [
+                    (import ./overlays)
+                  ];
+                };
+              }
+            )
+            sharedConfiguration
+            homemanager.nixosModules.home-manager
+            agenix.nixosModules.default
+            configurationNix
+          ]
+          ++ extraModules;
+
+          specialArgs = {
+            inherit inputs;
           };
         };
-      };
-
-      mkComputer = configurationNix: systemName: extraModules: nixpkgs.lib.nixosSystem {
-        system = systemName;
-
-        modules = [
-          ({ pkgs, ... }:
-            {
-              nixpkgs = {
-                overlays = [
-                  (import ./overlays)
-                ];
-              };
-            }
-          )
-          sharedConfiguration
-          homemanager.nixosModules.home-manager
-          agenix.nixosModules.default
-          configurationNix
-        ] ++ extraModules;
-
-        specialArgs = {
-          inherit inputs;
-        };
-      };
 
     in
     {
@@ -114,80 +132,71 @@
       };
 
       nixosConfigurations = {
-        asgard = mkComputer
-          ./machines/asgard
-          "x86_64-linux"
-          [
-            disko.nixosModules.disko
-            ./profiles/thomas/user.nix
+        asgard = mkComputer ./machines/asgard "x86_64-linux" [
+          disko.nixosModules.disko
+          ./profiles/thomas/user.nix
 
-            {
-              home-manager = {
-                extraSpecialArgs = {
-                  desktopSystem = false;
-                };
+          {
+            home-manager = {
+              extraSpecialArgs = {
+                desktopSystem = false;
+              };
 
-                users = {
-                  thomas = {
-                    imports = [
-                      agenix.homeManagerModules.default
-                      ./profiles/thomas
-                    ];
-                  };
+              users = {
+                thomas = {
+                  imports = [
+                    agenix.homeManagerModules.default
+                    ./profiles/thomas
+                  ];
                 };
               };
-            }
-          ];
+            };
+          }
+        ];
 
-        utgard = mkComputer
-          ./machines/utgard
-          "x86_64-linux"
-          [
-            disko.nixosModules.disko
-            ./profiles/thomas/user.nix
+        utgard = mkComputer ./machines/utgard "x86_64-linux" [
+          disko.nixosModules.disko
+          ./profiles/thomas/user.nix
 
-            {
-              home-manager = {
-                extraSpecialArgs = {
-                  desktopSystem = false;
-                };
+          {
+            home-manager = {
+              extraSpecialArgs = {
+                desktopSystem = false;
+              };
 
-                users = {
-                  thomas = {
-                    imports = [
-                      agenix.homeManagerModules.default
-                      ./profiles/thomas
-                    ];
-                  };
+              users = {
+                thomas = {
+                  imports = [
+                    agenix.homeManagerModules.default
+                    ./profiles/thomas
+                  ];
                 };
               };
-            }
-          ];
+            };
+          }
+        ];
 
-        vanaheim = mkComputer
-          ./machines/vanaheim
-          "x86_64-linux"
-          [
-            disko.nixosModules.disko
-            ./profiles/thomas/user.nix
+        vanaheim = mkComputer ./machines/vanaheim "x86_64-linux" [
+          disko.nixosModules.disko
+          ./profiles/thomas/user.nix
 
-            {
-              home-manager = {
-                extraSpecialArgs = {
-                  desktopSystem = false;
-                };
+          {
+            home-manager = {
+              extraSpecialArgs = {
+                desktopSystem = false;
+              };
 
-                users = {
-                  thomas = {
-                    imports = [
-                      agenix.homeManagerModules.default
-                      ./profiles/thomas
-                    ];
-                  };
+              users = {
+                thomas = {
+                  imports = [
+                    agenix.homeManagerModules.default
+                    ./profiles/thomas
+                  ];
                 };
               };
-            }
-          ];
+            };
+          }
+        ];
 
         # yggdrasil = mkComputer
         #   ./machines/yggdrasil
@@ -218,7 +227,10 @@
       deploy = {
         nodes = {
           asgard = {
-            sshOpts = [ "-p" "22" ];
+            sshOpts = [
+              "-p"
+              "22"
+            ];
             hostname = "asgard.boerger.ws";
             fastConnection = true;
             profiles = {
@@ -230,7 +242,10 @@
             };
           };
           utgard = {
-            sshOpts = [ "-p" "22" ];
+            sshOpts = [
+              "-p"
+              "22"
+            ];
             hostname = "utgard.boerger.ws";
             fastConnection = true;
             profiles = {
@@ -242,7 +257,10 @@
             };
           };
           vanaheim = {
-            sshOpts = [ "-p" "22" ];
+            sshOpts = [
+              "-p"
+              "22"
+            ];
             hostname = "vanaheim.boerger.ws";
             fastConnection = true;
             profiles = {
@@ -269,53 +287,54 @@
       };
 
       checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
-    } // utils.lib.eachDefaultSystem
-      (system:
-        let
-          pkgs = import nixpkgs {
-            inherit system;
-            overlays = [ devshell.overlays.default ];
-          };
+    }
+    // utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [ devshell.overlays.default ];
+        };
 
-        in
-        {
-          devShells.default = pkgs.devshell.mkShell {
-            commands = [
-              {
-                name = "age-encrypt";
-                category = "secrets commands";
-                help = "Encrypt secret with age";
-                command = "${pkgs.rage}/bin/rage -e -a -i ~/.ssh/id_ed25519";
-              }
-              {
-                name = "age-decrypt";
-                category = "secrets commands";
-                help = "Decrypt secret with age";
-                command = "${pkgs.rage}/bin/rage -d -i ~/.ssh/id_ed25519";
-              }
-              {
-                name = "agenix-rekey";
-                category = "secrets commands";
-                help = "Rekey agenix secrets";
-                command = "cd secrets && agenix -r";
-              }
+      in
+      {
+        devShells.default = pkgs.devshell.mkShell {
+          commands = [
+            {
+              name = "age-encrypt";
+              category = "secrets commands";
+              help = "Encrypt secret with age";
+              command = "${pkgs.rage}/bin/rage -e -a -i ~/.ssh/id_ed25519";
+            }
+            {
+              name = "age-decrypt";
+              category = "secrets commands";
+              help = "Decrypt secret with age";
+              command = "${pkgs.rage}/bin/rage -d -i ~/.ssh/id_ed25519";
+            }
+            {
+              name = "agenix-rekey";
+              category = "secrets commands";
+              help = "Rekey agenix secrets";
+              command = "cd secrets && agenix -r";
+            }
 
-              {
-                package = "nixpkgs-fmt";
-                category = "formatter commands";
-              }
-            ];
+            {
+              package = "nixpkgs-fmt";
+              category = "formatter commands";
+            }
+          ];
 
-            packages = with pkgs; [
-              inputs.agenix.packages.${system}.default
-              inputs.deploy-rs.packages.${system}.default
+          packages = with pkgs; [
+            inputs.agenix.packages.${system}.default
+            inputs.deploy-rs.packages.${system}.default
 
-              git
-              home-manager
-              nixpkgs-fmt
-              rage
-            ];
-          };
-        }
-      );
+            git
+            home-manager
+            nixfmt
+            rage
+          ];
+        };
+      }
+    );
 }

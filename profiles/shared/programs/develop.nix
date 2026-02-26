@@ -1,15 +1,23 @@
-{ pkgs, lib, config, options, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  options,
+  ...
+}:
 with lib;
 
 let
   cfg = config.profile.programs.develop;
 
-  python310 = pkgs.python310.withPackages (p: with p; [
-    boto3
-    botocore
-    passlib
-    requests
-  ]);
+  python310 = pkgs.python310.withPackages (
+    p: with p; [
+      boto3
+      botocore
+      passlib
+      requests
+    ]
+  );
 
 in
 {

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   networking = {
@@ -14,10 +19,12 @@
     interfaces = {
       eth0 = {
         ipv4 = {
-          addresses = [{
-            address = "";
-            prefixLength = 24;
-          }];
+          addresses = [
+            {
+              address = "";
+              prefixLength = 24;
+            }
+          ];
         };
       };
     };

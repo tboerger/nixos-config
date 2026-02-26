@@ -1,4 +1,11 @@
-{ pkgs, lib, config, options, fetchurl, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  options,
+  fetchurl,
+  ...
+}:
 with lib;
 
 let
@@ -55,17 +62,19 @@ in
           };
         };
 
-        config = { config, pkgs, ... }: {
-          system = {
-            stateVersion = "23.11";
-          };
+        config =
+          { config, pkgs, ... }:
+          {
+            system = {
+              stateVersion = "23.11";
+            };
 
-          imports = [
-            ./networking.nix
-            ./tmpfiles.nix
-            ./photoprism.nix
-          ];
-        };
+            imports = [
+              ./networking.nix
+              ./tmpfiles.nix
+              ./photoprism.nix
+            ];
+          };
       };
     };
 
