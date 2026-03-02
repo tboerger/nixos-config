@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.3.0](https://github.com/tboerger/nixos-config/compare/v1.2.0...v1.3.0) (2026-03-02)
+
+### Features
+
+* enable automerge for lockfile maintenance prs ([9e36074](https://github.com/tboerger/nixos-config/commit/9e360744d3c267a75a2854abce0d6c5de19d886f))
+
+### Miscellaneous
+
+* apply new file formatting ([ea4cb5c](https://github.com/tboerger/nixos-config/commit/ea4cb5c24b2dfe92bd009f54259c0e606871a35e))
+* **flake:** updated lockfile [skip ci] ([95a4502](https://github.com/tboerger/nixos-config/commit/95a45025f9079de6d7df9e608e44e95bb7c44fc8))
+* **flake:** updated lockfile [skip ci] ([7f50b66](https://github.com/tboerger/nixos-config/commit/7f50b662fdec82a09c6b8a3e8e9bd727b6c9c16a))
+* **flake:** updated lockfile [skip ci] ([93ffc62](https://github.com/tboerger/nixos-config/commit/93ffc625202c14e8180bf2d98eaa9b16189d8199))
+* **flake:** updated lockfile [skip ci] ([50d19e4](https://github.com/tboerger/nixos-config/commit/50d19e49b247e4b1d63c4a0ac44622810166df58))
+* **flake:** updated lockfile [skip ci] ([14129ae](https://github.com/tboerger/nixos-config/commit/14129aee1098f01a67d3fdadef31d4d0d90de471))
+
 ## [1.2.0](https://github.com/tboerger/nixos-config/compare/v1.1.1...v1.2.0) (2026-01-26)
 
 ### Features
