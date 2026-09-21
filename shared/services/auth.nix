@@ -62,7 +62,7 @@ in
           { config, pkgs, ... }:
           {
             system = {
-              stateVersion = "23.11";
+              stateVersion = "26.05";
             };
 
             systemd = {
@@ -83,22 +83,26 @@ in
               };
 
               kanidm = {
-                enableServer = true;
+                package = pkgs.kanidm_1_11;
 
-                serverSettings = {
-                  bindaddress = "0.0.0.0:8443";
-                  ldapbindaddress = "0.0.0.0:636";
-                  domain = "auth.boerger.ws";
-                  origin = "https://auth.boerger.ws";
-                  log_level = "info";
-                  tls_key = "/var/lib/acme/boerger.ws/key.pem";
-                  tls_chain = "/var/lib/acme/boerger.ws/fullchain.pem";
+                server = {
+                  enable = true;
+                  settings = {
+                    bindaddress = "0.0.0.0:8443";
+                    ldapbindaddress = "0.0.0.0:636";
+                    domain = "auth.boerger.ws";
+                    origin = "https://auth.boerger.ws";
+                    log_level = "info";
+                    tls_key = "/var/lib/acme/boerger.ws/key.pem";
+                    tls_chain = "/var/lib/acme/boerger.ws/fullchain.pem";
+                  };
                 };
 
-                enableClient = true;
-
-                clientSettings = {
-                  uri = "https://auth.boerger.ws";
+                client = {
+                  enable = true;
+                  settings = {
+                    uri = "https://auth.boerger.ws";
+                  };
                 };
               };
             };

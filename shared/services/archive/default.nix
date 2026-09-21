@@ -41,7 +41,7 @@ in
         ephemeral = true;
 
         hostAddress = hostAddress;
-        localAddress = localAddress;
+        localAddress = containerAddress;
 
         bindMounts = {
 
@@ -84,14 +84,21 @@ in
           { config, pkgs, ... }:
           {
             system = {
-              stateVersion = "23.11";
+              stateVersion = "26.05";
+            };
+
+            nixpkgs = {
+              config = {
+                allowUnfree = true;
+                allowUnfreePredicate = (_: true);
+              };
             };
 
             imports = [
               ./networking.nix
               ./tmpfiles.nix
               ./jellyfin.nix
-              ./jellyseer.nix
+              ./seer.nix
               ./sabnzbd.nix
               ./radarr.nix
               ./sonarr.nix

@@ -7,16 +7,16 @@
 }:
 
 {
-  # nixpkgs = {
-  #   config = {
-  #     allowUnfree = true;
-  #     allowUnfreePredicate = (_: true);
-  #   };
+  nixpkgs = {
+    config = {
+      allowUnfree = true;
+      allowUnfreePredicate = (_: true);
+    };
 
-  #   overlays = [
-  #     (import ../../../overlays)
-  #   ];
-  # };
+    overlays = [
+      (import ../../../overlays)
+    ];
+  };
 
   programs = {
     home-manager = {

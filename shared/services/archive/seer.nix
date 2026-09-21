@@ -8,7 +8,7 @@ with lib;
 
 {
   services = {
-    jellyseerr = {
+    seerr = {
       enable = true;
     };
   };

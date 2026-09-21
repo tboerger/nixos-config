@@ -66,7 +66,14 @@ in
           { config, pkgs, ... }:
           {
             system = {
-              stateVersion = "23.11";
+              stateVersion = "26.05";
+            };
+
+            nixpkgs = {
+              config = {
+                allowUnfree = true;
+                allowUnfreePredicate = (_: true);
+              };
             };
 
             imports = [

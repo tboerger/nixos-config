@@ -12,7 +12,6 @@ with lib;
       enable = true;
       user = "media";
       group = "users";
-      configFile = "/var/lib/sabnzbd/sabnzbd.ini";
     };
   };
 }

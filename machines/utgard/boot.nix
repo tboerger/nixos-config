@@ -36,7 +36,10 @@
       "kvm-intel"
       "wl"
     ];
-    extraModulePackages = with config.boot.kernelPackages; [ broadcom_sta ];
+
+    # extraModulePackages = with config.boot.kernelPackages; [
+    #   broadcom_sta
+    # ];
 
     initrd = {
       availableKernelModules = [

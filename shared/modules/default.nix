@@ -8,7 +8,6 @@
 
 {
   imports = [
-    ./filebrowser.nix
     ./prowlarr.nix
   ];
 }

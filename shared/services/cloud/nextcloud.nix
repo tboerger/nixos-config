@@ -25,7 +25,7 @@ with lib;
     nextcloud = {
       enable = true;
 
-      package = pkgs.nextcloud28;
+      package = pkgs.nextcloud34;
 
       https = true;
       hostName = "cloud.boerger.ws";
@@ -65,13 +65,12 @@ with lib;
       };
 
       extraApps = {
-        inherit (pkgs.nextcloud28Packages.apps)
+        inherit (pkgs.nextcloud34Packages.apps)
           calendar
           contacts
           cookbook
           groupfolders
           impersonate
-          notify_push
           polls
           ;
       };

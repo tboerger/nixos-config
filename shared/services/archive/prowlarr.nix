@@ -18,8 +18,8 @@ with lib;
 
     prowlarr = {
       enable = true;
-      user = "media";
-      group = "users";
+      # user = "media";
+      # group = "users";
       dataDir = "/var/lib/prowlarr";
     };
   };

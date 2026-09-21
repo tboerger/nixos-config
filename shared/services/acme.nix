@@ -52,7 +52,9 @@ in
             email = "hostmaster@boerger.ws";
             extraDomainNames = [ "*.boerger.ws" ];
             dnsProvider = "cloudflare";
-            credentialsFile = config.age.secrets."services/acme/credentials".path;
+            credentialFiles = {
+              "CLOUDFLARE_FILE" = config.age.secrets."services/acme/credentials".path;
+            };
           };
         };
       };
