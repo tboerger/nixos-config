@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.4.0](https://github.com/tboerger/nixos-config/compare/v1.3.0...v1.4.0) (2026-09-21)
+
+### Features
+
+* update state versions and let it run without errors ([3cf1a0e](https://github.com/tboerger/nixos-config/commit/3cf1a0e73d4ef81afd26b922ed0579071a114aab))
+
 ## [1.3.0](https://github.com/tboerger/nixos-config/compare/v1.2.0...v1.3.0) (2026-03-02)
 
 ### Features
